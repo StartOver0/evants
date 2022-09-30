@@ -24,7 +24,6 @@ export default function ImageSlider(){
     <div className={styles.xoxo}>
       <Head>
         <title>Evantss</title>
-        <script src="https://kit.fontawesome.com/8b39a7ad03.js" async crossOrigin="anonymous"></script>
       </Head>
       <div className={styles.slider_container}> 
           <div className={styles.slider_div} key = {Math.random()}>
