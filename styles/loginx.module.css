@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&family=Nabla&family=Open+Sans:wght@300;400;500;600&family=Poppins:wght@100;200;300;400&family=Quicksand:wght@300;400;500&display=swap');
+
+.text_container{
+    display: none;
+}
+
+.container{
+    width: 88vw;
+    box-shadow: 0 1px 5px .1px #ccc;
+    border-radius: 8px;
+    border: 1px solid #bdbdbd;
+    margin: 1rem 0 2rem 0;
+}
+
+.formi, .google_authentication, .or_div{
+    width: 95%;
+}
+.form{
+    width: 100%;
+    padding: 1.125rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;   
+    min-height: 530px;
+}
+.formi{
+    margin: 0 auto;
+}
+.toggle, .formi label, .button{
+    font-family: 'poppins';
+}
+.formi input, .formi input::placeholder{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    letter-spacing: .4px;
+}
+
+.toggle{
+    width: 97%;
+    display: flex;
+    text-transform: uppercase;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+}
+.toggle > h3{font-size: 16px; letter-spacing: 2px; margin-top: 13px;}
+
+.formi label{
+    font-size: 12px;
+    letter-spacing: .5px;
+    margin-left: 2px;
+}
+.formi input{
+    padding: .4rem;
+    outline: none;
+    font-family: calibri;
+    width: 100%;
+    margin: 3px 0 1.25rem 0;
+    border-radius: 4px;
+    border: 1.5px solid #dadada;
+    box-shadow: 0px -1px 2px 1px #fefefe, 
+                0px 1px 4px .1px hsl(0, 1%, 79%);   
+}
+.formi input:focus{
+    box-shadow: none;
+    border: 1.5px solid #5782d8;
+}
+
+.button{
+    width: 100%;
+    margin-top: 12px;
+    padding: 4px 0;
+}
+.button{
+    margin: 1rem 0 0 0;
+    font-size: 13px;
+    letter-spacing: 1px;
+    height: 2.25rem;
+    background-color: #2c84db;
+    color: white;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.button:hover{
+    background-color: #2a7dd0;
+}
+
+.or_div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+}
+.or_div p{
+    padding: 0 .75rem;
+    font-size: 13px;
+    color: #bebebe;
+}
+.hr{
+    width: 100%;
+    height: 1px;
+    background-color: #dadada;
+}
+
+.google_authentication{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    margin: .5rem auto 0rem auto;
+    background-color: white;
+    height: 2.25rem;
+    box-shadow: 0px 2px 4px .2px #aaa;          
+}
+.google_authentication:hover{
+    box-shadow: 0px 0px 2px .3px #999;  
+}
+
+.active_signup, .active_login, .signup, .login{
+    cursor: pointer;
+    color: rgb(88, 130, 207);
+    position: relative;
+    letter-spacing: 1.5px;
+    padding: 0 .125rem;
+    font-weight: 400;
+    /* font-size: 22px; */
+    text-transform: uppercase;  
+}
+.signup, .login{
+    color: #d9e2ed;; 
+}
+
+.active_signup::after, .signup::after, .active_login::after, .login::after{
+    content: '';
+    bottom: -18%;
+    position: absolute; 
+    width: 6.5rem;
+    height: 3px;
+    border-radius: 3px;
+    background-color: cornflowerblue;
+}
+.active_signup::after, .signup::after{
+    left: 1%;   
+}
+.active_login::after, .login::after{
+    right: 1%;;
+}
+.login::after, .signup::after{
+    background-color: #d9e2ed;
+}
+
+@media (min-width: 400px){
+    .form{
+        padding: 1.5rem 1.5rem;
+    }
+    .active_signup::after, .signup::after, .active_login::after, .login::after{
+        width: 8rem;
+    }
+}
+@media (min-width: 580px){
+    .container{
+        max-width: 530px;
+        /* background: linear-gradient(to right, lightskyblue, rgb(252, 97, 97)); */
+        background: radial-gradient(rgb(208, 237, 255) 60%, rgb(185, 226, 252) 100%);    
+        /* lightskyblue); */
+        padding: 1.25rem;
+    }
+    .form{
+        /* max-width: 470px; */
+        padding: 1.75rem 1.75rem;
+        background-color: white;
+        border-radius: 7px;
+        margin: 0 auto;
+    }
+}
+
+@media (min-width: 950px){
+    .container{
+        display: flex; 
+        overflow: hidden;
+        background: none;
+        background-color: rgb(200, 235, 260);
+        width: 88vw;
+        max-width: none;
+        padding: 0;
+    }
+    .toggle > h3{font-size: 19px; margin: 7px 0 10px 0;}
+    .text_container{display: inline-block;}
+    
+    .formi{
+        width: 92%;
+    }
+    
+    .first_one{
+        height: 100%;
+        width: 500px;
+        box-shadow: 0 0 0 140px rgb(162, 219, 255),
+                    0 0 0 280px  rgb(179, 226, 255),
+                    0 0 0 410px  rgb(200, 235, 260);
+        margin-left: -450px;
+        background-color: rgb(149, 214, 255);
+        border-radius: 50%;
+    }
+    .text_container{
+        position: relative;
+        margin-right: 0;
+        width: 90vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family:  'poppins';
+        letter-spacing: 2px;
+        overflow: hidden;
+    }  
+    .form{
+        background-color: white;
+        border-radius: 10px;
+        width: 90vw;
+        margin: 1.5rem;
+        margin-left: 0;    
+        width: 90vw;
+        max-width: 470px; 
+        min-height: 550px;
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    } 
+    .active_signup::after, .signup::after, .active_login::after, .login::after{
+        width: 9.25rem;
+    }
+}
+
+@media (min-width: 1200px){
+    .container{
+        max-width: 1150px;
+    }
+    .first_one{
+        height: 100%;
+        width: 640px;
+        margin-left: -570px;
+    }
+    
+}

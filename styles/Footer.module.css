@@ -1,0 +1,14 @@
+.footer{
+    background-color: #2e3444;
+    margin-top: auto;
+}
+.footer > *{
+    font-size: 14px;
+    color: white;
+    font-family: 'open sans';
+}
+.content{
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem 2.5rem;
+}

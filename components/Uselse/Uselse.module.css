@@ -1,0 +1,19 @@
+.details_button, .details_a{
+    letter-spacing: 2.5px;
+    position: relative;
+    font-weight : 500;
+    font-size: 1.5rem;
+    background-color: white;
+    color: #2a67b1;
+    border: 1px solid #2a67b1;
+    padding: .75rem 3rem .75rem 1.5rem;
+    align-self: flex-end;
+}
+.details_button:hover{
+    background-color:hsl(220, 90%, 97%);
+    border: 1px solid hsl(220, 90%, 97%);
+    box-shadow: .1px 1.5px 3px .1px #aaa;
+}
+/* button{
+    font-size: 1.5rem;
+} */

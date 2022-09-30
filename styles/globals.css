@@ -1,26 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&family=Nabla&family=Open+Sans:wght@300;400;500;600&family=Poppins:wght@100;200;300;400&family=Quicksand:wght@300;400;500&display=swap');
+
+
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'open sans', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  overflow-x: hidden;
+  font-size: 16px;
 }
-
+::-webkit-scrollbar{
+  width: 6px;
+  height: 5px;
+}
+::-webkit-scrollbar-track{
+  /* background-color: rgb(236, 236, 247); */
+}
+::-webkit-scrollbar-thumb{
+  background-color: #2a67b1;
+}
 a {
   color: inherit;
   text-decoration: none;
 }
+input::selection{
+  border: none;
+}
 
 * {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+.xRoot{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
+.main_content{
+  position: relative;
+  /* padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; */
+  margin : 0 auto;
+}
+
+

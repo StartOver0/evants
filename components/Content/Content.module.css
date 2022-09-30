@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Abyssinica+SIL&family=Raleway&family=Roboto+Slab&display=swap');
+
+
+.container{
+    padding: 4rem 1.5rem; padding-bottom: 0;
+    letter-spacing: 1px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.heading{
+    position: relative;
+    display: inline-block;
+    /* font-family: 'Abyssinica SIL', serif; */
+/* font-family: 'Raleway', sans-serif; */
+font-family: 'Roboto Slab', serif;
+    font-size: 1.75rem;
+    font-weight: 400;
+    letter-spacing: .5px;
+    margin-bottom: 1.75rem;
+    transition: 1s;
+    /* text-transform: uppercase; */
+}
+.heading::after{
+    content: '';
+    bottom: -15%; left: -1%;
+    position: absolute;
+    width: 2rem;
+    height: 2px;
+    background-color: black;
+    transition: 800ms;
+}
+.heading:hover::after{
+    width: 17.7rem;
+}
+/* .heading::after{
+    content: '';
+    bottom: -10%; right: -1%;
+    position: absolute;
+    width: 8.5rem;
+    height: 2px;
+    background-color: black;
+    transition: 800ms;
+}
+.heading:hover::after{
+    width: 6.25rem;
+    transform: translate(-209%);
+} */
+
+.subheading{
+    margin-top: .75rem;
+    font-size: 16px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.gray_hr{
+    height: 1px;
+    padding: 0.5px 8.4rem;
+    background-color: #d7d7d7;
+    margin-top: .75rem;
+    margin-bottom: 1.5rem;
+}
+.list_gap{
+    height: 1.75rem;
+}
+@media (max-width: 1200px){
+    .container{padding: 3.5rem 3.5rem 0 3.5rem;}
+}
+
+@media (max-width: 700px){
+    .container{padding: 4rem 3rem; padding-bottom: 0;}
+    .heading{font-size: 24px;}
+    .heading:hover::after{width: 15.3rem;}
+}
+@media (max-width: 400px){
+    .container{padding: 3rem 2rem 0 2rem;}
+}

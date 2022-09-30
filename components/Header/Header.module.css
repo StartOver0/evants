@@ -1,0 +1,131 @@
+.navbar{
+    display: flex;
+    background-color: white;
+    border-bottom: 1.5px solid #dfdfdf;
+    box-shadow: 0 0 4px 2.5px #ededed;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color:rgb(236, 248, 255); */
+}
+
+.domain_name{
+    display: inline;
+    margin: 1.25rem 2.25rem;
+}
+.domain_icon{
+    display: none;
+    padding: .95rem .5rem .75rem .5rem;
+    margin-left: 1rem;
+}
+.icon_container{
+    width: 40px;
+    height: 40px;
+}
+.navlinks_desktop{
+    display: flex;
+    gap: 1.4rem;
+    align-items: center;
+    margin-right: 2.5rem;
+}
+.navlinks_mobile{
+    display: none;  
+    /* align-items: center; */
+    margin-right: 1.5rem;
+}
+
+.loginButton, .signUpButton{
+    font-family: 'open sans';
+    font-size: 15px;
+    letter-spacing: .75px;
+    padding: .5rem 2.5rem; 
+
+    border-radius: 1px;
+    transition: 100ms ease-in;
+}
+.loginButton{
+    outline: 1px solid hsl(201, 100%, 96%);
+    color: #2a67b1;
+    background-color: white;
+}
+.loginButton:hover{ 
+    background-color:hsl(201, 100%, 96%);
+    box-shadow: 0px 3px 4px .1px rgb(181, 181, 181);
+}
+
+.signUpButton{
+    position: relative;
+    color: #2a67b1;
+    outline: 1px solid #2a67b1;
+    background-color: white;
+}
+.signUpButton:hover{
+    color: white;
+    background-color: #2a67b1;
+    box-shadow: 0px 4px 4px .1px #7f98b7;
+}
+
+.signUpButton::before{
+    content: '';
+    position: absolute;
+    top: 56%; left: -150%;
+    width: 2.4rem;
+    height: .1px;
+    transform: rotate(90deg);
+    background-color: rgba(0, 0, 0, .25);
+}
+
+
+@media (max-width: 900px) {
+    .domain_name{
+        margin: 1rem 2.25rem;
+    }
+}
+@media (max-width: 600px) {
+    .domain_name{display: none;}
+    .domain_icon{display: inline-block;}   
+    .loginButton, .signUpButton{
+        padding: .5rem 2rem; 
+    }
+    .navlinks_desktop{margin-right: 1.75rem;}
+}
+@media (max-width: 480px) {
+    .navlinks_desktop{ display: none;}
+    .navlinks_mobile{ display: inline;} 
+    .icon_container{
+        width: 37px;
+        height: 37px;
+    }
+    .domain_icon{
+        padding: .75rem;
+        margin: .25rem;
+        margin-left: .5rem;
+    }
+    .signUpButton{ 
+        font-size: 13px;
+        padding: .5rem 1.25rem;
+    }
+    .signUpButton::before{
+        left: -50%;
+        top: 50%;
+    }   
+}
+@media (max-width: 360px) {
+    .domain_icon{
+        padding: .65rem;
+    }
+    .signUpButton{ 
+        font-size: 12px;
+        padding: .5rem 1.125rem;
+    }
+    .signUpButton::before{
+        display: none;
+    } 
+    .navlinks_mobile{
+        margin-right: 1rem;
+    }
+    .icon_container{
+        width: 32px;
+        height: 32px;
+    }
+}
+

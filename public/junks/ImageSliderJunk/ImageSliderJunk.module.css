@@ -1,0 +1,136 @@
+.slider_div{
+    max-width: 1300px;
+    border-radius: 7px;
+    border: .5px solid #ddd;
+    background-color: #fafafa;
+    overflow: hidden;
+}
+.ex_di{
+    display: flex;
+    width: 400%;
+}
+.slider_effect{
+    width: 25%;
+    display: flex;
+    flex-direction: row;
+}
+@keyframes fir{
+    0%{ transform: translate(0)}
+    100%{ transform: translate(-25%)}
+}
+/* .slider_effect:nth-of-type(1){
+    margin-left: -50%;
+} */
+.shift1{
+    margin-right: 50%;
+}
+@keyframes lrslide {
+    0%{transform : translatex(-1300px)}
+    100%{transform: translatex(0)}
+}
+.first_image{
+    font-size: 0;
+}
+.image_text{
+    position: relative;
+    font-size: 14px;
+    line-height: 2rem;
+    max-width: 380px;
+    padding: 3.5rem;
+    color: #4a4a4a;
+}
+.head{
+    font-weight: 400;
+    font-size: 1.75rem;
+    letter-spacing: .32px;
+    color: hsl(0, 0%, 25%);
+    margin-bottom: 24px;
+}
+.desc_div{
+    width: 250px;
+}
+.desc{
+    line-height: 1.5rem;
+}
+
+.link_text{
+    position: absolute;
+    bottom: 2rem;
+}
+
+.arrow_div{
+    position: relative;
+    color: #2a67b1;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: .75rem;    
+}
+.arrow_div:before{
+    content: '';
+    position: absolute;
+    top: -.5rem; left: -3px;
+    padding: 0.5px 8.4rem;
+    background-color: #d7d7d7;
+}
+.arrow{
+    transform: scale(.7);
+    font-size: 1.65rem;
+    color: #2a67b1;
+    padding: 0px 8px 4px 7px;
+    border-radius: 50%;
+    background-color: hsl(213, 30%, 90%);
+}
+
+
+@media (max-width:1024px) {
+    .slider_div{border-radius: 1px;}
+    .image_text{
+        max-width: 320px;
+        padding: 2.5rem;
+    }
+    
+    .arrow_div:before{
+        padding: 0.5px 7.5rem;
+    }
+    .desc_div{ 
+        width: 250px;
+    }
+    @keyframes slide {
+        0%{transform : translatex(-1024px)}
+    }
+}
+@media (max-width: 920px){
+    .slider_effect{
+        flex-direction: column;
+    }
+    .image_text{
+        max-width: inherit;
+        padding: 1.75rem;
+        padding-left: 2.5rem;
+    }
+    .desc_div{ display: none;}
+    .head{
+        margin-bottom: 0px;
+    }
+    .link_text{ top: 1.7rem; right: 2.5rem;}
+    .arrow_div::before{
+        display: none;
+    }
+    @keyframes slide {
+        0%{transform : translatex(-920px);}
+        100%{transform: translatex(0);}
+    }
+}
+
+.button_section{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+.button_section button{
+    padding: .5rem 1rem;
+    transition: 2s;
+    /* transform: translate(-100px); */
+    /* animation: fir 2s linear infinite; */
+}
