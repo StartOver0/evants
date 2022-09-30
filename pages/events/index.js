@@ -29,7 +29,7 @@ export default function events(){
                         </tbody>
                     </table> */}
                     <div className={styles.logo}>
-                        <Image src={img} objectFit = 'contain'/>
+                        <Image src={img} objectFit = 'contain' alt='something is nothing'/>
                         <p>code</p>
                     </div>
                     <div>Club Name</div>
