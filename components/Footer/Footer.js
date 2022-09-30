@@ -6,7 +6,7 @@ export default function Footer(){
         <div className={footer.container}>
             <div className={footer.footer}>
                 <div className={footer.suggestion_div}>
-                    <h3 className={footer.head}>Have suggestions?</h3>
+                    <h3 className={footer.head}>Have&nbsp;suggestions?</h3>
                     <textarea rows='4' className={footer.suggestion}>jj</textarea>
                     <button className={footer.button}>Submit</button>
                 </div>
