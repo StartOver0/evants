@@ -1,15 +1,20 @@
 import footer from '/styles/Footer.module.css';
 import Link from "next/link";
+import { useState } from 'react';
 
 export default function Footer(){
+    const [suggestionGiven, setSuggestionGiven] = useState(true);
+
     return (
         <div className={footer.container}>
             <div className={footer.footer}>
                 <div className={footer.suggestion_div}>
                     <h3 className={footer.head}>Have&nbsp;suggestions?</h3>
-                    <textarea rows='4' className={footer.suggestion}>jj</textarea>
-                    <button className={footer.button}>Submit</button>
+                    {suggestionGiven ? <textarea rows='4' className={footer.suggestion} placeholder="Write something ..."></textarea>
+                    :(<div className={footer.submitted}>Your suggestion is recorded :)</div>)}
+                    <button className={footer.button} onClick={() => {setSuggestionGiven(false)}}>Submit</button>
                 </div>
+                
                 <hr />
                 <div className={footer.navigation}>
                     <div className={footer.navlist}>
