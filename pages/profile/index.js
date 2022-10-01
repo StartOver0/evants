@@ -1,4 +1,4 @@
-import Avatar from "/components/Avatar/avatar";
+import Avatar from "/components/Avatar/Avatar";
 import { data } from "/staticData/profiledata.js";
 const subheadings = ["upcoming events", "past events"];
 import { articles } from "/staticData/article.js";
