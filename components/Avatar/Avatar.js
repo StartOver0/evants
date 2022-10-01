@@ -8,7 +8,7 @@ const Avatar = ({
   clubMemeber,
 }) => {
   return (
-    <div className="m-auto  max-w-[650px] rounded-lg overflow-hidden pb-[30px]">
+    <div style={{ maxWidth: "650px" }} className="rounded-lg overflow-hidden ">
       <div className="relative h-[200px]">
         <div className="h-[150px] overflow-hidden ">
           <Image src={backgroundImage} alt="something" className="" />
