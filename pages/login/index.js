@@ -6,6 +6,7 @@ import styles from "/styles/loginx.module.css";
 import { auth, db } from "../../lib/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { provider } from "../../lib/firebase";
+import Router from "next/router";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -39,6 +40,7 @@ export default function Login() {
     let pass = siPass.current.value;
     try {
       let userCredential = await signInWithEmailAndPassword(auth, email, pass);
+      Router.push("/");
       console.log("yea we loged in");
     } catch (err) {
       setPasscheckSi(true);
@@ -118,24 +120,27 @@ export default function Login() {
             <input
               ref={suEmail}
               id="email"
-              type="text"
+              type="email"
               placeholder="Enter your email address"
+              required
             />
             <label htmlFor="password1">Password:</label>
             <br />
             <input
               ref={suPass}
               id="password1"
-              type="text"
+              type="password"
               placeholder="Password should be atleast 6 characters long"
+              required
             />
             <label htmlFor="password2">Confirm Password:</label>
             <br />
             <input
               ref={rSuPass}
               id="password2"
-              type="text"
+              type="password"
               placeholder="Re-enter your password"
+              required
             />
             {passCheck ? (
               <div className="text-red-800 animate-pulse">{msz}</div>
@@ -149,16 +154,18 @@ export default function Login() {
             <input
               ref={siEmail}
               id="email"
-              type="text"
+              type="eamil"
               placeholder="Enter your email"
+              required
             />
             <label htmlFor="password1">Password:</label>
             <br />
             <input
               ref={siPass}
               id="password1"
-              type="text"
+              type="password"
               placeholder="Enter Password"
+              required
             />
             {passCheckSi ? (
               <div className="text-red-800 animate-pulse">

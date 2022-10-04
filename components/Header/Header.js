@@ -2,12 +2,14 @@ import nav from "./Header.module.css";
 import Image from "next/image";
 import icon from "/public/favicon.ico";
 import { useRouter } from "next/router";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../lib/Context";
-import { auth } from "../../lib/firebase";
+import { auth, db } from "../../lib/firebase";
 import { signOut } from "firebase/auth";
+import { getDoc, doc } from "firebase/firestore";
 export default function Header() {
   const router = useRouter();
+  const [profileImg, setProfileImg] = useState(null);
   const { user, username } = useContext(UserContext);
 
   // console.log(router);
@@ -26,7 +28,15 @@ export default function Header() {
       query: { value: 1 },
     });
   };
-  console.log("username " + username);
+  if (username && user) {
+    (async () => {
+      let Doc = doc(db, "users", user.uid);
+      let snapshot = await getDoc(Doc);
+
+      setProfileImg(snapshot.data().photoURL);
+    })();
+  }
+
   return (
     <div className={nav.navbar}>
       <div className={nav.domain_name}>
@@ -47,14 +57,15 @@ export default function Header() {
                 console.log(err);
               }
             }}
-            className="bg-red-600 rounded-lg px-[10px]"
+            className="hover:bg-red-600 border-2 hover:text-white border-blue-800 border-solid leading-[2px]  px-[30px]"
           >
             Log out
           </button>
+
           <img
-            src={user.photoURL}
-            className="w-[50px] h-[50px] rounded-full"
+            src={profileImg}
             alt="photo"
+            className="w-[40px] h-[40px] rounded-full overflow-hidden"
           />
         </div>
       ) : (
