@@ -1,0 +1,33 @@
+.left_div h1{
+    font-size: 25px;
+}
+.right_div{
+    display: none;
+}
+
+.club_image{
+    font-size: 0;
+    width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 40px;
+    border: 1px solid black;
+}
+
+.button{
+    width: 100%;
+    margin-top: 12px;
+    padding: 4px 0;
+}
+.button{
+    margin: 1rem 0 0 0;
+    font-size: 13px;
+    letter-spacing: 1px;
+    height: 2.25rem;
+    background-color: #2c84db;
+    color: white;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.button:hover{
+    background-color: #2a7dd0;
+}

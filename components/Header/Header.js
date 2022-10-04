@@ -13,7 +13,7 @@ export default function Header(){
         router.push({
                 pathname: "/login",
                 query: {value: 0}
-        })
+        }, '/login')
     }
     const gotoSignUp = (e) => {
         //  Router.push('/login')
@@ -21,7 +21,7 @@ export default function Header(){
         router.push({
                 pathname: "/login",
                 query: {value: 1}
-        })
+        }, '/login')
     }
     return (
         <div className={nav.navbar}>
@@ -38,7 +38,7 @@ export default function Header(){
                 <button className={nav.signUpButton} onClick={gotoSignUp}>Sign Up</button>
             </div>
             <div className={nav.navlinks_mobile}>
-                <button className={nav.signUpButton}>Login/Sign Up</button>
+                <button className={nav.signUpButton} onClick={gotoSignUp}>Login/Sign Up</button>
             </div>
         </div>
     )                   

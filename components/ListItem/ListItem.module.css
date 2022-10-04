@@ -84,7 +84,7 @@
 }
 .tail_blue{
     position: absolute;
-    top: 23%; right: 9%;
+    top: 10.33px; right: 13%;
 }
 .tail_blue path{
     transform: scale(1.18);

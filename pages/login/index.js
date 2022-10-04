@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import {useRouter} from 'next/router';
 import '/styles/login.module.css';
 import styles from '/styles/loginx.module.css';
+import imgx from '/public/images/beta.png';
+import Image from 'next/image';
 
 export default function Login(){
   const Router = useRouter();
@@ -15,8 +17,9 @@ export default function Login(){
       if(value == 1 && isSignUp == false){
          setSignUp(true);
       }
+      else if(value == 0 && isSignUp == true) setSignUp(false);
     }
-  }, [])
+  }, [Router])
 
   // setSignUp(isSignUp);
   // }, [])
@@ -48,7 +51,16 @@ export default function Login(){
 
         <div className={styles.text_container}>
                 <div className={styles.first_one}></div>
-                <h2>Welcome New User</h2>
+                
+                {isSignUp ? <div className={styles.glass}>
+                {/* <Image src={imgx} alt = 'hh' width={400} height={350} /> */}
+                  <h2>Welcome New User</h2><br />
+                  <p>Create your account to be part of our community.</p>
+                </div> : <div className={styles.glass}>
+                {/* <Image src={imgx} alt = 'hh' width={400} height={350} /> */}
+                  <h2>Welcome Back User</h2>
+                  <p>You can sign in with to access your with your existing account.</p>
+                </div> }
         </div>
 
         <div className={styles.form}>
