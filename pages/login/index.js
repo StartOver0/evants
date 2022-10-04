@@ -1,5 +1,5 @@
 import { signOut, signIn, useSession } from "next-auth/react";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import "/styles/login.module.css";
 import styles from "/styles/loginx.module.css";
@@ -13,8 +13,10 @@ import {
 } from "firebase/auth";
 import { doc, collection, setDoc, getDoc } from "firebase/firestore";
 import NameChecker from "../../components/NameChecker/NameChecker";
+import { UserContext } from "../../lib/Context";
 
 export default function Login() {
+  const { user, username } = useContext(UserContext);
   const [eio, seteio] = useState(false); //everything is okay
   const Router = useRouter();
   let suEmail = useRef("");
@@ -80,6 +82,10 @@ export default function Login() {
   }
   if (eio) {
     return <NameChecker />;
+  }
+
+  if (username && user) {
+    Router.push("/");
   }
   return (
     <div className={styles.container}>

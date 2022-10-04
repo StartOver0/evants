@@ -102,73 +102,71 @@ export default function NameChecker() {
   };
   return (
     !username && (
-      <section>
-        <form onSubmit={onSubmit}>
-          {!user.photoURL && (
-            <div className="overflow-hidden ">
-              <div className="relative w-[100px] h-[100px] rounded-full overflow-hidden">
-                <div className="w-[100px] h-[100px]">
-                  <Image
-                    ref={imageRef}
-                    className=" m-0 p-0"
-                    src={profileimg}
-                    layout="fill"
-                    alt="profile picture"
+      <section className="w-[100vw] h-[70vh] flex items-center justify-center">
+        <div className="border-solid border-black border-3 p-[60px] ">
+          <form onSubmit={onSubmit}>
+            {!user.photoURL && (
+              <div className="overflow-hidden ">
+                <div className="w-[100%] flex justify-center items-center">
+                  <div className="relative w-[100px] h-[100px] rounded-full overflow-hidden">
+                    <div className="w-[100px] h-[100px]">
+                      <Image
+                        ref={imageRef}
+                        className=" m-0 p-0"
+                        src={profileimg}
+                        layout="fill"
+                        alt="profile picture"
+                      />
+                    </div>
+
+                    <div
+                      className="pb-[60px]"
+                      style={style}
+                      onClick={() => {
+                        input.current.click();
+                      }}
+                    >
+                      choose
+                    </div>
+                  </div>
+                  <input
+                    ref={input}
+                    accept=".png, .jpg, .jpeg"
+                    type="file"
+                    className="hidden"
+                    onChange={(event) => {
+                      setfile(event.target.files[0]);
+                      setProfileimg(URL.createObjectURL(event.target.files[0]));
+                    }}
+                    required
                   />
                 </div>
-
-                <div
-                  className="pb-[60px]"
-                  style={style}
-                  onClick={() => {
-                    input.current.click();
-                  }}
-                >
-                  choose
-                </div>
+                <div className="h-[30px]"></div>
               </div>
-              <input
-                ref={input}
-                accept=".png, .jpg, .jpeg"
-                type="file"
-                className="hidden"
-                onChange={(event) => {
-                  setfile(event.target.files[0]);
-                  setProfileimg(URL.createObjectURL(event.target.files[0]));
-                }}
-                required
-              />
-            </div>
-          )}
-          <h3>Choose Username</h3>
-          <input
-            name="username"
-            placeholder="myname"
-            value={formValue}
-            onChange={onChange}
-          />
-          <UsernameMessage
-            username={formValue}
-            isValid={isValid}
-            loading={loading}
-          />
-          <button
-            type="submit"
-            className="bg-green-300 p-[10px] rounded-lg"
-            disabled={!isValid}
-          >
-            Choose
-          </button>
-
-          <h3>Debug State</h3>
-          <div>
-            Username: {formValue}
-            <br />
-            Loading: {loading.toString()}
-            <br />
-            Username Valid: {isValid.toString()}
-          </div>
-        </form>
+            )}
+            <div className="">Choose Name</div>
+            <input
+              className="border-solid border-2 border-black"
+              name="username"
+              placeholder="myname"
+              value={formValue}
+              onChange={onChange}
+            />
+            <div className="h-[5px]"></div>
+            <UsernameMessage
+              username={formValue}
+              isValid={isValid}
+              loading={loading}
+            />
+            <button
+              type="submit"
+              className="bg-green-300 p-[10px] rounded-lg"
+              disabled={!isValid}
+            >
+              Choose
+            </button>
+          </form>
+        </div>
       </section>
     )
   );
