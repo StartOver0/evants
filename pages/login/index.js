@@ -163,6 +163,7 @@ export default function Login() {
                 <Image
                   src={processing}
                   className="w-[40px] h-[30px] animate-spin"
+                  alt="something"
                 />
               </div>
             )}
@@ -207,6 +208,7 @@ export default function Login() {
             <Image
               src={processing}
               className="w-[40px] h-[30px] animate-spin"
+              alt="something"
             />
           </div>
         ) : (

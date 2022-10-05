@@ -177,6 +177,7 @@ export default function NameChecker() {
                 <Image
                   src={processing}
                   className="w-[40px]  h-[30px] animate-spin"
+                  alt="something"
                 />
               </div>
             )}
@@ -186,7 +187,11 @@ export default function NameChecker() {
     </section>
   ) : (
     <div className="w-[100%] flex justify-center">
-      <Image src={processing} className="w-[100px] h-[100px] animate-spin" />
+      <Image
+        src={processing}
+        alt="somthing"
+        className="w-[100px] h-[100px] animate-spin"
+      />
     </div>
   );
 }
