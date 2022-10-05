@@ -59,16 +59,12 @@ export default function Login() {
     }
   }
   async function SignUpSubmit(event) {
+    settLoader(true);
     const collectionref = collection(db, "users");
     event.preventDefault();
-    // email = suEmail.current.value;
-    // pass = suPass.current.value;
-    // let rpass = rSuPass.current.value;
-
-    if (suPass == rSuPass) {
+    if (suPass === rSuPass) {
       setPassCheck(false);
       try {
-        console.log(typeof suEmail);
         let email = suEmail;
         let response = await fetch("/api/contact", {
           method: "POST",
@@ -78,6 +74,7 @@ export default function Login() {
           body: JSON.stringify({ email }),
         });
         if (response.status != "200") {
+          settLoader(true);
           setmsz("unable to send gmail to ur account");
           setPassCheck(true);
         } else {
@@ -86,28 +83,10 @@ export default function Login() {
       } catch (err) {
         console.log(err.message);
       }
-
-      // setOtproot(true);
-      //   settLoader(true);
-      //   try {
-      //     let userCredential = await createUserWithEmailAndPassword(
-      //       auth,
-      //       email,
-      //       pass
-      //     );
-      //     await setDoc(doc(collectionref, userCredential.user.uid), {
-      //       email: toString(userCredential.user.email),
-      //     });
-      //     seteio(true);
-      //   } catch (err) {
-      //     console.log(err);
-      //     settLoader(false);
-      //     setmsz("email already exits");
-      //     setPassCheck(true);
-      //   }
-      // } else {
-      //   setmsz("Password are not same");
-      //   setPassCheck(true);
+    } else {
+      settLoader(false);
+      setmsz("Password are not same");
+      setPassCheck(true);
     }
   }
   // console.log(suEmail);
@@ -148,11 +127,8 @@ export default function Login() {
           </h3>
         </div>
         {/* <div className={styles.google_authentication}> */}
-
         {/* </div> */}
-
         {/* <div className={styles.empty_div}></div> */}
-
         {isSignUp ? (
           <form className={styles.formi} onSubmit={SignUpSubmit}>
             <label htmlFor="email">Email Address:</label>
@@ -234,38 +210,6 @@ export default function Login() {
             {!loaderSi && <button className={styles.button}>Login</button>}
           </form>
         )}
-        {!loaderSi && (
-          <>
-            {" "}
-            <div className={styles.or_div}>
-              <hr className={styles.hr} />
-              <p>OR</p>
-              <hr className={styles.hr} />
-            </div>
-            <button
-              onClick={() => {
-                try {
-                  const collectionref = collection(db, "users");
-                  signInWithPopup(auth, provider).then(async (result) => {
-                    const ref = doc(db, "users", result.user.uid);
-                    const docSnap = await getDoc(ref);
-                    if (docSnap.exists()) {
-                      // console.log("yes done it");
-                      Router.push("/");
-                    } else {
-                      seteio(true);
-                    }
-                  });
-                } catch (err) {
-                  setmsz("google error");
-                }
-              }}
-              className={styles.google_authentication}
-            >
-              &copy; Sign with Google
-            </button>
-          </>
-        )}
         {loaderSi && (
           <div className="w-[100%] h-[100px] flex justify-center items-center">
             <Image
@@ -275,6 +219,36 @@ export default function Login() {
             />
           </div>
         )}
+        <>
+          {" "}
+          <div className={styles.or_div}>
+            <hr className={styles.hr} />
+            <p>OR</p>
+            <hr className={styles.hr} />
+          </div>
+          <button
+            onClick={() => {
+              try {
+                const collectionref = collection(db, "users");
+                signInWithPopup(auth, provider).then(async (result) => {
+                  const ref = doc(db, "users", result.user.uid);
+                  const docSnap = await getDoc(ref);
+                  if (docSnap.exists()) {
+                    // console.log("yes done it");
+                    Router.push("/");
+                  } else {
+                    seteio(true);
+                  }
+                });
+              } catch (err) {
+                setmsz("google error");
+              }
+            }}
+            className={styles.google_authentication}
+          >
+            &copy; Sign with Google
+          </button>
+        </>
       </div>
     </div>
   );
