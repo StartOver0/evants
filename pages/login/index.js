@@ -196,35 +196,38 @@ export default function Login() {
             <button className={styles.button}>Login</button>
           </form>
         )}
-
-        <div className={styles.or_div}>
-          <hr className={styles.hr} />
-          <p>OR</p>
-          <hr className={styles.hr} />
-        </div>
-
-        <button
-          onClick={() => {
-            try {
-              const collectionref = collection(db, "users");
-              signInWithPopup(auth, provider).then(async (result) => {
-                const ref = doc(db, "users", result.user.uid);
-                const docSnap = await getDoc(ref);
-                if (docSnap.exists()) {
-                  // console.log("yes done it");
-                  Router.push("/");
-                } else {
-                  seteio(true);
+        {!loader && (
+          <>
+            {" "}
+            <div className={styles.or_div}>
+              <hr className={styles.hr} />
+              <p>OR</p>
+              <hr className={styles.hr} />
+            </div>
+            <button
+              onClick={() => {
+                try {
+                  const collectionref = collection(db, "users");
+                  signInWithPopup(auth, provider).then(async (result) => {
+                    const ref = doc(db, "users", result.user.uid);
+                    const docSnap = await getDoc(ref);
+                    if (docSnap.exists()) {
+                      // console.log("yes done it");
+                      Router.push("/");
+                    } else {
+                      seteio(true);
+                    }
+                  });
+                } catch (err) {
+                  setmsz("google error");
                 }
-              });
-            } catch (err) {
-              setmsz("google error");
-            }
-          }}
-          className={styles.google_authentication}
-        >
-          &copy; Sign with Google
-        </button>
+              }}
+              className={styles.google_authentication}
+            >
+              &copy; Sign with Google
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
