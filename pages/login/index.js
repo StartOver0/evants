@@ -158,10 +158,10 @@ export default function Login() {
               <div className="text-red-800 animate-pulse">{msz}</div>
             ) : null}
             {loader && (
-              <div className="w-[100%] flex justify-center">
+              <div className="w-[100%] h-[100px] flex justify-center items-center">
                 <Image
                   src={processing}
-                  className="w-[40px] h-[30px] animate-spin"
+                  className="w-[40px] h-[30px] animate-spin "
                   alt="something"
                 />
               </div>
