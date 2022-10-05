@@ -18,7 +18,6 @@ import { UserContext } from "../../lib/Context";
 export default function Login() {
   const { user, username } = useContext(UserContext);
   const [eio, seteio] = useState(false); //everything is okay
-  const [gLoading, setGLoading] = useState(false);
   const Router = useRouter();
   let suEmail = useRef("");
   let suPass = useRef("");
@@ -203,39 +202,29 @@ export default function Login() {
           <p>OR</p>
           <hr className={styles.hr} />
         </div>
-        {gLoading ? (
-          <div className="w-[100%] flex justify-center">
-            <Image
-              src={processing}
-              className="w-[40px] h-[30px] animate-spin"
-              alt="something"
-            />
-          </div>
-        ) : (
-          <button
-            onClick={() => {
-              setGLoading(true);
-              try {
-                const collectionref = collection(db, "users");
-                signInWithPopup(auth, provider).then(async (result) => {
-                  const ref = doc(db, "users", result.user.uid);
-                  const docSnap = await getDoc(ref);
-                  if (docSnap.exists()) {
-                    // console.log("yes done it");
-                    Router.push("/");
-                  } else {
-                    seteio(true);
-                  }
-                });
-              } catch (err) {
-                setGLoading(false);
-              }
-            }}
-            className={styles.google_authentication}
-          >
-            &copy; Sign with Google
-          </button>
-        )}
+
+        <button
+          onClick={() => {
+            try {
+              const collectionref = collection(db, "users");
+              signInWithPopup(auth, provider).then(async (result) => {
+                const ref = doc(db, "users", result.user.uid);
+                const docSnap = await getDoc(ref);
+                if (docSnap.exists()) {
+                  // console.log("yes done it");
+                  Router.push("/");
+                } else {
+                  seteio(true);
+                }
+              });
+            } catch (err) {
+              setmsz("google error");
+            }
+          }}
+          className={styles.google_authentication}
+        >
+          &copy; Sign with Google
+        </button>
       </div>
     </div>
   );
