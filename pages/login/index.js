@@ -1,4 +1,3 @@
-import { signOut, signIn, useSession } from "next-auth/react";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import "/styles/login.module.css";
@@ -6,7 +5,8 @@ import styles from "/styles/loginx.module.css";
 import { auth, db } from "../../lib/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { provider } from "../../lib/firebase";
-import Router from "next/router";
+import Image from "next/image";
+import processing from "/public/images/processing.png";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -18,12 +18,14 @@ import { UserContext } from "../../lib/Context";
 export default function Login() {
   const { user, username } = useContext(UserContext);
   const [eio, seteio] = useState(false); //everything is okay
+  const [gLoading, setGLoading] = useState(false);
   const Router = useRouter();
   let suEmail = useRef("");
   let suPass = useRef("");
   let rSuPass = useRef("");
   let siEmail = useRef("");
   let siPass = useRef("");
+  const [loader, settLoader] = useState(false);
   const [passCheckSi, setPasscheckSi] = useState(false);
   const [passCheck, setPassCheck] = useState(false);
   let [isSignUp, setSignUp] = useState(false);
@@ -40,9 +42,14 @@ export default function Login() {
     event.preventDefault();
     let email = siEmail.current.value;
     let pass = siPass.current.value;
+    console.log(username);
     try {
-      let userCredential = await signInWithEmailAndPassword(auth, email, pass);
-      Router.push("/");
+      await signInWithEmailAndPassword(auth, email, pass);
+      if (username) {
+        Router.push("/");
+      } else {
+        seteio(true);
+      }
       console.log("yea we loged in");
     } catch (err) {
       setPasscheckSi(true);
@@ -58,20 +65,20 @@ export default function Login() {
 
     if (pass == rpass) {
       setPassCheck(false);
+      settLoader(true);
       try {
         let userCredential = await createUserWithEmailAndPassword(
           auth,
           email,
           pass
         );
-        console.log(collectionref);
-        console.log(userCredential.user.uid);
         await setDoc(doc(collectionref, userCredential.user.uid), {
           email: toString(userCredential.user.email),
         });
         seteio(true);
       } catch (err) {
         console.log(err);
+        settLoader(false);
         setmsz("email already exits");
         setPassCheck(true);
       }
@@ -151,7 +158,15 @@ export default function Login() {
             {passCheck ? (
               <div className="text-red-800 animate-pulse">{msz}</div>
             ) : null}
-            <button className={styles.button}>Sign Up</button>
+            {loader && (
+              <div className="w-[100%] flex justify-center">
+                <Image
+                  src={processing}
+                  className="w-[40px] h-[30px] animate-spin"
+                />
+              </div>
+            )}
+            {!loader && <button className={styles.button}>Sign Up</button>}
           </form>
         ) : (
           <form className={styles.formi} onSubmit={SignInSubmit}>
@@ -187,24 +202,34 @@ export default function Login() {
           <p>OR</p>
           <hr className={styles.hr} />
         </div>
-        <button
-          onClick={() => {
-            const collectionref = collection(db, "users");
-            signInWithPopup(auth, provider).then(async (result) => {
-              const ref = doc(db, "users", result.user.uid);
-              const docSnap = await getDoc(ref);
-              if (docSnap.exists()) {
-                // console.log("yes done it");
-                Router.push("/");
-              } else {
-                seteio(true);
-              }
-            });
-          }}
-          className={styles.google_authentication}
-        >
-          &copy; Sign with Google
-        </button>
+        {gLoading ? (
+          <div className="w-[100%] flex justify-center">
+            <Image
+              src={processing}
+              className="w-[40px] h-[30px] animate-spin"
+            />
+          </div>
+        ) : (
+          <button
+            onClick={() => {
+              setGLoading(true);
+              const collectionref = collection(db, "users");
+              signInWithPopup(auth, provider).then(async (result) => {
+                const ref = doc(db, "users", result.user.uid);
+                const docSnap = await getDoc(ref);
+                if (docSnap.exists()) {
+                  // console.log("yes done it");
+                  Router.push("/");
+                } else {
+                  seteio(true);
+                }
+              });
+            }}
+            className={styles.google_authentication}
+          >
+            &copy; Sign with Google
+          </button>
+        )}
       </div>
     </div>
   );

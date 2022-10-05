@@ -6,10 +6,12 @@ import { doc, getDoc, writeBatch } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import processing from "/public/images/processing.png";
 // Username form
 import profilePic from "/public/images/user.png";
 import { storage } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { Router } from "react-router-dom";
 export default function NameChecker() {
   const input = useRef(null);
   const [formValue, setFormValue] = useState("");
@@ -18,6 +20,7 @@ export default function NameChecker() {
   const [profileimg, setProfileimg] = useState(profilePic);
   const [file, setfile] = useState(null);
   const router = useRouter();
+  const [loader, setLoader] = useState(false);
   const { user, username } = useContext(UserContext);
   const imageRef = useRef();
   const onSubmit = async (e) => {
@@ -25,6 +28,7 @@ export default function NameChecker() {
     let photoURL = null;
     if (file) {
       try {
+        setLoader(true);
         let fileExtension = file.type;
         let extension = fileExtension.replace(/(.*)\//g, "");
         const imgRef = ref(storage, `images/${formValue}.${extension}`);
@@ -100,75 +104,90 @@ export default function NameChecker() {
     fontSize: "1rem",
     fontWeight: "800",
   };
-  return (
-    !username && (
-      <section className="w-[100vw] h-[70vh] flex items-center justify-center">
-        <div className="border-solid border-black border-3 p-[60px] ">
-          <form onSubmit={onSubmit}>
-            {!user.photoURL && (
-              <div className="overflow-hidden ">
-                <div className="w-[100%] flex justify-center items-center">
-                  <div className="relative w-[100px] h-[100px] rounded-full overflow-hidden">
-                    <div className="w-[100px] h-[100px]">
-                      <Image
-                        ref={imageRef}
-                        className=" m-0 p-0"
-                        src={profileimg}
-                        layout="fill"
-                        alt="profile picture"
-                      />
-                    </div>
-
-                    <div
-                      className="pb-[60px]"
-                      style={style}
-                      onClick={() => {
-                        input.current.click();
-                      }}
-                    >
-                      choose
-                    </div>
+  return !username ? (
+    <section className="w-[100vw] h-[70vh] flex items-center justify-center">
+      <div className="border-solid border-black border-3 p-[60px] ">
+        <form onSubmit={onSubmit}>
+          {!user.photoURL && (
+            <div className="overflow-hidden ">
+              <div className="w-[100%] flex justify-center items-center">
+                <div className="relative w-[100px] h-[100px] rounded-full overflow-hidden">
+                  <div className="w-[100px] h-[100px]">
+                    <Image
+                      ref={imageRef}
+                      className=" m-0 p-0"
+                      src={profileimg}
+                      layout="fill"
+                      alt="profile picture"
+                    />
                   </div>
-                  <input
-                    ref={input}
-                    accept=".png, .jpg, .jpeg"
-                    type="file"
-                    className="hidden"
-                    onChange={(event) => {
-                      setfile(event.target.files[0]);
-                      setProfileimg(URL.createObjectURL(event.target.files[0]));
+
+                  <div
+                    className="pb-[60px]"
+                    style={style}
+                    onClick={() => {
+                      input.current.click();
                     }}
-                    required
-                  />
+                  >
+                    choose
+                  </div>
                 </div>
-                <div className="h-[30px]"></div>
+                <input
+                  ref={input}
+                  accept=".png, .jpg, .jpeg"
+                  type="file"
+                  className="hidden"
+                  onChange={(event) => {
+                    setfile(event.target.files[0]);
+                    setProfileimg(URL.createObjectURL(event.target.files[0]));
+                  }}
+                  required
+                />
+              </div>
+              <div className="h-[30px]"></div>
+            </div>
+          )}
+          <div className="">Choose Name</div>
+          <input
+            className="border-solid border-2 border-black"
+            name="username"
+            placeholder="myname"
+            value={formValue}
+            onChange={onChange}
+          />
+          <div className="h-[5px]"></div>
+          <UsernameMessage
+            username={formValue}
+            isValid={isValid}
+            loading={loading}
+          />
+          <div className="flex items-center">
+            {!loader && (
+              <button
+                type="submit"
+                className="bg-green-300 p-[10px] rounded-lg"
+                disabled={!isValid}
+              >
+                Choose
+              </button>
+            )}
+
+            {loader && (
+              <div className="w-[100%] flex justify-center">
+                <Image
+                  src={processing}
+                  className="w-[40px]  h-[30px] animate-spin"
+                />
               </div>
             )}
-            <div className="">Choose Name</div>
-            <input
-              className="border-solid border-2 border-black"
-              name="username"
-              placeholder="myname"
-              value={formValue}
-              onChange={onChange}
-            />
-            <div className="h-[5px]"></div>
-            <UsernameMessage
-              username={formValue}
-              isValid={isValid}
-              loading={loading}
-            />
-            <button
-              type="submit"
-              className="bg-green-300 p-[10px] rounded-lg"
-              disabled={!isValid}
-            >
-              Choose
-            </button>
-          </form>
-        </div>
-      </section>
-    )
+          </div>
+        </form>
+      </div>
+    </section>
+  ) : (
+    <div className="w-[100%] flex justify-center">
+      <Image src={processing} className="w-[100px] h-[100px] animate-spin" />
+    </div>
   );
 }
 
