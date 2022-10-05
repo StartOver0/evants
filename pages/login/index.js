@@ -7,10 +7,7 @@ import { signInWithPopup } from "firebase/auth";
 import { provider } from "../../lib/firebase";
 import Image from "next/image";
 import processing from "/public/images/processing.png";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, collection, setDoc, getDoc } from "firebase/firestore";
 import NameChecker from "../../components/NameChecker/NameChecker";
 import { UserContext } from "../../lib/Context";
@@ -24,6 +21,7 @@ export default function Login() {
   let [rSuPass, setRsuPass] = useState("");
   let siEmail = useRef("");
   let siPass = useRef("");
+  const [loaderSi, setLoaderSi] = useState(false);
   const [optroot, setOtproot] = useState(false);
   const [loader, settLoader] = useState(false);
   const [passCheckSi, setPasscheckSi] = useState(false);
@@ -44,13 +42,17 @@ export default function Login() {
     let email = siEmail.current.value;
     let pass = siPass.current.value;
     try {
-      await signInWithEmailAndPassword(auth, email, pass);
-      if (username) {
+      let cred = await signInWithEmailAndPassword(auth, email, pass);
+      console.log(cred);
+      setLoaderSi(true);
+      const ref = doc(db, "users", cred.user.uid);
+      const snap = await getDoc(ref);
+      console.log(snap);
+      if (snap.exists()) {
         Router.push("/");
       } else {
         seteio(true);
       }
-      console.log("yea we loged in");
     } catch (err) {
       setPasscheckSi(true);
       console.log(err.message);
@@ -223,15 +225,16 @@ export default function Login() {
               placeholder="Enter Password"
               required
             />
+
             {passCheckSi ? (
               <div className="text-red-800 animate-pulse">
                 {"Passworld is not matching"}
               </div>
             ) : null}
-            <button className={styles.button}>Login</button>
+            {!loaderSi && <button className={styles.button}>Login</button>}
           </form>
         )}
-        {!loader && (
+        {!loaderSi && (
           <>
             {" "}
             <div className={styles.or_div}>
@@ -262,6 +265,15 @@ export default function Login() {
               &copy; Sign with Google
             </button>
           </>
+        )}
+        {loaderSi && (
+          <div className="w-[100%] h-[100px] flex justify-center items-center">
+            <Image
+              className="w-[40px] h-[30px] animate-spin"
+              src={processing}
+              alt="something"
+            />
+          </div>
         )}
       </div>
     </div>
