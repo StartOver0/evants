@@ -213,17 +213,21 @@ export default function Login() {
           <button
             onClick={() => {
               setGLoading(true);
-              const collectionref = collection(db, "users");
-              signInWithPopup(auth, provider).then(async (result) => {
-                const ref = doc(db, "users", result.user.uid);
-                const docSnap = await getDoc(ref);
-                if (docSnap.exists()) {
-                  // console.log("yes done it");
-                  Router.push("/");
-                } else {
-                  seteio(true);
-                }
-              });
+              try {
+                const collectionref = collection(db, "users");
+                signInWithPopup(auth, provider).then(async (result) => {
+                  const ref = doc(db, "users", result.user.uid);
+                  const docSnap = await getDoc(ref);
+                  if (docSnap.exists()) {
+                    // console.log("yes done it");
+                    Router.push("/");
+                  } else {
+                    seteio(true);
+                  }
+                });
+              } catch (err) {
+                setGLoading(false);
+              }
             }}
             className={styles.google_authentication}
           >

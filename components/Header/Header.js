@@ -47,8 +47,8 @@ export default function Header() {
           <Image src={icon} alt="A Logo" width={40} height={40} />
         </div>
       </div>
-      {user && username ? (
-        <div className="flex space-x-5">
+      {user && username && profileImg ? (
+        <div className="flex w-[200px] justify-around">
           <button
             onClick={async () => {
               try {
@@ -57,15 +57,17 @@ export default function Header() {
                 console.log(err);
               }
             }}
-            className="hover:bg-red-600 border-2 hover:text-white border-blue-800 border-solid leading-[2px]  px-[30px]"
+            className="hover:bg-red-600 ml-6 border-2 hover:text-white border-blue-800 border-solid leading-[2px]  px-[30px]"
           >
             Log out
           </button>
 
-          <img
+          <Image
             src={profileImg}
             alt="photo"
             className="w-[40px] h-[40px] rounded-full overflow-hidden"
+            width={40}
+            height={40}
           />
         </div>
       ) : (
