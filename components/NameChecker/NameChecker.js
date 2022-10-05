@@ -11,7 +11,6 @@ import processing from "/public/images/processing.png";
 import profilePic from "/public/images/user.png";
 import { storage } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { Router } from "react-router-dom";
 export default function NameChecker() {
   const input = useRef(null);
   const [formValue, setFormValue] = useState("");
