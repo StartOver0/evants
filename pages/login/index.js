@@ -14,16 +14,17 @@ import {
 import { doc, collection, setDoc, getDoc } from "firebase/firestore";
 import NameChecker from "../../components/NameChecker/NameChecker";
 import { UserContext } from "../../lib/Context";
-
+import Otproot from "../../components/optroot/Otproot";
 export default function Login() {
   const { user, username } = useContext(UserContext);
   const [eio, seteio] = useState(false); //everything is okay
   const Router = useRouter();
-  let suEmail = useRef("");
-  let suPass = useRef("");
-  let rSuPass = useRef("");
+  let [suEmail, setSuEmail] = useState("");
+  let [suPass, setSuPass] = useState("");
+  let [rSuPass, setRsuPass] = useState("");
   let siEmail = useRef("");
   let siPass = useRef("");
+  const [optroot, setOtproot] = useState(false);
   const [loader, settLoader] = useState(false);
   const [passCheckSi, setPasscheckSi] = useState(false);
   const [passCheck, setPassCheck] = useState(false);
@@ -37,11 +38,11 @@ export default function Login() {
       }
     }
   }, []);
+
   async function SignInSubmit(event) {
     event.preventDefault();
     let email = siEmail.current.value;
     let pass = siPass.current.value;
-    console.log(username);
     try {
       await signInWithEmailAndPassword(auth, email, pass);
       if (username) {
@@ -58,33 +59,58 @@ export default function Login() {
   async function SignUpSubmit(event) {
     const collectionref = collection(db, "users");
     event.preventDefault();
-    let email = suEmail.current.value;
-    let pass = suPass.current.value;
-    let rpass = rSuPass.current.value;
+    // email = suEmail.current.value;
+    // pass = suPass.current.value;
+    // let rpass = rSuPass.current.value;
 
-    if (pass == rpass) {
+    if (suPass == rSuPass) {
       setPassCheck(false);
-      settLoader(true);
       try {
-        let userCredential = await createUserWithEmailAndPassword(
-          auth,
-          email,
-          pass
-        );
-        await setDoc(doc(collectionref, userCredential.user.uid), {
-          email: toString(userCredential.user.email),
+        console.log(typeof suEmail);
+        let email = suEmail;
+        let response = await fetch("/api/contact", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
         });
-        seteio(true);
+        if (response.status != "200") {
+          setmsz("unable to send gmail to ur account");
+          setPassCheck(true);
+        } else {
+          setOtproot(true);
+        }
       } catch (err) {
-        console.log(err);
-        settLoader(false);
-        setmsz("email already exits");
-        setPassCheck(true);
+        console.log(err.message);
       }
-    } else {
-      setmsz("Password are not same");
-      setPassCheck(true);
+
+      // setOtproot(true);
+      //   settLoader(true);
+      //   try {
+      //     let userCredential = await createUserWithEmailAndPassword(
+      //       auth,
+      //       email,
+      //       pass
+      //     );
+      //     await setDoc(doc(collectionref, userCredential.user.uid), {
+      //       email: toString(userCredential.user.email),
+      //     });
+      //     seteio(true);
+      //   } catch (err) {
+      //     console.log(err);
+      //     settLoader(false);
+      //     setmsz("email already exits");
+      //     setPassCheck(true);
+      //   }
+      // } else {
+      //   setmsz("Password are not same");
+      //   setPassCheck(true);
     }
+  }
+  // console.log(suEmail);
+  if (optroot) {
+    return <Otproot given={{ email: suEmail, pass: suPass }} />;
   }
   if (eio) {
     return <NameChecker />;
@@ -108,7 +134,7 @@ export default function Login() {
               setSignUp(true);
             }}
           >
-            sign up
+            send otp
           </h3>
           <h3
             className={!isSignUp ? styles.active_login : styles.login}
@@ -130,7 +156,10 @@ export default function Login() {
             <label htmlFor="email">Email Address:</label>
             <br />
             <input
-              ref={suEmail}
+              value={suEmail}
+              onChange={(e) => {
+                setSuEmail(e.target.value);
+              }}
               id="email"
               type="email"
               placeholder="Enter your email address"
@@ -139,7 +168,10 @@ export default function Login() {
             <label htmlFor="password1">Password:</label>
             <br />
             <input
-              ref={suPass}
+              value={suPass}
+              onChange={(e) => {
+                setSuPass(e.target.value);
+              }}
               id="password1"
               type="password"
               placeholder="Password should be atleast 6 characters long"
@@ -148,7 +180,10 @@ export default function Login() {
             <label htmlFor="password2">Confirm Password:</label>
             <br />
             <input
-              ref={rSuPass}
+              value={rSuPass}
+              onChange={(e) => {
+                setRsuPass(e.target.value);
+              }}
               id="password2"
               type="password"
               placeholder="Re-enter your password"
@@ -166,7 +201,7 @@ export default function Login() {
                 />
               </div>
             )}
-            {!loader && <button className={styles.button}>Sign Up</button>}
+            {!loader && <button className={styles.button}> send otp</button>}
           </form>
         ) : (
           <form className={styles.formi} onSubmit={SignInSubmit}>

@@ -191,6 +191,9 @@ export default function NameChecker() {
         alt="somthing"
         className="w-[100px] h-[100px] animate-spin"
       />
+      {(() => {
+        router.push("/");
+      })()}
     </div>
   );
 }
