@@ -10,6 +10,8 @@
 
 .domain_name{
     display: inline;
+    font-size: 28px;
+    font-weight: bold;
     margin: 1.25rem 2.25rem;
 }
 .domain_icon{
@@ -78,6 +80,7 @@
 @media (max-width: 900px) {
     .domain_name{
         margin: 1rem 2.25rem;
+        font-size: 24px;
     }
 }
 @media (max-width: 600px) {

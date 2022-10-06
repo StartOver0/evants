@@ -7,27 +7,29 @@ import { UserContext } from "../../lib/Context";
 import { auth, db } from "../../lib/firebase";
 import { signOut } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
+
 export default function Header() {
   const router = useRouter();
   const [profileImg, setProfileImg] = useState(null);
   const { user, username } = useContext(UserContext);
 
-  // console.log(router);
-  const gotoLogin = (e) => {
-    //  Router.push('/login')
-    router.push({
-      pathname: "/login",
-      query: { value: 0 },
-    });
-  };
-  const gotoSignUp = (e) => {
-    //  Router.push('/login')
 
-    router.push({
-      pathname: "/login",
-      query: { value: 1 },
-    });
-  };
+  
+    const gotoLogin = (e) => {
+        router.push({
+                pathname: "/login",
+                query: {value: 0}
+        }, '/login')
+    }
+    const gotoSignUp = (e) => {
+        //  Router.push('/login')
+        
+        router.push({
+                pathname: "/login",
+                query: {value: 1}
+        }, '/login')
+    }
+   
   if (username && user) {
     (async () => {
       let Doc = doc(db, "users", user.uid);
@@ -69,6 +71,7 @@ export default function Header() {
             width={40}
             height={40}
           />
+
         </div>
       ) : (
         <>

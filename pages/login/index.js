@@ -12,6 +12,7 @@ import { doc, collection, setDoc, getDoc } from "firebase/firestore";
 import NameChecker from "../../components/NameChecker/NameChecker";
 import { UserContext } from "../../lib/Context";
 import Otproot from "../../components/optroot/Otproot";
+
 export default function Login() {
   const { user, username } = useContext(UserContext);
   const [eio, seteio] = useState(false); //everything is okay
@@ -34,8 +35,10 @@ export default function Login() {
       if (value == 1 && isSignUp == false) {
         setSignUp(true);
       }
+      else if(value == 0 && isSignUp == true) setSignUp(false);
     }
-  }, []);
+  }, [Router])
+
 
   async function SignInSubmit(event) {
     event.preventDefault();
@@ -102,10 +105,21 @@ export default function Login() {
   }
   return (
     <div className={styles.container}>
-      <div className={styles.text_container}>
-        <div className={styles.first_one}></div>
-        <h2>Welcome New User</h2>
-      </div>
+      
+
+
+        <div className={styles.text_container}>
+                <div className={styles.first_one}></div>
+                
+                {isSignUp ? <div className={styles.glass}>
+                
+                  <h2>Welcome New User</h2><br />
+                  <p>Create your account to be part of our community.</p>
+                </div> : <div className={styles.glass}>
+            
+                  <h2>Welcome Back User</h2>
+                  <p>You can sign in with to access your with your existing account.</p>
+                </div> }
 
       <div className={styles.form}>
         <div className={styles.toggle}>
@@ -125,6 +139,7 @@ export default function Login() {
           >
             sign in
           </h3>
+
         </div>
         {/* <div className={styles.google_authentication}> */}
         {/* </div> */}

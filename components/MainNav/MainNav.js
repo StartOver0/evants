@@ -6,15 +6,15 @@ import homeIcon from "/public/nee.png";
 export default function MainNav(){
   return(
     <div className={nav.mainNav}>
-      <Link href="#">
+      <Link href="/">
         <a className={nav.homeLink}>Home</a>
       </Link>
-      <Link href="#">
+      <Link href="/">
         <div className={nav.homeIcon}>
           <Image src={homeIcon} width={20} height={20} alt="icon"/>
         </div>
       </Link>
-      <Link href="#"><a>Organize</a></Link>
+      <Link href="/organize"><a>Organize</a></Link>
       <Link href="#"><a>Compete</a></Link>
       <Link href="#"><a className={nav.whiteroom}>Whiteroom</a></Link>
       <Link href="#"><a className={nav.about}>About Us</a></Link>

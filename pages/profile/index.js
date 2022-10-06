@@ -3,6 +3,7 @@ import { data } from "/staticData/profiledata.js";
 const subheadings = ["upcoming events", "past events"];
 import { articles } from "/staticData/article.js";
 import BlogPreview from "/components/blogPreview/blogPreview";
+
 export default function Home() {
   return (
     <div>
@@ -10,4 +11,4 @@ export default function Home() {
       <BlogPreview {...articles} />
     </div>
   );
-}
+} 
