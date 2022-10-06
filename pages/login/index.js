@@ -43,11 +43,9 @@ export default function Login() {
     let pass = siPass.current.value;
     try {
       let cred = await signInWithEmailAndPassword(auth, email, pass);
-      console.log(cred);
       setLoaderSi(true);
       const ref = doc(db, "users", cred.user.uid);
       const snap = await getDoc(ref);
-      console.log(snap);
       if (snap.exists()) {
         Router.push("/");
       } else {
