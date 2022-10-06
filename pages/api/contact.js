@@ -2,13 +2,13 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import * as nodemailer from "nodemailer";
 import { db } from "../../lib/firebase";
 export default async (req, res) => {
-  const optRef = collection(db, "opt");
+  const optRef = collection(db, "otp");
 
-  let opt = Math.ceil(Math.random() * 1000000);
+  let otp = Math.ceil(Math.random() * 1000000);
   try {
     const { email } = req.body;
     await setDoc(doc(optRef, email), {
-      Opt: opt,
+      Otp: otp,
     });
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -22,7 +22,7 @@ export default async (req, res) => {
       to: email,
 
       subject: `text subject`,
-      html: `<h1>Otp:- ${opt} </h1>`,
+      html: `<h1>Otp:- ${otp} </h1>`,
     });
   } catch (error) {
     console.log(error);

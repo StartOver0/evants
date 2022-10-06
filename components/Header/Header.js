@@ -1,12 +1,13 @@
 import nav from "./Header.module.css";
 import Image from "next/image";
 import icon from "/public/favicon.ico";
-import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import Router, { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../lib/Context";
 import { auth, db } from "../../lib/firebase";
 import { signOut } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
+import toast from "react-hot-toast";
 export default function Header() {
   const router = useRouter();
   const [profileImg, setProfileImg] = useState(null);
@@ -28,14 +29,16 @@ export default function Header() {
       query: { value: 1 },
     });
   };
-  if (username && user) {
-    (async () => {
-      let Doc = doc(db, "users", user.uid);
-      let snapshot = await getDoc(Doc);
+  useEffect(() => {
+    if (username && user) {
+      (async () => {
+        let Doc = doc(db, "users", user.uid);
+        let snapshot = await getDoc(Doc);
 
-      setProfileImg(snapshot.data().photoURL);
-    })();
-  }
+        setProfileImg(snapshot.data().photoURL);
+      })();
+    }
+  });
 
   return (
     <div className={nav.navbar}>
@@ -52,9 +55,11 @@ export default function Header() {
           <button
             onClick={async () => {
               try {
-                signOut(auth);
+                await signOut(auth);
+
+                toast.success("SignOut Sucessfully!");
               } catch (err) {
-                console.log(err);
+                toast.error(err.message.toString());
               }
             }}
             className="hover:bg-red-600 ml-6 border-2 hover:text-white border-blue-800 border-solid leading-[2px]  px-[30px]"

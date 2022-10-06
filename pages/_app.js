@@ -4,7 +4,7 @@ import MainNav from "/components/MainNav/MainNav";
 import Footer from "/components/Footer/Footer";
 import { UserContext } from "../lib/Context";
 import { useUserData } from "../lib/hooks";
-
+import { Toaster } from "react-hot-toast";
 export default function MyApp({ Component, pageProps }) {
   let userData = useUserData();
   return (
@@ -16,6 +16,9 @@ export default function MyApp({ Component, pageProps }) {
           <Component {...pageProps} />
         </div>
         <Footer />
+      </div>
+      <div>
+        <Toaster position="bottom-left" reverseOrder={false} />
       </div>
     </UserContext.Provider>
   );
