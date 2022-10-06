@@ -270,6 +270,7 @@ export default function Login() {
                   const docSnap = await getDoc(ref);
                   if (docSnap.exists()) {
                     // console.log("yes done it");
+                    toast.success("LogIn with Google Sucessful");
                     Router.push("/");
                   } else {
                     seteio(true);

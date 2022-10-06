@@ -2,23 +2,27 @@ import footer from "/styles/Footer.module.css";
 import Link from "next/link";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../lib/Context";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import toast from "react-hot-toast";
+import { connectStorageEmulator } from "firebase/storage";
 
 export default function Footer() {
   const { user, username } = useContext(UserContext);
   const [suggestionGiven, setSuggestionGiven] = useState(false);
   const [msz, setMsz] = useState("Please Sign with your Google account"); //Your suggestion is recorded :)
   const [input, setInput] = useState("");
+  let ref;
+  if (user && username) {
+    ref = doc(collection(db, "feedback"), username);
+  }
   async function submit(e) {
     e.preventDefault();
 
-    if (username) {
-      console.log("username");
-      const ref = doc(collection(db, "feedback"), username);
+    if (!suggestionGiven) {
+      console.log("inside here");
       try {
-        await setDoc(ref, { feedback: input });
+        setDoc(ref, { feedback: input });
         toast.success("Thank you for giving suggestion");
         setMsz("Your suggestion is recorded :)");
         setSuggestionGiven(false);
@@ -27,11 +31,21 @@ export default function Footer() {
       }
     }
   }
+
   useEffect(() => {
     if (username) {
-      setSuggestionGiven(true);
-    } else {
-      setSuggestionGiven(false);
+      (async () => {
+        let ans = await getDoc(ref);
+        console.log(ans.exists());
+        if (ans.exists()) {
+          setSuggestionGiven(false);
+
+          setMsz("Your suggestion is recorded :)");
+        } else {
+          console.log("helo");
+          setSuggestionGiven(true);
+        }
+      })();
     }
   }, [username]);
 
@@ -50,6 +64,7 @@ export default function Footer() {
                 rows="4"
                 className={footer.suggestion}
                 placeholder="Write something ..."
+                required
               ></textarea>
             ) : (
               <div className={footer.submitted}>{msz}</div>
