@@ -8,7 +8,7 @@ import { UserContext } from "../../lib/Context";
 import { auth, db } from "../../lib/firebase";
 import { signOut } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
-
+import { toast } from "react-hot-toast";
 export default function Header() {
   const router = useRouter();
   const [profileImg, setProfileImg] = useState(null);
