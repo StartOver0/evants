@@ -6,20 +6,26 @@
 }
 
 .container{
-    width: 88vw;
+    width: 90vw;
     box-shadow: 0 1px 5px .1px rgb(207, 201, 201);
     border-radius: 8px;
     border: 1px solid #bdbdbd;
     margin: .5rem 0 2rem 0;
     padding: 1.75rem 1.5rem ;  
 }
-
+.container label::after{
+    content: " *";
+    color: red;
+}
+.notes label::after{
+    content: '';
+}
 .container input::selection {
     background-color: rgb(75, 142, 230);
     color: white;
 }
 .container > *{
-    font-size: 14px;
+    font-size: 15px;
 }
 .container h2{
     font-size: 20px;
@@ -75,6 +81,13 @@
     background-color: #2a7dd0;
 }
 
+.inner_div input{
+    margin-bottom: 4px;   
+}
+.contact{
+    margin-bottom: 12px;;
+}
+
 @media (min-width: 600px) {
     .container{
         padding: 1.25rem;
@@ -94,6 +107,7 @@
         width: 98%;
         margin: 0 auto;
     }
+    
 }
 
 @media (min-width: 900px) {
@@ -113,4 +127,19 @@
    .outer_div{
         margin-bottom: 7px ;
    }
+   .contact{
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+    }
+    .inner_div{
+        display: flex;
+        gap: 1rem;
+    }
+    .contact label{
+        width: 100%;
+    }
+    .name, .contact, .notes{
+        width: 80%;
+    }
 }

@@ -1,1 +1,1 @@
-module.exports = ['club1', 'club2', 'club3', 'club4'];
+module.exports = ['clubName1', 'clubName2', 'clubName3', 'clubName4'];

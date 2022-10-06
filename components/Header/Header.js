@@ -1,45 +1,90 @@
-import nav from'./Header.module.css';
-import Image from 'next/image';
-import icon from '/public/favicon.ico';
-import Router, {useRouter} from 'next/router';
+import nav from "./Header.module.css";
+import Image from "next/image";
+import icon from "/public/favicon.ico";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
 
-export default function Header(){
+import { UserContext } from "../../lib/Context";
+import { auth, db } from "../../lib/firebase";
+import { signOut } from "firebase/auth";
+import { getDoc, doc } from "firebase/firestore";
+export default function Header() {
     const router = useRouter();
+    const [profileImg, setProfileImg] = useState(null);
+    const { user, username } = useContext(UserContext);
 
-    // console.log(router);
     const gotoLogin = (e) => {
-        //  Router.push('/login')
-        
         router.push({
-                pathname: "/login",
-                query: {value: 0}
-        }, '/login')
-    }
+            pathname: "/login",
+            query: { value: 0 },
+        }, '/login');
+    }; 
     const gotoSignUp = (e) => {
-        //  Router.push('/login')
-        
         router.push({
-                pathname: "/login",
-                query: {value: 1}
-        }, '/login')
+            pathname: "/login",
+            query: { value: 1 },
+        }, '/login');
+    }; 
+
+    if (username && user) {
+        (async () => {
+          let Doc = doc(db, "users", user.uid);
+          let snapshot = await getDoc(Doc);
+
+          setProfileImg(snapshot.data().photoURL);
+        })();
     }
-    return (
-        <div className={nav.navbar}>
-            <div className={nav.domain_name}>
-                <h1>C . I . K . Y </h1>
-            </div>
-            <div className={nav.domain_icon}>
-                <div className={nav.icon_container}>
-                    <Image src={icon} alt="A Logo" width={40} height={40} />
-                </div>
-            </div>
-            <div className={nav.navlinks_desktop}>
-                <button className={nav.loginButton} onClick={gotoLogin}>Login</button>
-                <button className={nav.signUpButton} onClick={gotoSignUp}>Sign Up</button>
-            </div>
-            <div className={nav.navlinks_mobile}>
-                <button className={nav.signUpButton} onClick={gotoSignUp}>Login/Sign Up</button>
-            </div>
+
+  return (
+    <div className={nav.navbar}>
+      <div className={nav.domain_name}>
+        <h1>C . I . K . Y </h1>
+      </div>
+      <div className={nav.domain_icon}>
+        <div className={nav.icon_container}>
+          <Image src={icon} alt="A Logo" width={40} height={40} />
         </div>
-    )                   
+      </div>
+      {user && username ? (
+        <div className="flex space-x-5">
+          <button
+            onClick={async () => {
+              try {
+                signOut(auth);
+              } catch (err) {
+                console.log(err);
+              }
+            }}
+            className="hover:bg-red-600 border-2 hover:text-white border-blue-800 border-solid leading-[2px]  px-[30px]"
+          >
+            Log out
+          </button>
+          <div className={nav.domain_icon}>
+              <div className={nav.icon_container}>
+                <Image src={profileImg} alt="photo" width={40} height={40} />
+              </div>
+          </div>
+          {/* <img
+            src={profileImg}
+            alt="photo"
+            className="w-[40px] h-[40px] rounded-full overflow-hidden"
+          /> */}
+        </div>
+      ) : (
+        <>
+          <div className={nav.navlinks_desktop}>
+            <button className={nav.loginButton} onClick={gotoLogin}>
+              Login
+            </button>
+            <button className={nav.signUpButton} onClick={gotoSignUp}>
+              Sign Up
+            </button>
+          </div>
+          <div className={nav.navlinks_mobile}>
+            <button className={nav.signUpButton} onClick={gotoLogin}>Login/Sign Up</button>
+          </div>
+        </>
+      )}
+    </div>
+  );
 }
