@@ -188,3 +188,30 @@ export default function ImageSlider(){
     </>
   );
 }
+/*
+  // setSignUp(isSignUp);
+  // }, [])
+  // console.log(value, isSignUp);
+  // useEffect(() => {
+  //   setSignUp(value)
+  //   console.log(value, 'x', isSignUp)
+  // }, [])
+  // const {data: session} = useSession();
+
+  // console.log(session);
+  // return(
+  //   <div>
+
+  //   {session ?
+  //     <>
+  //       <p> signed in</p>
+  //       <button onClick={signOut}> Sign Out</button>
+  //     </> :
+  //     <>
+  //       <p> signed out</p>
+  //       <button onClick={signIn}> Sign In</button>
+  //     </>
+  //   }
+  //   </div>
+  // )
+*/
