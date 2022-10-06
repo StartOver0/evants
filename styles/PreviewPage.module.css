@@ -9,10 +9,7 @@
 .container *{
     color: #192b5e;
 }
-.container label::after{
-    content: "*";
-    color: black;
-}
+
 .left_div{
     width: 100%;
     padding: 1.25rem 0; 
