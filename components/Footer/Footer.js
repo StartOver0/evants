@@ -5,7 +5,6 @@ import { UserContext } from "../../lib/Context";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import toast from "react-hot-toast";
-import { connectStorageEmulator } from "firebase/storage";
 
 export default function Footer() {
   const { user, username } = useContext(UserContext);
@@ -40,8 +39,7 @@ export default function Footer() {
     if (username) {
       (async () => {
         let ans = await getDoc(ref);
-        console.log(ans.exists());
-        if (ans.exists()) {
+        if (ans.exists() && ans.exists()?.feedback != null) {
           setSuggestionGiven(false);
           setOpen(false);
           setMsz("Your suggestion is recorded :)");
