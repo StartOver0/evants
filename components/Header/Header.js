@@ -39,18 +39,18 @@ export default function Header() {
   return (
     <div className={nav.navbar}>
       <Link href='/'><a>
-      <div className={nav.domain_name}>
-        <h1>C . I . K . Y </h1>
-      </div>
-      <div className={nav.domain_icon}>
-        <div className={nav.icon_container}>
-          <Image src={icon} alt="A Logo" width={40} height={40} />
-        </div>
-        
-      </div></a>
+          <div className={nav.domain_name}>
+              <h1>C . I . K . Y </h1>
+          </div>
+          <div className={nav.domain_icon}>
+              <div className={nav.icon_container}>
+                  <Image src={icon} alt="A Logo" width={40} height={40} />
+              </div>  
+          </div></a>
       </Link>
-      {user && username ? (
-        <div className="flex space-x-5">
+
+      {user && username && profileImg ? (
+        <div className="flex w-[200px] justify-around">
           <button
             onClick={async () => {
               try {
@@ -68,11 +68,20 @@ export default function Header() {
                 <Image src={profileImg} alt="photo" width={40} height={40} />
               </div>
           </div>
-          {/* <img
+          
+            {/* className="hover:bg-red-600 ml-6 border-2 hover:text-white border-blue-800 border-solid leading-[2px]  px-[30px]"
+          >
+            Log out
+          </button>
+
+          <Image
             src={profileImg}
             alt="photo"
             className="w-[40px] h-[40px] rounded-full overflow-hidden"
+            width={40}
+            height={40}
           /> */}
+
         </div>
       ) : (
         <>

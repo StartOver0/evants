@@ -1,13 +1,15 @@
 .navbar{
     display: flex;
+    /* flex-direction: column; */
     background-color: white;
-    border-bottom: 1.5px solid #dfdfdf;
+    /* border-bottom: 1.5px solid #dfdfdf; */
     box-shadow: 0 0 4px 2.5px #ededed;
     justify-content: space-between;
     align-items: center;
 }
 
 .domain_name{
+    box-shadow: none;
     display: inline-block;
     font-size: 28px;
     font-weight: bold;
