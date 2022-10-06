@@ -1,6 +1,7 @@
 import nav from "./Header.module.css";
 import Image from "next/image";
 import icon from "/public/favicon.ico";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import { UserContext } from "../../lib/Context";
@@ -13,23 +14,25 @@ export default function Header() {
   const [profileImg, setProfileImg] = useState(null);
   const { user, username } = useContext(UserContext);
 
+  const gotoLogin = (e) => {
+    router.push(
+      {
+        pathname: "/login",
+        query: { value: 0 },
+      },
+      "/login"
+    );
+  };
+  const gotoSignUp = (e) => {
+    router.push(
+      {
+        pathname: "/login",
+        query: { value: 1 },
+      },
+      "/login"
+    );
+  };
 
-  
-    const gotoLogin = (e) => {
-        router.push({
-                pathname: "/login",
-                query: {value: 0}
-        }, '/login')
-    }
-    const gotoSignUp = (e) => {
-        //  Router.push('/login')
-        
-        router.push({
-                pathname: "/login",
-                query: {value: 1}
-        }, '/login')
-    }
-   
   if (username && user) {
     (async () => {
       let Doc = doc(db, "users", user.uid);
@@ -54,9 +57,11 @@ export default function Header() {
           <button
             onClick={async () => {
               try {
-                signOut(auth);
+                await signOut(auth);
+
+                toast.success("SignOut Sucessfully!");
               } catch (err) {
-                console.log(err);
+                toast.error(err.message.toString());
               }
             }}
             className="hover:bg-red-600 ml-6 border-2 hover:text-white border-blue-800 border-solid leading-[2px]  px-[30px]"
@@ -71,7 +76,6 @@ export default function Header() {
             width={40}
             height={40}
           />
-
         </div>
       ) : (
         <>
