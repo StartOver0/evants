@@ -3,11 +3,12 @@ import Image from "next/image";
 import icon from "/public/favicon.ico";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect} from "react";
 import { UserContext } from "../../lib/Context";
 import { auth, db } from "../../lib/firebase";
 import { signOut } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
+import toast from "react-hot-toast";
 
 export default function Header() {
     const router = useRouter();
@@ -27,14 +28,17 @@ export default function Header() {
         }, '/login');
     }; 
 
+   
+  useEffect(() => {
     if (username && user) {
-        (async () => {
-          let Doc = doc(db, "users", user.uid);
-          let snapshot = await getDoc(Doc);
+      (async () => {
+        let Doc = doc(db, "users", user.uid);
+        let snapshot = await getDoc(Doc);
 
-          setProfileImg(snapshot.data().photoURL);
-        })();
+        setProfileImg(snapshot.data().photoURL);
+      })();
     }
+  });
 
   return (
     <div className={nav.navbar}>
@@ -54,9 +58,11 @@ export default function Header() {
           <button
             onClick={async () => {
               try {
-                signOut(auth);
+                await signOut(auth);
+
+                toast.success("SignOut Sucessfully!");
               } catch (err) {
-                console.log(err);
+                toast.error(err.message.toString());
               }
             }}
             className="hover:bg-red-600 border-2 hover:text-white border-blue-800 border-solid leading-[2px]  px-[30px]"

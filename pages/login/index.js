@@ -12,6 +12,7 @@ import { doc, collection, setDoc, getDoc } from "firebase/firestore";
 import NameChecker from "../../components/NameChecker/NameChecker";
 import { UserContext } from "../../lib/Context";
 import Otproot from "../../components/optroot/Otproot";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const { user, username } = useContext(UserContext);
@@ -20,8 +21,8 @@ export default function Login() {
   let [suEmail, setSuEmail] = useState("");
   let [suPass, setSuPass] = useState("");
   let [rSuPass, setRsuPass] = useState("");
-  let siEmail = useRef("");
-  let siPass = useRef("");
+  let [siEmail, setsiEmail] = useState("");
+  let [siPass, setsiPass] = useState("");
   const [loaderSi, setLoaderSi] = useState(false);
   const [optroot, setOtproot] = useState(false);
   const [loader, settLoader] = useState(false);
@@ -44,23 +45,24 @@ export default function Login() {
 
   async function SignInSubmit(event) {
     event.preventDefault();
-    let email = siEmail.current.value;
-    let pass = siPass.current.value;
+    let email = siEmail;
+    let pass = siPass;
+    setLoaderSi(true);
     try {
       let cred = await signInWithEmailAndPassword(auth, email, pass);
-      console.log(cred);
-      setLoaderSi(true);
+
       const ref = doc(db, "users", cred.user.uid);
       const snap = await getDoc(ref);
-      console.log(snap);
       if (snap.exists()) {
+        toast.success("Login Sucessfully!");
         Router.push("/");
       } else {
         seteio(true);
       }
     } catch (err) {
+      setLoaderSi(false);
       setPasscheckSi(true);
-      console.log(err.message);
+      toast.error(err.message.toString(), { duration: 5000 });
     }
   }
 
@@ -70,27 +72,53 @@ export default function Login() {
     event.preventDefault();
     if (suPass === rSuPass) {
       setPassCheck(false);
-      try {
-        let email = suEmail;
-        let response = await fetch("/api/contact", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email }),
-        });
-        if (response.status != "200") {
-          settLoader(true);
-          setmsz("unable to send gmail to ur account");
+      const verifiedEmail = doc(db, "verifiedEmail", suEmail);
+      const docSnap = await getDoc(verifiedEmail);
+      if (docSnap.exists()) {
+        if (docSnap.data().byGoogle) {
+          setmsz("You already have a account(Sign with Google)");
+          settLoader(false);
           setPassCheck(true);
         } else {
-          setOtproot(true);
+          try {
+            await signInWithEmailAndPassword(auth, suEmail, suPass);
+            toast.success("Login sucessfully!");
+
+            Router.push("/");
+          } catch (err) {
+            setmsz("Account already exits but password is wrong");
+            setPassCheck(true);
+            settLoader(false);
+            toast.error(err.message.toString(), { duration: 5000 });
+          }
         }
-      } catch (err) {
-        console.log(err.message);
+      } else {
+        try {
+          let email = suEmail;
+          let response = await fetch("/api/contact", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }),
+          });
+          if (response.status != "200") {
+            settLoader(true);
+            toast.error("Unable to send gmail to ur account", {
+              duration: 5000,
+            });
+            setmsz("Unable to send gmail to ur account");
+            setPassCheck(true);
+          } else {
+            setOtproot(true);
+          }
+        } catch (err) {
+          toast.error(err.message.toString(), { duration: 5000 });
+        }
       }
     } else {
       settLoader(false);
+      toast.error("password are not same", { duration: 5000 });
       setmsz("Password are not same");
       setPassCheck(true);
     }
@@ -100,12 +128,15 @@ export default function Login() {
     return <Otproot given={{ email: suEmail, pass: suPass }} />;
   }
   if (eio) {
+    toast.success("Choose your name");
     return <NameChecker />;
   }
 
   if (username && user) {
     Router.push("/");
   }
+
+
   return (
     <div className={styles.container}>
         <div className={styles.text_container}>
@@ -128,7 +159,7 @@ export default function Login() {
                     onClick={() => {
                         setSignUp(true);
                     }}
-                    > send otp
+                    > sign up
                 </h3>
                 <h3
                     className={!isSignUp ? styles.active_login : styles.login}
@@ -192,7 +223,6 @@ export default function Login() {
                 <form className={styles.formi} onSubmit={SignInSubmit}>
                     <label htmlFor="email">Email Address:</label> <br />
                     <input
-                      ref={siEmail}
                       id="email"
                       type="eamil"
                       placeholder="Enter your email"
@@ -200,7 +230,6 @@ export default function Login() {
                     />
                     <label htmlFor="password1">Password:</label> <br />
                     <input
-                      ref={siPass}
                       id="password1"
                       type="password"
                       placeholder="Enter Password"
@@ -239,12 +268,16 @@ export default function Login() {
                   const ref = doc(db, "users", result.user.uid);
                   const docSnap = await getDoc(ref);
                   if (docSnap.exists()) {
+                    // console.log("yes done it");
+                    toast.success("LogIn with Google Sucessful");
                     Router.push("/");
                   } else {
                     seteio(true);
                   }
                 });
               } catch (err) {
+                setPassCheck(true);
+                toast.error(err.message.toString(), { duration: 5000 });
                 setmsz("google error");
               }
             }}
@@ -252,6 +285,11 @@ export default function Login() {
           >
             &copy; Sign with Google
           </button>
+          {!isSignUp && <div className="text-red-700 text-sm pt-2">
+            *If you unable to login with your account with gmail and password
+            please try signing with google (no data will be lost if you had
+            account)
+          </div>}
         </>
       </div>
     </div>

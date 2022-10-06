@@ -11,8 +11,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import toast from "react-hot-toast";
 export default function Otproot({ given }) {
-  let opt = useRef("");
+  let otp = useRef("");
   const [loading, setloading] = useState(false);
   const [msz, setMsz] = useState("");
   const [nameCheker, setNameChecker] = useState(false);
@@ -20,25 +21,31 @@ export default function Otproot({ given }) {
     e.preventDefault();
     setloading(true);
     // console.log(given);
-    let fieldValue = opt.current.value;
-    console.log(given.pass);
-    let ref = doc(db, "opt", given.email);
-    const docSnap = await getDoc(ref);
-    const realOpt = docSnap.data().Opt;
-    if (realOpt == fieldValue) {
+    let fieldValue = otp.current.value;
+    let ref = doc(db, "otp", given.email);
+    let docSnap;
+    try {
+      docSnap = await getDoc(ref);
+    } catch (err) {
+      toast.error(err.message.toString());
+    }
+    const realOtp = docSnap.data().Otp;
+    console.log(docSnap.data());
+    if (realOtp == fieldValue) {
       setMsz("");
       try {
         await createUserWithEmailAndPassword(auth, given.email, given.pass);
 
         setNameChecker(true);
       } catch (err) {
-        console.log(err);
+        toast.error(err.message.toString());
         setloading(false);
         setMsz("email already exists");
       }
     } else {
       setloading(false);
       setMsz("Incorrect OTP");
+      toast.error("Incorrect OTP!");
     }
   }
   if (nameCheker) {
@@ -54,7 +61,7 @@ export default function Otproot({ given }) {
 
         <input
           type="text"
-          ref={opt}
+          ref={otp}
           className="border-solid block border-black border-3"
           required
         />

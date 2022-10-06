@@ -6,6 +6,8 @@ import { doc, getDoc, writeBatch } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import toast from "react-hot-toast";
+
 import processing from "/public/images/processing.png";
 // Username form
 import profilePic from "/public/images/user.png";
@@ -37,22 +39,27 @@ export default function NameChecker() {
         let url = await getDownloadURL(profilePhotoRef);
         photoURL = url;
       } catch (err) {
-        console.log(err);
+        toast.error(err.message.toString());
       }
     }
 
     const userDoc = doc(db, "users", user.uid);
     const usernameDoc = doc(db, "usernames", formValue);
     const batch = writeBatch(db);
-
+    const verifiedEmail = doc(db, "verifiedEmail", user.email);
+    batch.set(verifiedEmail, { byGoogle: false });
     batch.set(userDoc, {
       username: formValue,
       photoURL: user.photoURL ?? photoURL,
       displayName: user.displayName ?? "",
     });
     batch.set(usernameDoc, { uid: user.uid });
-
-    await batch.commit();
+    try {
+      await batch.commit();
+    } catch (error) {
+      toast.error(err.message.toString());
+    }
+    toast.success("Login Sucessfully!");
     router.push("/");
   };
 
@@ -82,7 +89,13 @@ export default function NameChecker() {
     debounce(async (username) => {
       if (username.length >= 3) {
         const ref = doc(db, "usernames", username);
-        const docSnap = await getDoc(ref);
+        let docSnap;
+        try {
+          docSnap = await getDoc(ref);
+        } catch (err) {
+          toast.error(err.message.toString());
+        }
+
         console.log("Firestore read executed!");
         setIsValid(!docSnap.exists());
         setLoading(false);
@@ -192,6 +205,7 @@ export default function NameChecker() {
         className="w-[100px] h-[100px] animate-spin"
       />
       {(() => {
+        toast.success("Login Sucessfully!");
         router.push("/");
       })()}
     </div>
