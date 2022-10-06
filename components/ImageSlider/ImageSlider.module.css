@@ -75,7 +75,7 @@
 .arrow{
     transform: scale(.75);
     color: #2a67b1;
-    padding: 1px 9px ;
+    padding: 9px 7px ;
     border-radius: 50%;
     background-color: hsl(213, 30%, 90%);
 }
@@ -186,7 +186,7 @@
         display: none;
     }
     .button_l, .button_r{
-        bottom: 45%;
+        bottom: 60%;
     }
     /* .head{
         margin: 0;

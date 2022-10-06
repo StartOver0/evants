@@ -1,44 +1,46 @@
 import nav from "./Header.module.css";
 import Image from "next/image";
 import icon from "/public/favicon.ico";
-import Router, { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
 import { UserContext } from "../../lib/Context";
 import { auth, db } from "../../lib/firebase";
 import { signOut } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
-import toast from "react-hot-toast";
+
 export default function Header() {
   const router = useRouter();
   const [profileImg, setProfileImg] = useState(null);
   const { user, username } = useContext(UserContext);
 
-  // console.log(router);
   const gotoLogin = (e) => {
-    //  Router.push('/login')
-    router.push({
-      pathname: "/login",
-      query: { value: 0 },
-    });
+    router.push(
+      {
+        pathname: "/login",
+        query: { value: 0 },
+      },
+      "/login"
+    );
   };
   const gotoSignUp = (e) => {
-    //  Router.push('/login')
-
-    router.push({
-      pathname: "/login",
-      query: { value: 1 },
-    });
+    router.push(
+      {
+        pathname: "/login",
+        query: { value: 1 },
+      },
+      "/login"
+    );
   };
-  useEffect(() => {
-    if (username && user) {
-      (async () => {
-        let Doc = doc(db, "users", user.uid);
-        let snapshot = await getDoc(Doc);
 
-        setProfileImg(snapshot.data().photoURL);
-      })();
-    }
-  });
+  if (username && user) {
+    (async () => {
+      let Doc = doc(db, "users", user.uid);
+      let snapshot = await getDoc(Doc);
+
+      setProfileImg(snapshot.data().photoURL);
+    })();
+  }
 
   return (
     <div className={nav.navbar}>
