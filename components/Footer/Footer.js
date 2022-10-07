@@ -12,6 +12,7 @@ export default function Footer() {
   const [suggestionGiven, setSuggestionGiven] = useState(false);
   const [msz, setMsz] = useState("Please Sign with your Google account"); //Your suggestion is recorded :)
   const [input, setInput] = useState("");
+  const [open, setOpen] = useState(false);
   let ref;
   if (user && username) {
     ref = doc(collection(db, "feedback"), username);
@@ -19,10 +20,11 @@ export default function Footer() {
   async function submit(e) {
     e.preventDefault();
 
-    if (!suggestionGiven) {
+    if (!suggestionGiven && open) {
       console.log("inside here");
       try {
         setDoc(ref, { feedback: input });
+        setOpen(false);
         toast.success("Thank you for giving suggestion");
         setMsz("Your suggestion is recorded :)");
         setSuggestionGiven(false);
@@ -36,13 +38,14 @@ export default function Footer() {
     if (username) {
       (async () => {
         let ans = await getDoc(ref);
-        console.log(ans.exists());
-        if (ans.exists()) {
+        if (ans.exists() && ans.data().feedback != null) {
           setSuggestionGiven(false);
 
+          setOpen(false);
           setMsz("Your suggestion is recorded :)");
         } else {
           console.log("helo");
+          setOpen(true);
           setSuggestionGiven(true);
         }
       })();
