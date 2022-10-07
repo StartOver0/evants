@@ -37,11 +37,9 @@ export default function Login() {
       const { value } = Router.query;
       if (value == 1 && isSignUp == false) {
         setSignUp(true);
-      }
-      else if(value == 0 && isSignUp == true) setSignUp(false);
+      } else if (value == 0 && isSignUp == true) setSignUp(false);
     }
   }, [Router]);
-  
 
   async function SignInSubmit(event) {
     event.preventDefault();

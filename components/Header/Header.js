@@ -32,13 +32,11 @@ export default function Header() {
   useEffect(() => {
     if (username && user) {
       (async () => {
-        let Doc = doc(db, "users", user.uid);
-        let snapshot = await getDoc(Doc);
-
-        setProfileImg(snapshot.data().photoURL);
+          let Doc = doc(db, "users", user.uid);
+          let snapshot = await getDoc(Doc);
+          setProfileImg(snapshot.data().photoURL);
       })();
-    }
-  });
+  }})
 
   return (
     <div className={nav.navbar}>
