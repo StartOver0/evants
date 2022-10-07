@@ -3,55 +3,54 @@ import Image from "next/image";
 import icon from "/public/favicon.ico";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect} from "react";
 import { UserContext } from "../../lib/Context";
 import { auth, db } from "../../lib/firebase";
 import { signOut } from "firebase/auth";
 import { getDoc, doc } from "firebase/firestore";
-import { toast } from "react-hot-toast";
+import toast from "react-hot-toast";
+
 export default function Header() {
-  const router = useRouter();
-  const [profileImg, setProfileImg] = useState(null);
-  const { user, username } = useContext(UserContext);
+    const router = useRouter();
+    const [profileImg, setProfileImg] = useState(null);
+    const { user, username } = useContext(UserContext);
 
-  const gotoLogin = (e) => {
-    router.push(
-      {
-        pathname: "/login",
-        query: { value: 0 },
-      },
-      "/login"
-    );
-  };
-  const gotoSignUp = (e) => {
-    router.push(
-      {
-        pathname: "/login",
-        query: { value: 1 },
-      },
-      "/login"
-    );
-  };
+    const gotoLogin = (e) => {
+        router.push({
+            pathname: "/login",
+            query: { value: 0 },
+        }, '/login');
+    }; 
+    const gotoSignUp = (e) => {
+        router.push({
+            pathname: "/login",
+            query: { value: 1 },
+        }, '/login');
+    }; 
 
-  if (username && user) {
-    (async () => {
-      let Doc = doc(db, "users", user.uid);
-      let snapshot = await getDoc(Doc);
-
-      setProfileImg(snapshot.data().photoURL);
-    })();
-  }
+   
+  useEffect(() => {
+    if (username && user) {
+      (async () => {
+          let Doc = doc(db, "users", user.uid);
+          let snapshot = await getDoc(Doc);
+          setProfileImg(snapshot.data().photoURL);
+      })();
+  }})
 
   return (
     <div className={nav.navbar}>
-      <div className={nav.domain_name}>
-        <h1>C . I . K . Y </h1>
-      </div>
-      <div className={nav.domain_icon}>
-        <div className={nav.icon_container}>
-          <Image src={icon} alt="A Logo" width={40} height={40} />
-        </div>
-      </div>
+      <Link href='/'><a>
+          <div className={nav.domain_name}>
+              <h1>C . I . K . Y </h1>
+          </div>
+          <div className={nav.domain_icon}>
+              <div className={nav.icon_container}>
+                  <Image src={icon} alt="A Logo" width={40} height={40} />
+              </div>  
+          </div></a>
+      </Link>
+
       {user && username && profileImg ? (
         <div className="flex w-[200px] justify-around">
           <button
@@ -64,7 +63,17 @@ export default function Header() {
                 toast.error(err.message.toString());
               }
             }}
-            className="hover:bg-red-600 ml-6 border-2 hover:text-white border-blue-800 border-solid leading-[2px]  px-[30px]"
+            className="hover:bg-red-600 border-2 hover:text-white border-blue-800 border-solid leading-[2px]  px-[30px]"
+          >
+            Log out
+          </button>
+          <div className={nav.domain_icon}>
+              <div className={nav.icon_container}>
+                <Image src={profileImg} alt="photo" width={40} height={40} />
+              </div>
+          </div>
+          
+            {/* className="hover:bg-red-600 ml-6 border-2 hover:text-white border-blue-800 border-solid leading-[2px]  px-[30px]"
           >
             Log out
           </button>
@@ -75,7 +84,8 @@ export default function Header() {
             className="w-[40px] h-[40px] rounded-full overflow-hidden"
             width={40}
             height={40}
-          />
+          /> */}
+
         </div>
       ) : (
         <>
@@ -88,7 +98,7 @@ export default function Header() {
             </button>
           </div>
           <div className={nav.navlinks_mobile}>
-            <button className={nav.signUpButton}>Login/Sign Up</button>
+            <button className={nav.signUpButton} onClick={gotoLogin}>Login/Sign Up</button>
           </div>
         </>
       )}

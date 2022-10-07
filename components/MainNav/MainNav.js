@@ -16,7 +16,7 @@ export default function MainNav(){
       </Link>
       <Link href="/organize"><a>Organize</a></Link>
       <Link href="#"><a>Compete</a></Link>
-      <Link href="#"><a className={nav.whiteroom}>Whiteroom</a></Link>
+      <Link href="#"><a className={nav.whiteroom}>Club</a></Link>
       <Link href="#"><a className={nav.about}>About Us</a></Link>
       <Link href="#"><a>More</a></Link>
     </div>
