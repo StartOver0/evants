@@ -21,8 +21,10 @@ export default function Footer() {
     e.preventDefault();
 
     if (!suggestionGiven && open) {
+      console.log("inside here");
       try {
         setDoc(ref, { feedback: input });
+        setOpen(false);
         toast.success("Thank you for giving suggestion");
         setMsz("Your suggestion is recorded :)");
         setSuggestionGiven(false);
@@ -36,14 +38,15 @@ export default function Footer() {
     if (username) {
       (async () => {
         let ans = await getDoc(ref);
-        console.log(ans.data().feedback);
-        if (ans.exists() && ans.data().feedback) {
+        if (ans.exists() && ans.data().feedback != null) {
           setSuggestionGiven(false);
-          setOpen(true);
+
+          setOpen(false);
           setMsz("Your suggestion is recorded :)");
         } else {
+          console.log("helo");
+          setOpen(true);
           setSuggestionGiven(true);
-          setOpen(false);
         }
       })();
     }
