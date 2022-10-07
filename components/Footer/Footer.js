@@ -5,13 +5,13 @@ import { UserContext } from "../../lib/Context";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import toast from "react-hot-toast";
+import { connectStorageEmulator } from "firebase/storage";
 
 export default function Footer() {
   const { user, username } = useContext(UserContext);
   const [suggestionGiven, setSuggestionGiven] = useState(false);
   const [msz, setMsz] = useState("Please Sign with your Google account"); //Your suggestion is recorded :)
   const [input, setInput] = useState("");
-  const [open, setOpen] = useState(false);
   let ref;
   if (user && username) {
     ref = doc(collection(db, "feedback"), username);
@@ -19,19 +19,16 @@ export default function Footer() {
   async function submit(e) {
     e.preventDefault();
 
-    if (!suggestionGiven && open) {
+    if (!suggestionGiven) {
       console.log("inside here");
       try {
         setDoc(ref, { feedback: input });
-        setOpen(false);
         toast.success("Thank you for giving suggestion");
         setMsz("Your suggestion is recorded :)");
         setSuggestionGiven(false);
       } catch (err) {
         toast.error(err.message.toString());
       }
-    } else {
-      console.log("hello world");
     }
   }
 
@@ -39,12 +36,13 @@ export default function Footer() {
     if (username) {
       (async () => {
         let ans = await getDoc(ref);
-        if (ans.exists() && ans.exists()?.feedback != null) {
+        console.log(ans.exists());
+        if (ans.exists()) {
           setSuggestionGiven(false);
-          setOpen(false);
+
           setMsz("Your suggestion is recorded :)");
         } else {
-          setOpen(true);
+          console.log("helo");
           setSuggestionGiven(true);
         }
       })();
