@@ -1,6 +1,4 @@
 import Avatar from "/components/Avatar/Avatar";
-import { data } from "/staticData/profiledata.js";
-const subheadings = ["upcoming events", "past events"];
 import BlogPreview from "/components/blogPreview/blogPreview";
 import { useEffect, useState } from "react";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
