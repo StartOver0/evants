@@ -76,13 +76,15 @@ export default function Header() {
             Log out
           </button>
           <Link href="/profile">
-            <Image
-              src={profileImg}
-              alt="photo"
-              className="w-[40px] h-[40px] rounded-full overflow-hidden"
-              width={40}
-              height={40}
-            />
+            <div>
+              <Image
+                src={profileImg}
+                alt="photo"
+                className="w-[40px] h-[40px] rounded-full overflow-hidden"
+                width={40}
+                height={40}
+              />
+            </div>
           </Link>
         </div>
       ) : (
