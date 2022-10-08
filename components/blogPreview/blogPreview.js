@@ -1,8 +1,9 @@
 import Image from "next/image";
 export default function BlogPreview(props) {
   let articles = Object.values(props);
-  console.log(props);
+
   return (
+    articles.length!==0?
     <div className="m-auto max-w-[700px]  p-[30px]">
       {articles.map((article, index) => {
         return (
@@ -23,6 +24,8 @@ export default function BlogPreview(props) {
           </div>
         );
       })}
+    </div>:<div className="h-[30vh] text-green-400 flex items-center justify-center">
+      <div>You havn't organize anything yet</div>
     </div>
   );
 }
