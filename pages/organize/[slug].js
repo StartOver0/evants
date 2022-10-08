@@ -231,7 +231,7 @@ function PostManger({ defaultValues }) {
                       required
                     />
                     <input
-                      type="text"
+                      type="number"
                       className={styles.contact}
                       {...register("contact1")}
                       name="contact1"
@@ -251,7 +251,7 @@ function PostManger({ defaultValues }) {
                     />
                     <input
                       {...register("contact2")}
-                      type="text"
+                      type="number"
                       className={styles.contact}
                       name="contact2"
                       placeholder="Contact No. 2"

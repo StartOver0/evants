@@ -144,7 +144,7 @@ function Checking({ slug, isValid, loading }) {
   } else if (isValid) {
     return <p className="text-green-400">{slug} is available!</p>;
   } else if (slug && !isValid) {
-    return <p className="text-red-500">That username is taken!</p>;
+    return <p className="text-red-500">That slug is taken!</p>;
   } else {
     return <p></p>;
   }

@@ -3,7 +3,7 @@ import styles from "/styles/PreviewPage.module.css";
 import clubIcon from "/public/images/uuit.png";
 import Image from "next/image";
 import Link from "next/link";
-
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 export default function PreviewPage({
   club,
   date,
@@ -39,7 +39,7 @@ export default function PreviewPage({
           </div>
         </div>
         <h1 className={styles.title}>{title}</h1>
-        <p className={styles.description}>{description}</p>
+        <ReactMarkdown>{description}</ReactMarkdown>
 
         <h3>Details about the program:</h3>
         <ul className={styles.details_list}>
@@ -65,10 +65,10 @@ export default function PreviewPage({
         </ul>
 
         {notes && (
-          <>
+          <div>
             <h3>Additonal Details:</h3>
-            <p>{notes}</p>{" "}
-          </>
+            <ReactMarkdown>{notes}</ReactMarkdown>
+          </div>
         )}
 
         {notes && (
