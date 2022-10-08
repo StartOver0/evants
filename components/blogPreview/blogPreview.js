@@ -27,7 +27,7 @@ export default function BlogPreview(props) {
     </div>
   ) : (
     <div className="h-[30vh] text-green-400 flex items-center justify-center">
-      <div>You havn't organize anything yet</div>
+      <div>{"You havn't organize anything yet"}</div>
     </div>
   );
 }

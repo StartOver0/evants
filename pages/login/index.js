@@ -121,7 +121,7 @@ export default function Login() {
       setPassCheck(true);
     }
   }
-  
+
   if (optroot) {
     return <Otproot given={{ email: suEmail, pass: suPass }} />;
   }
@@ -134,124 +134,131 @@ export default function Login() {
     Router.push("/");
   }
 
-
   return (
     <div className={styles.container}>
-        <div className={styles.text_container}>
-            <div className={styles.first_one}></div>
-            {isSignUp ? 
-              <div className={styles.glass}>
-                  <h2>Welcome New User</h2><br />
-                  <p>Create your account to be part of our community.</p>
-              </div> : 
-              <div className={styles.glass}>
-                  <h2>Welcome Back User</h2>
-                  <p>You can sign in with to access your with your existing account.</p>
-              </div> }
+      <div className={styles.text_container}>
+        <div className={styles.first_one}></div>
+        {isSignUp ? (
+          <div className={styles.glass}>
+            <h2>Welcome New User</h2>
+            <br />
+            <p>Create your account to be part of our community.</p>
+          </div>
+        ) : (
+          <div className={styles.glass}>
+            <h2>Welcome Back User</h2>
+            <p>
+              You can sign in with to access your with your existing account.
+            </p>
+          </div>
+        )}
+      </div>
+
+      <div className={styles.form}>
+        <div className={styles.toggle}>
+          <h3
+            className={isSignUp ? styles.active_signup : styles.signup}
+            onClick={() => {
+              setSignUp(true);
+            }}
+          >
+            {" "}
+            sign up
+          </h3>
+          <h3
+            className={!isSignUp ? styles.active_login : styles.login}
+            onClick={() => {
+              setSignUp(false);
+            }}
+          >
+            {" "}
+            sign in
+          </h3>
         </div>
 
-        <div className={styles.form}>
-            <div className={styles.toggle}>
-                <h3 
-                    className={isSignUp ? styles.active_signup : styles.signup}
-                    onClick={() => {
-                        setSignUp(true);
-                    }}
-                    > sign up
-                </h3>
-                <h3
-                    className={!isSignUp ? styles.active_login : styles.login}
-                    onClick={() => {
-                        setSignUp(false);
-                    }}
-                    > sign in
-                </h3>
-            </div>
-    
-            {isSignUp ? (
-                <form className={styles.formi} onSubmit={SignUpSubmit}>
-                    <label htmlFor="email">Email Address:</label> <br />
-                    <input
-                      value={suEmail}
-                      onChange={(e) => {
-                          setSuEmail(e.target.value);
-                      }}
-                      id="email"
-                      type="email"
-                      placeholder="Enter your email address"
-                      required
-                    />
-                    <label htmlFor="password1">Password:</label> <br />
-                    <input
-                      value={suPass}
-                      onChange={(e) => {
-                          setSuPass(e.target.value);
-                      }}
-                      id="password1"
-                      type="password"
-                      placeholder="Password should be atleast 6 characters long"
-                      required
-                    />
-                    <label htmlFor="password2">Confirm Password:</label>  <br />
-                    <input
-                      value={rSuPass}
-                      onChange={(e) => {
-                          setRsuPass(e.target.value);
-                      }}
-                      id="password2"
-                      type="password"
-                      placeholder="Re-enter your password"
-                      required
-                    />
-                    {passCheck ? (
-                      <div className="text-red-800 animate-pulse">{msz}</div>
-                    ) : null}
-                    {loader && (
-                      <div className="w-[100%] h-[100px] flex justify-center items-center">
-                        <Image
-                          src={processing}
-                          className="w-[40px] h-[30px] animate-spin "
-                          alt="something"
-                        />
-                      </div>
-                    )}
-                    {!loader && <button className={styles.button}> send otp</button>}
-                </form>
-            ) : (
-                <form className={styles.formi} onSubmit={SignInSubmit}>
-                    <label htmlFor="email">Email Address:</label> <br />
-                    <input
-                      id="email"
-                      type="eamil"
-                      placeholder="Enter your email"
-                      required
-                    />
-                    <label htmlFor="password1">Password:</label> <br />
-                    <input
-                      id="password1"
-                      type="password"
-                      placeholder="Enter Password"
-                      required
-                    />
-
-                    {passCheckSi ? (
-                      <div className="text-red-800 animate-pulse">
-                        {"Passworld is not matching"}
-                      </div>
-                    ) : null}
-                    {!loaderSi && <button className={styles.button}>Login</button>}
-                </form>
+        {isSignUp ? (
+          <form className={styles.formi} onSubmit={SignUpSubmit}>
+            <label htmlFor="email">Email Address:</label> <br />
+            <input
+              value={suEmail}
+              onChange={(e) => {
+                setSuEmail(e.target.value);
+              }}
+              id="email"
+              type="email"
+              placeholder="Enter your email address"
+              required
+            />
+            <label htmlFor="password1">Password:</label> <br />
+            <input
+              value={suPass}
+              onChange={(e) => {
+                setSuPass(e.target.value);
+              }}
+              id="password1"
+              type="password"
+              placeholder="Password should be atleast 6 characters long"
+              required
+            />
+            <label htmlFor="password2">Confirm Password:</label> <br />
+            <input
+              value={rSuPass}
+              onChange={(e) => {
+                setRsuPass(e.target.value);
+              }}
+              id="password2"
+              type="password"
+              placeholder="Re-enter your password"
+              required
+            />
+            {passCheck ? (
+              <div className="text-red-800 animate-pulse">{msz}</div>
+            ) : null}
+            {loader && (
+              <div className="w-[100%] h-[100px] flex justify-center items-center">
+                <Image
+                  src={processing}
+                  className="w-[40px] h-[30px] animate-spin "
+                  alt="something"
+                />
+              </div>
             )}
+            {!loader && <button className={styles.button}> send otp</button>}
+          </form>
+        ) : (
+          <form className={styles.formi} onSubmit={SignInSubmit}>
+            <label htmlFor="email">Email Address:</label> <br />
+            <input
+              id="email"
+              type="eamil"
+              placeholder="Enter your email"
+              required
+            />
+            <label htmlFor="password1">Password:</label> <br />
+            <input
+              id="password1"
+              type="password"
+              placeholder="Enter Password"
+              required
+            />
+            {passCheckSi ? (
+              <div className="text-red-800 animate-pulse">
+                {"Passworld is not matching"}
+              </div>
+            ) : null}
+            {!loaderSi && <button className={styles.button}>Login</button>}
+          </form>
+        )}
 
-              {loaderSi && (
-                  <div className="w-[100%] h-[100px] flex justify-center items-center">
-                  <Image
-                    className="w-[40px] h-[30px] animate-spin"
-                    src={processing}
-                    alt="something"
-                  />
-                  </div>
-              )}
+        {loaderSi && (
+          <div className="w-[100%] h-[100px] flex justify-center items-center">
+            <Image
+              className="w-[40px] h-[30px] animate-spin"
+              src={processing}
+              alt="something"
+            />
+          </div>
+        )}
         <>
           <div className={styles.or_div}>
             <hr className={styles.hr} />
@@ -283,11 +290,13 @@ export default function Login() {
           >
             &copy; Sign with Google
           </button>
-          {!isSignUp && <div className="text-red-700 text-sm pt-2">
-            *If you unable to login with your account with gmail and password
-            please try signing with google (no data will be lost if you had
-            account)
-          </div>}
+          {!isSignUp && (
+            <div className="text-red-700 text-sm pt-2">
+              *If you unable to login with your account with gmail and password
+              please try signing with google (no data will be lost if you had
+              account)
+            </div>
+          )}
         </>
       </div>
     </div>

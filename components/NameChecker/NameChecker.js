@@ -15,7 +15,7 @@ import { storage } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 export default function NameChecker() {
   const input = useRef(null);
-  const [des,setDes]=useState();
+  const [des, setDes] = useState();
   const [formValue, setFormValue] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -53,7 +53,7 @@ export default function NameChecker() {
       username: formValue,
       photoURL: user.photoURL ?? photoURL,
       displayName: user.displayName ?? "",
-      Description:des,
+      Description: des,
     });
     batch.set(usernameDoc, { uid: user.uid });
     try {
@@ -174,9 +174,14 @@ export default function NameChecker() {
             loading={loading}
           />
           <div>description</div>
-          <textarea type="text" value={des} onChange={(e)=>{
-            setDes(e.target.value);
-          }} className="border-solid border-2 border-black"/>
+          <textarea
+            type="text"
+            value={des}
+            onChange={(e) => {
+              setDes(e.target.value);
+            }}
+            className="border-solid border-2 border-black"
+          />
 
           <div className="flex items-center">
             {!loader && (
