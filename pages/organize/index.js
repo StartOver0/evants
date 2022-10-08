@@ -92,6 +92,8 @@ function CreateNewPost() {
           <div>*slug use for url purpose </div>
           <div>ex:-slug: hello-there url would be</div>
           <div>evants.vercel.app/{"<username>"}/hello-there</div>
+          <div>*if you use already use slug</div>
+          <div>it will send you to edit that post</div>
         </div>
       </form>
     </div>
