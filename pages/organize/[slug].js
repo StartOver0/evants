@@ -16,6 +16,7 @@ import {
   getDoc,
   serverTimestamp,
   setDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { useDocumentDataOnce } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
@@ -54,7 +55,7 @@ function PostManger({ defaultValues }) {
     try {
       const { slug } = Router.query;
       const refreence = doc(collection(db, `users/${user.uid}/posts`), slug);
-      await setDoc(refreence, {
+      await updateDoc(refreence, {
         ...data,
         updatedAt: serverTimestamp(),
       });

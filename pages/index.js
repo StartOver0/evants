@@ -6,6 +6,7 @@ import TeamSection from '../components/TeamSection/TeamSection';
 const subheadings = ['upcoming events', 'past events'];
 
 export default function Home() {
+  
   return (
   <div className={styles.main}>
     <ImageSlider /> <hr className={styles.hr}/>
