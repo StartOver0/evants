@@ -22,8 +22,7 @@ export default function PreviewPage({
   notes,
 }) {
   const Router = useRouter();
-
-  // console.log(contact1)
+  // coconsnsole.log(contact1)
   const buildingName = "Uttaranchal institute of Technology";
   const clubCode = "UU-CSC";
   return (
@@ -87,7 +86,6 @@ export default function PreviewPage({
             </ul>
           </>
         )}
-        <button className={styles.button}>Request to Post</button>
       </div>
 
       <div className={styles.right_div}>
