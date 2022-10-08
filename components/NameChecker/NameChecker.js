@@ -64,10 +64,8 @@ export default function NameChecker() {
   };
 
   const onChange = (e) => {
-    // Force form value typed in form to match correct format
     const val = e.target.value;
 
-    // Only set form value if length is < 3 OR it passes regex
     if (val.length < 3) {
       setFormValue(val);
       setLoading(false);
