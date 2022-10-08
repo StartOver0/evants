@@ -21,7 +21,7 @@ export default function PreviewPage({
   contact2,
   notes,
 }) {
-  const Router = useRouter();
+  console.log("hello world");
   // coconsnsole.log(contact1)
   const buildingName = "Uttaranchal institute of Technology";
   const clubCode = "UU-CSC";
