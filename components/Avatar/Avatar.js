@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
+
 import backgroundImage from "/public/images/b-1.jpg";
-const Avatar = ({Description,username,photoURL}) => {
+const Avatar = ({ Description, username, photoURL }) => {
   return (
     <div style={{ maxWidth: "800px" }} className="rounded-lg overflow-hidden ">
       <div className="relative h-[200px]">
@@ -10,13 +10,14 @@ const Avatar = ({Description,username,photoURL}) => {
         </div>
         <div className="absolute mx-[auto] left-[50%] translate-x-[-50%]  w-[130px] h-[130px] rounded-full top-[80px]  overflow-hidden">
           <div>
-          <Image src={photoURL} alt="something" layout="fill"/>
+            <Image src={photoURL} alt="something" layout="fill" />
           </div>
         </div>
       </div>
       <div className="text-center">
-      <div className="inline relative text-center top-[10px] text-xl font-bold ">{username}</div>
-
+        <div className="inline relative text-center top-[10px] text-xl font-bold ">
+          {username}
+        </div>
       </div>
       {/* <div className="block relative left-[20px]">
         {clubMemeber.map((club, index) => {
