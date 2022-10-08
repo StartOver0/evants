@@ -18,29 +18,31 @@ import {
   setDoc,
   updateDoc,
 } from "firebase/firestore";
+
 import { useDocumentDataOnce } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
+import Link from "next/link";
 export default function CreatePost(props) {
   const { user, username } = useContext(UserContext);
   const [defaultValues, setDefaultValues] = useState();
   const Router = useRouter();
   useEffect(() => {
     (async () => {
-      const { slug } = Router.query;
-      ref = doc(collection(db, `users/${user.uid}/posts`), slug);
-      let value = await getDoc(ref);
-      setDefaultValues(value.data());
+      if (user) {
+        const { slug } = Router.query;
+        ref = doc(collection(db, `users/${user.uid}/posts`), slug);
+        let value = await getDoc(ref);
+        setDefaultValues(value.data());
+      }
     })();
-  }, []);
+  }, [user]);
 
   let ref;
 
   return (
-    defaultValues && (
-      <AuthCheck>
-        <PostManger defaultValues={defaultValues} />
-      </AuthCheck>
-    )
+    <AuthCheck>
+      {defaultValues && <PostManger defaultValues={defaultValues} />}
+    </AuthCheck>
   );
 }
 function PostManger({ defaultValues }) {
@@ -90,6 +92,12 @@ function PostManger({ defaultValues }) {
       ) : (
         <div className={styles.container}>
           <form className={styles.form} onSubmit={handleSubmit(submit)}>
+            <div className="text-blue-400 hover:text-red-400">
+              <Link href="https://www.markdownguide.org/cheat-sheet#basic-syntax">
+                basic markdown for Description and Additional notes
+              </Link>
+            </div>
+
             <h2>Event Details:</h2>
 
             <div className={styles.outer_div}>
