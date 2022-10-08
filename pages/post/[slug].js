@@ -6,11 +6,11 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import PreviewPage from "../../components/PreviewPage/previewPage";
 import { db } from "../../lib/firebase";
 
-export default function slug() {
+export default function Slug() {
   const [post, setPost] = useState("");
   const router = useRouter();
   const { slug } = router.query;
@@ -18,11 +18,11 @@ export default function slug() {
   useEffect(() => {
     (async () => {
       if (slug) {
-        const post = query(
+        const ref = query(
           collectionGroup(db, "posts"),
           where("slug", "==", slug)
         );
-        const dc = await getDocs(post);
+        const dc = await getDocs(ref);
         dc.forEach((doc) => {
           setPost(doc.data());
         });

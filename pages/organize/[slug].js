@@ -24,15 +24,16 @@ export default function CreatePost(props) {
   const { user, username } = useContext(UserContext);
   const [defaultValues, setDefaultValues] = useState();
   const Router = useRouter();
-  const { slug } = Router.query;
-  let ref;
   useEffect(() => {
     (async () => {
+      const { slug } = Router.query;
       ref = doc(collection(db, `users/${user.uid}/posts`), slug);
       let value = await getDoc(ref);
       setDefaultValues(value.data());
     })();
   }, []);
+
+  let ref;
 
   return (
     defaultValues && (
