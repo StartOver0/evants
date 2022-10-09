@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import kebabCase from "lodash.kebabcase";
 import toast from "react-hot-toast";
 import { collection, doc, setDoc, getDoc } from "firebase/firestore";
-import { db } from "../../lib/firebase";
+import { auth, db } from "../../lib/firebase";
 
 export default function AdminPostsPage(props) {
   return (
@@ -91,7 +91,7 @@ function CreateNewPost() {
         <div className="text-red-800">
           <div>*slug use for url purpose </div>
           <div>ex:-slug: hello-there url would be</div>
-          <div>evants.vercel.app/{"<username>"}/hello-there</div>
+          <div>{"evants.vercel.app/" + username + "/hello-there"}</div>
           <div>*if you use already use slug</div>
           <div>it will send you to edit that post</div>
         </div>

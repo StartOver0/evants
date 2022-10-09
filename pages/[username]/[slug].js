@@ -24,7 +24,6 @@ export default function Slug({ post }) {
 }
 export async function getServerSideProps({ query }) {
   const { username, slug } = query;
-  console.log(query);
   let post;
   const refUid = await getDoc(doc(collection(db, "usernames"), username));
   if (refUid.exists()) {
