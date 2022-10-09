@@ -4,8 +4,10 @@ import Link from "next/link";
 export default function ListItem({ post }) {
   let date = post.date;
   let reg = /(\d{4})-(\d{1,2})-(\d{1,2})/;
-  let m = month(date.match(reg)[2]);
-  let d = date.match(reg)[1];
+  let m = month(parseInt(date.match(reg)[2]));
+  console.log(date.match(reg));
+
+  let d = date.match(reg)[3];
   return (
     <div>
       <Link href={`/${post.username}/${post.slug}`}>

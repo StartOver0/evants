@@ -10,6 +10,7 @@ export default function PreviewPage({
   description,
   eligibility,
   fee,
+  edate,
   googleFormLink,
   venue,
   teamsize,
@@ -42,7 +43,10 @@ export default function PreviewPage({
         <h3>Details about the program:</h3>
         <ul className={styles.details_list}>
           <li>
-            Date: <span className={styles.details}>{date}</span>{" "}
+            Starting Date: <span className={styles.details}>{date}</span>{" "}
+          </li>
+          <li>
+            Ending Date: <span className={styles.details}>{edate}</span>{" "}
           </li>
           <li>
             Timing: <span className={styles.details}>{time}</span>{" "}

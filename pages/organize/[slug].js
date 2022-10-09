@@ -19,7 +19,6 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-import { useDocumentDataOnce } from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
 import Link from "next/link";
 export default function CreatePost(props) {
@@ -74,6 +73,7 @@ function PostManger({ defaultValues }) {
     description: watch("description"),
     eligibility: watch("eligibility"),
     fee: watch("eligibility"),
+    edate: watch("edate"),
     googleFormLink: watch("googleFormLink"),
     venue: watch("venue"),
     teamsize: watch("teamsize"),
@@ -149,12 +149,23 @@ function PostManger({ defaultValues }) {
             </div>
             <div className={styles.outer_div}>
               <div>
-                <label htmlFor="date">Date:</label>
+                <label htmlFor="date">Starting Date:</label>
                 <input
                   {...register("date")}
                   type="date"
                   id="date"
                   name="date"
+                  spellCheck="false"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="edate">Ending Date:</label>
+                <input
+                  {...register("edate")}
+                  type="date"
+                  id="edate"
+                  name="edate"
                   spellCheck="false"
                   required
                 />

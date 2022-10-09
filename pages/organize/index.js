@@ -42,6 +42,7 @@ function CreateNewPost() {
       eligibility: "",
       googleFormLink: "",
       fee: "",
+      edate: "2022-10-20",
       date: "2022-10-20",
       time: "",
       venue: "",
