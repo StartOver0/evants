@@ -24,11 +24,17 @@ import Link from "next/link";
 export default function CreatePost(props) {
   const { user, username } = useContext(UserContext);
   const [defaultValues, setDefaultValues] = useState();
+  const [allclubs, setallclubs] = useState();
   const Router = useRouter();
+
   useEffect(() => {
     (async () => {
       if (user) {
         const { slug } = Router.query;
+        let clubs = (
+          await getDoc(doc(collection(db, "club"), "clubname"))
+        ).data().clubs;
+        setallclubs(clubs);
         ref = doc(collection(db, `users/${user.uid}/posts`), slug);
         let value = await getDoc(ref);
         setDefaultValues(value.data());
@@ -40,11 +46,15 @@ export default function CreatePost(props) {
 
   return (
     <AuthCheck>
-      {defaultValues && <PostManger defaultValues={defaultValues} />}
+      {defaultValues && (
+        <PostManger clubs={allclubs} defaultValues={defaultValues} />
+      )}
     </AuthCheck>
   );
 }
-function PostManger({ defaultValues }) {
+function PostManger({ defaultValues, clubs }) {
+  console.log("hello");
+
   const Router = useRouter();
   const { user, username } = useContext(UserContext);
   const { register, handleSubmit, reset, watch } = useForm({
@@ -104,7 +114,7 @@ function PostManger({ defaultValues }) {
               <div>
                 <label htmlFor="club">Select Club:</label>
                 <select name="club" {...register("club")}>
-                  {userClubs.map((clubName) => (
+                  {clubs.map((clubName) => (
                     <option key={`clubname${clubName}`} value={clubName}>
                       {clubName}
                     </option>

@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { collection, doc, setDoc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../lib/firebase";
 
-export default function AdminPostsPage(props) {
+export default function AdminPostsPage() {
   return (
     <main>
       <AuthCheck>
@@ -98,4 +98,12 @@ function CreateNewPost() {
       </form>
     </div>
   );
+}
+export async function getServerSideProps() {
+  let allclub = (await getDoc(doc(collection(db, "club"), "clubname"))).data()
+    .clubs;
+
+  return {
+    props: { allclub },
+  };
 }
