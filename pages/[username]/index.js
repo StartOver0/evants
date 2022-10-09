@@ -11,7 +11,7 @@ export default function Profile(props) {
   return <Home {...props} />;
 }
 function Home({ user, post }) {
-  return user ? (
+  return user !== "not define" ? (
     <div>
       <Avatar {...user} />
       <UnAuthBlogPreview {...post} />
@@ -24,19 +24,25 @@ function Home({ user, post }) {
 }
 export async function getServerSideProps({ query }) {
   const { username } = query;
+  let user,
+    arr = [];
   const refUid = await getDoc(doc(collection(db, "usernames"), username));
-  const uid = refUid.data().uid;
-  const ref = collection(db, `users/${uid}/posts`);
-  const docs = await getDocs(ref);
-  const pref = doc(collection(db, `users`), uid);
-  const pdoc = await getDoc(pref);
-  let arr = [];
-  docs.forEach((doc) => {
-    doc.username = username;
-    arr.push(postToJSON(doc));
-  });
-  // const post = arr;
-  const user = pdoc.data();
+  if (refUid.exists()) {
+    const uid = refUid.data().uid;
+    const ref = collection(db, `users/${uid}/posts`);
+    const docs = await getDocs(ref);
+    const pref = doc(collection(db, `users`), uid);
+    const pdoc = await getDoc(pref);
+
+    docs.forEach((doc) => {
+      doc.username = username;
+      arr.push(postToJSON(doc));
+    });
+    // const post = arr;
+    user = pdoc.data();
+  } else {
+    user = "not define";
+  }
 
   return {
     props: { user, post: arr },

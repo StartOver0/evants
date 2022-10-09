@@ -32,7 +32,6 @@ function CreateNewPost() {
 
     const ref = doc(collection(db, `users/${user.uid}/posts/`), slug);
 
-    // Tip: give all fields a default value here
     const data = {
       title: "",
       slug,
