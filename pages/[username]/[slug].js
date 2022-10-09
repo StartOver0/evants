@@ -11,7 +11,7 @@ import PreviewPage from "/components/PreviewPage/previewPage";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import BlogPreview from "../../components/blogPreview/blogPreview";
-import UnAuthBlogPreview from "../../components/unAuthBlogPreview/unAuthBlogPreview";
+import UnAuthBlogPreview from "../../components/unAuthBlogPreview/UnAuthBlogPreview";
 import { db, postToJSON } from "../../lib/firebase";
 export default function Slug({ post }) {
   return post !== "not define" ? (

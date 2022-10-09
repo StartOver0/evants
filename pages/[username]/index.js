@@ -3,8 +3,7 @@ import BlogPreview from "/components/blogPreview/blogPreview";
 import { useEffect, useState } from "react";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { auth, db, postToJSON } from "../../lib/firebase";
-import AuthCheck from "/components/AuthCheck/AuthCheck";
-import UnAuthBlogPreview from "../../components/unAuthBlogPreview/unAuthBlogPreview";
+import UnAuthBlogPreview from "../../components/unAuthBlogPreview/UnAuthBlogPreview";
 import { Router, useRouter } from "next/router";
 import { confirmPasswordReset } from "firebase/auth";
 export default function Profile(props) {

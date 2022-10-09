@@ -26,7 +26,6 @@ function Home() {
         arti.push(postToJSON(doc));
       });
       setArticles(arti);
-      console.log("hello world");
     })();
   }, []);
   return (
