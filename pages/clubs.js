@@ -8,7 +8,7 @@ export default function Clubs() {
       <div className={styles.inner_container}>
         <h1 className={styles.heading}>Clubs List</h1>
         {clubData.map((item, idx) => (
-            <ClubItem data={item} />
+            <ClubItem data={item} key={idx} />
         ))}
       </div>
     </div>

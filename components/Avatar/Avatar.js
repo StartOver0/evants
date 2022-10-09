@@ -1,24 +1,25 @@
 import Image from "next/image";
-import Link from "next/link";
-const Avatar = ({
-  name,
-  backgroundImage,
-  discription,
-  avatar,
-  clubMemeber,
-}) => {
+
+import backgroundImage from "/public/images/b-1.jpg";
+const Avatar = ({ Description, username, photoURL }) => {
   return (
-    <div style={{ maxWidth: "650px" }} className="rounded-lg overflow-hidden ">
+    <div style={{ maxWidth: "800px" }} className="rounded-lg overflow-hidden ">
       <div className="relative h-[200px]">
         <div className="h-[150px] overflow-hidden ">
           <Image src={backgroundImage} alt="something" className="" />
         </div>
-        <div className="absolute w-[130px] h-[130px] rounded-full top-[80px] left-[20px] overflow-hidden">
-          <Image src={avatar} alt="something" />
+        <div className="absolute mx-[auto] left-[50%] translate-x-[-50%]  w-[130px] h-[130px] rounded-full top-[80px]  overflow-hidden">
+          <div>
+            <Image src={photoURL} alt="something" layout="fill" />
+          </div>
         </div>
       </div>
-      <div className="inline relative left-[30px]">{name}</div>
-      <div className="block relative left-[20px]">
+      <div className="text-center">
+        <div className="inline relative text-center top-[10px] text-xl font-bold ">
+          {username}
+        </div>
+      </div>
+      {/* <div className="block relative left-[20px]">
         {clubMemeber.map((club, index) => {
           return (
             <div
@@ -29,10 +30,10 @@ const Avatar = ({
             </div>
           );
         })}
-      </div>
+      </div> */}
 
-      <div className=" pl-[20px] pr-[30px] font-thin text-sm">
-        {discription}
+      <div className=" pl-[30px] text-center pt-3 pr-[30px] font-thin text-sm">
+        {Description}
       </div>
     </div>
   );

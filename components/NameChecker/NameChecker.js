@@ -15,6 +15,7 @@ import { storage } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 export default function NameChecker() {
   const input = useRef(null);
+  const [des, setDes] = useState();
   const [formValue, setFormValue] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -52,6 +53,7 @@ export default function NameChecker() {
       username: formValue,
       photoURL: user.photoURL ?? photoURL,
       displayName: user.displayName ?? "",
+      Description: des,
     });
     batch.set(usernameDoc, { uid: user.uid });
     try {
@@ -64,10 +66,8 @@ export default function NameChecker() {
   };
 
   const onChange = (e) => {
-    // Force form value typed in form to match correct format
     const val = e.target.value;
 
-    // Only set form value if length is < 3 OR it passes regex
     if (val.length < 3) {
       setFormValue(val);
       setLoading(false);
@@ -173,6 +173,16 @@ export default function NameChecker() {
             isValid={isValid}
             loading={loading}
           />
+          <div>description</div>
+          <textarea
+            type="text"
+            value={des}
+            onChange={(e) => {
+              setDes(e.target.value);
+            }}
+            className="border-solid border-2 border-black"
+          />
+
           <div className="flex items-center">
             {!loader && (
               <button

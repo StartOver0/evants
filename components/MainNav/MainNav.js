@@ -9,50 +9,52 @@ export default function MainNav(){
 
   const [chosen, setChosen] = useState("");
   const Router = useRouter();
+
   useEffect(() => {
       const splitPath = Router.pathname.split('/');
-
       setChosen(splitPath[1]);
   }, [Router])
   
   return(
     <div className={nav.mainNav}>
-      <div className={nav.cover} >
-          <Link href="/">
-              <div className={nav.homeLink}>
-                <a className={chosen == '' ? nav.active: ''}>Home</a>
-              </div>
+      
+          <Link href="/" shallow={true}>
+            <div className={nav.cover} >
+                <div className={nav.homeLink}>
+                    <a className={chosen == '' ? nav.active: ''}>Home</a>
+                </div>
+                <div className={nav.homeIcon}>
+                    <a className={chosen == '' ? nav.active: ''}><Image src={homeIcon} width={20} height={20} alt="icon"/></a>
+                </div>
+            </div>
           </Link>
-          <Link href="/">
-              <div className={nav.homeIcon}>
-                  <a className={chosen == '' ? nav.active: ''}><Image src={homeIcon} width={20} height={20} alt="icon"/></a>
-              </div>
-          </Link>
-      </div>
-      <div className={nav.cover} >
+      
+      
         <Link href="/organize">
+          <div className={nav.cover} >
             <a className={chosen == 'organize' ? nav.active: ''}>Organize</a>
+          </div>
         </Link>
-      </div>
-      <div className={nav.cover} >
-        <Link href="/events">
-            <a className={chosen == 'events' ? nav.active: ''}>Events</a>
-        </Link>
-      </div>
-      <div className={nav.cover} >
-        <Link  href="/clubs">
-            <a className={chosen == 'clubs' ? nav.active: ''} >Clubs</a>
-        </Link>
-      </div>
-      <div className={nav.cover} >
-        <Link  href="/about">
-            <a className={chosen == 'about' ? nav.active: ''}>About Us</a>
-        </Link>
-      </div>
-      {/* <Link href="#"></Link>
-      <Link href="/clubs"><a className={chosen == 'home' ? nav.active: ''} className={nav.whiteroom}>Club</a></Link>
-      <Link href="/about"><a className={chosen == 'home' ? nav.active: ''} className={nav.about}>About Us</a></Link>
-      <Link href="#"><a className={chosen == 'home' ? nav.active: ''}>More</a></Link> */}
+      
+      
+      <Link href="/events">
+          <div className={nav.cover} >
+              <a className={chosen == 'events' ? nav.active: ''}>Events</a>
+          </div>
+      </Link>
+
+      <Link  href="/clubs">
+          <div className={nav.cover} >
+              <a className={chosen == 'clubs' ? nav.active: ''} >Clubs</a>
+          </div>
+      </Link>
+      
+      <Link  href="/about">
+          <div className={nav.cover} >
+              <a className={chosen == 'about' ? nav.active: ''}>About Us</a>
+          </div>
+      </Link>
+
     </div>
   );
 }
