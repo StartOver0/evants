@@ -31,8 +31,6 @@ export default function Footer() {
       } catch (err) {
         toast.error(err.message.toString());
       }
-    } else {
-      console.log("hello world");
     }
   }
 
@@ -40,12 +38,13 @@ export default function Footer() {
     if (username) {
       (async () => {
         let ans = await getDoc(ref);
-        console.log(ans.exists());
-        if (ans.exists()) {
+        if (ans.exists() && ans.data().feedback != null) {
           setSuggestionGiven(false);
+
           setOpen(false);
           setMsz("Your suggestion is recorded :)");
         } else {
+          console.log("helo");
           setOpen(true);
           setSuggestionGiven(true);
         }

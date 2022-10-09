@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Abyssinica+SIL&family=Raleway&family=Roboto+Slab&display=swap');
+
+.container{
+    margin: 1rem 0 2rem 0;
+    padding: 1rem;
+    background-color: rgb(185, 226, 252);
+    border-radius: 8px;
+    width: 90vw;
+    max-width: 1200px;
+}
+.inner_container{
+    background-color: white;
+    border-radius: 8px;
+    padding: 2rem;
+}
+.heading{
+    position: relative;
+    display: inline-block;
+    font-family: 'monsrrat', serif;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+}
+.heading::after{
+    content: '';
+    bottom: -11%; left: -1%;
+    position: absolute;
+    width: 2rem;
+    height: 2px;
+    background-color: black;
+    transition: 800ms;
+}
+.heading:hover::after{
+    width: 8.25rem;
+}
+
+@media (max-width: 800px) {
+    .container{
+        margin: 1rem 0 2rem 0;
+        padding: 0;
+    }
+    .inner_container{
+        padding: 0;
+    }
+    .heading{
+        margin-left: .5rem;
+    }
+}
