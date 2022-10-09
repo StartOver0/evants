@@ -12,20 +12,21 @@ export default function Profile() {
   );
 }
 function Home() {
-  const [pdata,setPdata]=useState();
+  const [pdata, setPdata] = useState();
   const [articles, setArticles] = useState();
   useEffect(() => {
     (async () => {
       const ref = collection(db, `users/${auth.currentUser.uid}/posts`);
       const docs = await getDocs(ref);
-      const pref=doc(collection(db,`users`),auth.currentUser.uid);
-      const pdoc=await getDoc(pref);
+      const pref = doc(collection(db, `users`), auth.currentUser.uid);
+      const pdoc = await getDoc(pref);
       setPdata(pdoc.data());
       let arti = [];
       docs.forEach((doc) => {
         arti.push(postToJSON(doc));
       });
       setArticles(arti);
+      console.log("hello world");
     })();
   }, []);
   return (

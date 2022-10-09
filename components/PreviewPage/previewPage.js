@@ -21,8 +21,6 @@ export default function PreviewPage({
   contact2,
   notes,
 }) {
-  console.log("hello world");
-  // coconsnsole.log(contact1)
   const buildingName = "Uttaranchal institute of Technology";
   const clubCode = "UU-CSC";
   return (
