@@ -2,10 +2,15 @@ import ImageSlider from "../components/ImageSlider/ImageSlider";
 import styles from "/styles/Home.module.css";
 import Content from "../components/Content/Content";
 import TeamSection from "../components/TeamSection/TeamSection";
-import { collectionGroup, query, where, getDocs } from "firebase/firestore";
+import {
+  collectionGroup,
+  query,
+  where,
+  getDocs,
+  collection,
+} from "firebase/firestore";
 import { db, postToJSON } from "/lib/firebase";
 import { DateTime } from "luxon";
-const subheadings = ["upcoming events", "past events"];
 
 export default function Home(props) {
   return (
@@ -17,10 +22,7 @@ export default function Home(props) {
   );
 }
 export async function getServerSideProps() {
-  const ref = query(
-    collectionGroup(db, "posts"),
-    where("askAdmin", "==", false)
-  );
+  const ref = collection(db, "HomePosts/post/post");
   const dc = await getDocs(ref);
 
   let upcoming = [],

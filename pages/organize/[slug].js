@@ -67,25 +67,18 @@ function PostManger({ defaultValues, clubs }) {
   async function submit() {
     try {
       const { slug } = Router.query;
-      const currenPostRef = doc(collection(db, "currentPosts/post/post"), slug);
-      const clubRef = doc(
-        collection(db, "clubs/" + data.club + "/" + "post"),
-        slug
-      );
+      const adminPostRef = doc(collection(db, "adminPosts/post/post"), slug);
+
       const refreence = doc(collection(db, `users/${user.uid}/posts`), slug);
       const batch = writeBatch(db);
-      batch.set(clubRef, {
-        ...data,
-        admin: false,
-        updatedAt: serverTimestamp(),
-      });
+
       batch.update(refreence, {
         ...data,
         admin: false,
         updatedAt: serverTimestamp(),
       });
 
-      batch.set(currenPostRef, {
+      batch.set(adminPostRef, {
         ...data,
         admin: false,
         updatedAt: serverTimestamp(),
@@ -350,7 +343,7 @@ function PostManger({ defaultValues, clubs }) {
               slug
             );
             const currentPostref = doc(
-              collection(db, "currentPosts/post/post"),
+              collection(db, "adminPosts/post/post"),
               slug
             );
 

@@ -36,7 +36,6 @@ function CreateNewPost() {
     e.preventDefault();
 
     const ref = doc(collection(db, `users/${user.uid}/posts/`), slug);
-    const currenPostRef = doc(collection(db, "currentPosts/post/post"), slug);
     const batch = writeBatch(db);
     const data = {
       title: "",
@@ -67,7 +66,6 @@ function CreateNewPost() {
       toast.success("Editing Post", { duration: 10000 });
     } else {
       batch.set(ref, data);
-      batch.set(currenPostRef, data);
       await batch.commit();
       toast.success("Post created!");
     }
