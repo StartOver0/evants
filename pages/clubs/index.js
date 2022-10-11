@@ -15,14 +15,15 @@ export default function Clubs({ clubData }) {
     </div>
   );
 }
-export async function getServerSideProps() {
+
+export async function getStaticProps() {
   let arr = [];
   let clubs = await getDocs(collection(db, "clubs"));
   clubs.forEach((doc) => {
     arr.push(doc.data());
   });
-
   return {
     props: { clubData: arr },
+    revalidate: 5000,
   };
 }

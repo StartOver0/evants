@@ -5,7 +5,6 @@ import TeamSection from "../components/TeamSection/TeamSection";
 import { collectionGroup, query, where, getDocs } from "firebase/firestore";
 import { db, postToJSON } from "/lib/firebase";
 import { DateTime } from "luxon";
-import { endsWith } from "lodash";
 const subheadings = ["upcoming events", "past events"];
 
 export default function Home(props) {
