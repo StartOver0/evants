@@ -6,9 +6,9 @@
     margin: .7rem 0 0.7rem 2.25rem;
     letter-spacing: .75px;
     gap: .5rem;
-    
 }
 .mainNav > *{
+    cursor: pointer;
     padding: .4rem 1.25rem .55rem 1.25rem;
     border-radius: 2px;
     transition: 250ms;
@@ -17,19 +17,13 @@
     background-color: hsl(221, 20%, 95%);
 }
 
-.homeIcon{ display: none; margin-top: -.1px;}
+.homeIcon{ display: none;}
 .homeLink{
     position: relative;
 }   
-.homeLink::before{
-    position: absolute;
-    bottom: .32rem; left: 1.13rem;
-    content: "";
-    width: 3rem;
-    height: .2rem;
-    background-color: #5a86dc;
-} 
-.homeIcon{ display: none;}
+.active{
+    border-bottom: 3px solid #5a86dc;
+}
 
 @media (max-width: 1200px){
     .mainNav{
@@ -38,22 +32,16 @@
 }
 @media (max-width: 920px){
     .mainNav{
-        /* justify-content: flex-start; */
         margin-left: 1.75rem;
         gap: .25rem;
-    }
-    .whiteroom{
-        display: none;
     }
 }
 
 @media (max-width: 600px){
     .mainNav{font-size: 14px; gap:.5rem;}
-    .about{display: none;}
     .mainNav > *{
         padding: .4rem .9rem .55rem .9rem; 
     }
-    .homeLink::before{left: 11px;}
 }
 @media (max-width: 480px){
     .mainNav{
@@ -65,28 +53,33 @@
     .mainNav > *{
         padding: .5rem .8rem;
     }
-    .homeIcon{display: inline; position: relative;}
+    .cover:nth-of-type(1){
+        margin-top: 3px;
+        padding: .3rem .5rem;
+    }
+  
+    .cover a, .cover div    {
+        padding-bottom: .5px;
+    }
+    .homeIcon{
+        display: inline;
+        position: relative; 
+        font-size: 0; margin-top: 40px;
+    }
     .homeLink{display: none;}
-    .homeIcon::before{
-        position: absolute;
-        bottom: .55rem; left: 14px;
-        content: "";
-        width: 1.1rem;
-        height: .2rem;
-        background-color: #5a86dc;
-    } 
+}
+@media (max-width: 390px){
+    .cover:nth-last-child(1){
+        display: none;
+    }
 }
 @media (max-width: 360px){
     .mainNav{
-        font-size: 12.5px;
+        /* font-size: 12.5px; */
         margin: .65rem;
-        /* gap: .25rem; */
+
     }
     .mainNav > *{
         padding: .4rem .7rem;
-    }
-    .homeIcon::before{
-        left: 12px;
-        bottom: .38rem;
     }
 }

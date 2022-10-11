@@ -3,13 +3,14 @@ import styles from "/styles/PreviewPage.module.css";
 import clubIcon from "/public/images/uuit.png";
 import Image from "next/image";
 import Link from "next/link";
-
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 export default function PreviewPage({
   club,
   date,
   description,
   eligibility,
   fee,
+  edate,
   googleFormLink,
   venue,
   teamsize,
@@ -21,8 +22,6 @@ export default function PreviewPage({
   contact2,
   notes,
 }) {
-  console.log("hello world");
-  // coconsnsole.log(contact1)
   const buildingName = "Uttaranchal institute of Technology";
   const clubCode = "UU-CSC";
   return (
@@ -39,12 +38,15 @@ export default function PreviewPage({
           </div>
         </div>
         <h1 className={styles.title}>{title}</h1>
-        <p className={styles.description}>{description}</p>
+        <ReactMarkdown>{description}</ReactMarkdown>
 
         <h3>Details about the program:</h3>
         <ul className={styles.details_list}>
           <li>
-            Date: <span className={styles.details}>{date}</span>{" "}
+            Starting Date: <span className={styles.details}>{date}</span>{" "}
+          </li>
+          <li>
+            Ending Date: <span className={styles.details}>{edate}</span>{" "}
           </li>
           <li>
             Timing: <span className={styles.details}>{time}</span>{" "}
@@ -65,10 +67,10 @@ export default function PreviewPage({
         </ul>
 
         {notes && (
-          <>
+          <div>
             <h3>Additonal Details:</h3>
-            <p>{notes}</p>{" "}
-          </>
+            <ReactMarkdown>{notes}</ReactMarkdown>
+          </div>
         )}
 
         {notes && (

@@ -1,20 +1,16 @@
 import Link from "next/link";
-import { UserContext } from "/lib/Context";
-import { useContext } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-import { auth } from "../../lib/firebase";
-export default function BlogPreview(props) {
-  const { user, username } = useContext(UserContext);
+export default function UnAuthBlogPreview(props) {
   let articles = Object.values(props);
+
   return articles.length !== 0 ? (
     <div className="m-auto max-w-[700px]  p-[30px]">
       {articles.map((article, index) => {
         return (
-          <Link key={index} href={"/" + username + "/" + article.slug}>
+          <Link key={index} href={"/" + article.username + "/" + article.slug}>
             <div key={index} className="pb-[30px] mb-[30px] mt-[20px]">
-              <div className="flex justify-between">
+              <div className="flex ">
                 <div className="text-[12px]">{article.date}</div>
-                <Link href={`organize/${article.slug}`}>✏️</Link>
               </div>
               <div className="font-bold text-2xl">{article.title}</div>
               <div className="flex flex-col">

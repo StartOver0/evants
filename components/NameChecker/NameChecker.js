@@ -50,6 +50,8 @@ export default function NameChecker() {
     const verifiedEmail = doc(db, "verifiedEmail", user.email);
     batch.set(verifiedEmail, { byGoogle: false });
     batch.set(userDoc, {
+      AdminOf: [],
+      isAdmin: false,
       username: formValue,
       photoURL: user.photoURL ?? photoURL,
       displayName: user.displayName ?? "",
@@ -96,7 +98,6 @@ export default function NameChecker() {
           toast.error(err.message.toString());
         }
 
-        console.log("Firestore read executed!");
         setIsValid(!docSnap.exists());
         setLoading(false);
       }

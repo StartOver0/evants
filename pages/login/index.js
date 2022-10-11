@@ -72,6 +72,7 @@ export default function Login() {
       setPassCheck(false);
       const verifiedEmail = doc(db, "verifiedEmail", suEmail);
       const docSnap = await getDoc(verifiedEmail);
+
       if (docSnap.exists()) {
         if (docSnap.data().byGoogle) {
           setmsz("You already have a account(Sign with Google)");
@@ -93,6 +94,7 @@ export default function Login() {
       } else {
         try {
           let email = suEmail;
+
           let response = await fetch("/api/contact", {
             method: "POST",
             headers: {
@@ -271,6 +273,7 @@ export default function Login() {
                 const collectionref = collection(db, "users");
                 signInWithPopup(auth, provider).then(async (result) => {
                   const ref = doc(db, "users", result.user.uid);
+
                   const docSnap = await getDoc(ref);
                   if (docSnap.exists()) {
                     // console.log("yes done it");

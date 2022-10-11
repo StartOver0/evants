@@ -42,7 +42,7 @@ export default function Header() {
         setProfileImg(snapshot.data().photoURL);
       })();
     }
-  });
+  }, [username]);
 
   return (
     <div className={nav.navbar}>
@@ -71,12 +71,12 @@ export default function Header() {
                 toast.error(err.message.toString());
               }
             }}
-            className="hover:bg-red-600 ml-6 border-2 hover:text-white border-red-700 border-solid leading-[2px] px-[30px]"
+            className="hover:bg-red-600 ml-6 border-2 hover:text-white border-red-700 border-solid leading-[2px] px-[30px] "
           >
             Log out
           </button>
           <Link href="/profile">
-            <div>
+            <div className="cursor-pointer">
               <Image
                 src={profileImg}
                 alt="photo"

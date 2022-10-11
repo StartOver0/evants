@@ -44,7 +44,6 @@ export default function Footer() {
           setOpen(false);
           setMsz("Your suggestion is recorded :)");
         } else {
-          console.log("helo");
           setOpen(true);
           setSuggestionGiven(true);
         }

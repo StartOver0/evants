@@ -2,23 +2,59 @@ import nav from './MainNav.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import homeIcon from "/public/nee.png";
+import {useEffect, useState} from 'react';
+import { useRouter } from 'next/router';
 
 export default function MainNav(){
+
+  const [chosen, setChosen] = useState("");
+  const Router = useRouter();
+
+  useEffect(() => {
+      const splitPath = Router.pathname.split('/');
+      setChosen(splitPath[1]);
+  }, [Router])
+  
   return(
     <div className={nav.mainNav}>
-      <Link href="/">
-        <a className={nav.homeLink}>Home</a>
+      
+          <Link href="/" shallow={true}>
+            <div className={nav.cover} >
+                <div className={nav.homeLink}>
+                    <a className={chosen == '' ? nav.active: ''}>Home</a>
+                </div>
+                <div className={nav.homeIcon}>
+                    <a className={chosen == '' ? nav.active: ''}><Image src={homeIcon} width={20} height={20} alt="icon"/></a>
+                </div>
+            </div>
+          </Link>
+      
+      
+        <Link href="/organize">
+          <div className={nav.cover} >
+            <a className={chosen == 'organize' ? nav.active: ''}>Organize</a>
+          </div>
+        </Link>
+      
+      
+      <Link href="/events">
+          <div className={nav.cover} >
+              <a className={chosen == 'events' ? nav.active: ''}>Events</a>
+          </div>
       </Link>
-      <Link href="/">
-        <div className={nav.homeIcon}>
-          <Image src={homeIcon} width={20} height={20} alt="icon"/>
-        </div>
+
+      <Link  href="/clubs">
+          <div className={nav.cover} >
+              <a className={chosen == 'clubs' ? nav.active: ''} >Clubs</a>
+          </div>
       </Link>
-      <Link href="/organize"><a>Organize</a></Link>
-      <Link href="#"><a>Compete</a></Link>
-      <Link href="#"><a className={nav.whiteroom}>Club</a></Link>
-      <Link href="#"><a className={nav.about}>About Us</a></Link>
-      <Link href="#"><a>More</a></Link>
+      
+      <Link  href="/about">
+          <div className={nav.cover} >
+              <a className={chosen == 'about' ? nav.active: ''}>About Us</a>
+          </div>
+      </Link>
+
     </div>
   );
 }

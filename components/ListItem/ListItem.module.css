@@ -29,14 +29,14 @@
     text-transform: uppercase;
     font-size: 12px;
     font-weight: 500;
-    top: 9%; left: -5px;
+    top: 9%; left: -4px;
 }
 
 .start_date{
     display: flex;
     flex-direction: column;
     padding: .25rem;
-    padding-top: 1.85rem;
+    padding-top: 1.75rem;
     padding-left: 1rem;
     width: 80px;
 }
@@ -46,7 +46,8 @@
 }
 .start_month{
     /* padding-top: 5px; */
-    margin-left: -2px;
+    margin-left: -3.5px;
+    margin-top: -4px;
     font-size: 1.25rem;
     text-transform: uppercase;
 }
@@ -100,7 +101,8 @@
         border: none;
         border-bottom: 3px solid cornflowerblue;
         margin-left: 0rem;
-        padding-right: 1rem;
+        /* padding-left: 2px; */
+        padding-right: .35rem;
     }
     .start_date{
         /* display: flex; */
@@ -110,8 +112,9 @@
     }
     /* .start_day{padding: 0;} */
     .start_month{
-        padding-top: 8.6px;
-        padding-left: .25rem;
+        padding-top: 13.1px;
+        padding-left: .6rem;
+
     }
     .start_text{left: 1%;}
     .details_button{
@@ -129,15 +132,19 @@
     .title{
         font-size: 20px;
     }
+    .head_div{
+        padding-right: 0rem;
+    }
     .desc span, .title_div .club{
         font-size: 14px;
     }   
     .start_day{
         font-size: 24px;
     }
+    .start_date{padding-right: 0;}
     .start_month{ 
         font-size: 19px;
-        padding-top: 5.2px;
-        padding-left: .25rem;
+        padding-top: 9.3px;
+        padding-left: .4rem;
     }
 }

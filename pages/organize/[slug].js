@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import styles from "/styles/Organize.module.css";
 import userClubs from "/staticData/userClubs";
-import { db } from "../../lib/firebase";
+import { auth, db } from "../../lib/firebase";
 import { UserContext } from "../../lib/Context";
 import { useForm } from "react-hook-form";
 import PreviewPage from "../../components/PreviewPage/previewPage";
@@ -17,33 +17,45 @@ import {
   serverTimestamp,
   setDoc,
   updateDoc,
+  writeBatch,
 } from "firebase/firestore";
-import { useDocumentDataOnce } from "react-firebase-hooks/firestore";
+
 import toast from "react-hot-toast";
+import Link from "next/link";
+import { ref } from "firebase/storage";
 export default function CreatePost(props) {
   const { user, username } = useContext(UserContext);
   const [defaultValues, setDefaultValues] = useState();
+  const [allclubs, setallclubs] = useState();
   const Router = useRouter();
+
   useEffect(() => {
     (async () => {
-      const { slug } = Router.query;
-      ref = doc(collection(db, `users/${user.uid}/posts`), slug);
-      let value = await getDoc(ref);
-      setDefaultValues(value.data());
+      if (user) {
+        const { slug } = Router.query;
+
+        let clubs = (
+          await getDoc(doc(collection(db, "club"), "clubname"))
+        ).data().clubs;
+        setallclubs(clubs);
+        ref = doc(collection(db, `users/${user.uid}/posts`), slug);
+        let value = await getDoc(ref);
+        setDefaultValues(value.data());
+      }
     })();
-  }, []);
+  }, [user]);
 
   let ref;
 
   return (
-    defaultValues && (
-      <AuthCheck>
-        <PostManger defaultValues={defaultValues} />
-      </AuthCheck>
-    )
+    <AuthCheck>
+      {defaultValues && (
+        <PostManger clubs={allclubs} defaultValues={defaultValues} />
+      )}
+    </AuthCheck>
   );
 }
-function PostManger({ defaultValues }) {
+function PostManger({ defaultValues, clubs }) {
   const Router = useRouter();
   const { user, username } = useContext(UserContext);
   const { register, handleSubmit, reset, watch } = useForm({
@@ -55,11 +67,23 @@ function PostManger({ defaultValues }) {
   async function submit() {
     try {
       const { slug } = Router.query;
+      const adminPostRef = doc(collection(db, "adminPosts/post/post"), slug);
+
       const refreence = doc(collection(db, `users/${user.uid}/posts`), slug);
-      await updateDoc(refreence, {
+      const batch = writeBatch(db);
+
+      batch.update(refreence, {
         ...data,
+        admin: false,
         updatedAt: serverTimestamp(),
       });
+
+      batch.set(adminPostRef, {
+        ...data,
+        admin: false,
+        updatedAt: serverTimestamp(),
+      });
+      await batch.commit();
       toast.success("Post Updated");
       Router.push("/");
     } catch (err) {
@@ -67,11 +91,15 @@ function PostManger({ defaultValues }) {
     }
   }
   const data = {
+    username: username,
+    askAdmin: false,
+    slug: Router.query.slug,
     club: watch("club"),
     date: watch("date"),
     description: watch("description"),
     eligibility: watch("eligibility"),
     fee: watch("eligibility"),
+    edate: watch("edate"),
     googleFormLink: watch("googleFormLink"),
     venue: watch("venue"),
     teamsize: watch("teamsize"),
@@ -90,13 +118,19 @@ function PostManger({ defaultValues }) {
       ) : (
         <div className={styles.container}>
           <form className={styles.form} onSubmit={handleSubmit(submit)}>
+            <div className="text-blue-400 hover:text-red-400">
+              <Link href="https://www.markdownguide.org/cheat-sheet#basic-syntax">
+                basic markdown for Description and Additional notes
+              </Link>
+            </div>
+
             <h2>Event Details:</h2>
 
             <div className={styles.outer_div}>
               <div>
                 <label htmlFor="club">Select Club:</label>
                 <select name="club" {...register("club")}>
-                  {userClubs.map((clubName) => (
+                  {clubs.map((clubName) => (
                     <option key={`clubname${clubName}`} value={clubName}>
                       {clubName}
                     </option>
@@ -141,12 +175,23 @@ function PostManger({ defaultValues }) {
             </div>
             <div className={styles.outer_div}>
               <div>
-                <label htmlFor="date">Date:</label>
+                <label htmlFor="date">Starting Date:</label>
                 <input
                   {...register("date")}
                   type="date"
                   id="date"
                   name="date"
+                  spellCheck="false"
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="edate">Ending Date:</label>
+                <input
+                  {...register("edate")}
+                  type="date"
+                  id="edate"
+                  name="edate"
                   spellCheck="false"
                   required
                 />
@@ -231,7 +276,7 @@ function PostManger({ defaultValues }) {
                       required
                     />
                     <input
-                      type="text"
+                      type="number"
                       className={styles.contact}
                       {...register("contact1")}
                       name="contact1"
@@ -251,7 +296,7 @@ function PostManger({ defaultValues }) {
                     />
                     <input
                       {...register("contact2")}
-                      type="text"
+                      type="number"
                       className={styles.contact}
                       name="contact2"
                       placeholder="Contact No. 2"
@@ -297,10 +342,22 @@ function PostManger({ defaultValues }) {
               collection(db, `users/${user.uid}/posts`),
               slug
             );
+            const currentPostref = doc(
+              collection(db, "adminPosts/post/post"),
+              slug
+            );
 
             if (istrue) {
-              deleteDoc(refreence);
-              toast.success("post Deleeted");
+              let batch = writeBatch(db);
+              batch.delete(refreence);
+              batch.delete(currentPostref);
+              if (watch("club") != "") {
+                batch.delete(
+                  doc(collection(db, `clubs/${watch("club")}/post`), slug)
+                );
+              }
+              batch.commit();
+              toast.success("post Deleted");
               Router.push("/");
             }
           }}
