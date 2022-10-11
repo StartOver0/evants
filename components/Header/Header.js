@@ -42,7 +42,7 @@ export default function Header() {
         setProfileImg(snapshot.data().photoURL);
       })();
     }
-  });
+  }, [username]);
 
   return (
     <div className={nav.navbar}>
@@ -79,7 +79,7 @@ export default function Header() {
             <div className="cursor-pointer">
               <Image
                 src={profileImg}
-                alt="photo" 
+                alt="photo"
                 className="w-[40px] h-[40px] rounded-full overflow-hidden"
                 width={40}
                 height={40}

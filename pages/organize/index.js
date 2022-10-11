@@ -5,9 +5,14 @@ import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 import kebabCase from "lodash.kebabcase";
 import toast from "react-hot-toast";
-import { collection, doc, setDoc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  writeBatch,
+  setDoc,
+  getDoc,
+} from "firebase/firestore";
 import { auth, db } from "../../lib/firebase";
-
 export default function AdminPostsPage() {
   return (
     <main>
@@ -31,13 +36,15 @@ function CreateNewPost() {
     e.preventDefault();
 
     const ref = doc(collection(db, `users/${user.uid}/posts/`), slug);
-
+    const currenPostRef = doc(collection(db, "currentPosts/post/post"), slug);
+    const batch = writeBatch(db);
     const data = {
       title: "",
       slug,
       username,
-      club: "clubName1",
+      club: "",
       askAdmin: false,
+      admin: false,
       description: "# hello world!",
       eligibility: "",
       googleFormLink: "",
@@ -59,7 +66,9 @@ function CreateNewPost() {
     if (s.exists()) {
       toast.success("Editing Post", { duration: 10000 });
     } else {
-      await setDoc(ref, data);
+      batch.set(ref, data);
+      batch.set(currenPostRef, data);
+      await batch.commit();
       toast.success("Post created!");
     }
 
@@ -98,12 +107,4 @@ function CreateNewPost() {
       </form>
     </div>
   );
-}
-export async function getServerSideProps() {
-  let allclub = (await getDoc(doc(collection(db, "club"), "clubname"))).data()
-    .clubs;
-
-  return {
-    props: { allclub },
-  };
 }

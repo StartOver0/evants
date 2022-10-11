@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import styles from "/styles/Organize.module.css";
 import userClubs from "/staticData/userClubs";
-import { db } from "../../lib/firebase";
+import { auth, db } from "../../lib/firebase";
 import { UserContext } from "../../lib/Context";
 import { useForm } from "react-hook-form";
 import PreviewPage from "../../components/PreviewPage/previewPage";
@@ -17,10 +17,12 @@ import {
   serverTimestamp,
   setDoc,
   updateDoc,
+  writeBatch,
 } from "firebase/firestore";
 
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { ref } from "firebase/storage";
 export default function CreatePost(props) {
   const { user, username } = useContext(UserContext);
   const [defaultValues, setDefaultValues] = useState();
@@ -31,6 +33,7 @@ export default function CreatePost(props) {
     (async () => {
       if (user) {
         const { slug } = Router.query;
+
         let clubs = (
           await getDoc(doc(collection(db, "club"), "clubname"))
         ).data().clubs;
@@ -53,8 +56,6 @@ export default function CreatePost(props) {
   );
 }
 function PostManger({ defaultValues, clubs }) {
-  console.log("hello");
-
   const Router = useRouter();
   const { user, username } = useContext(UserContext);
   const { register, handleSubmit, reset, watch } = useForm({
@@ -66,11 +67,30 @@ function PostManger({ defaultValues, clubs }) {
   async function submit() {
     try {
       const { slug } = Router.query;
+      const currenPostRef = doc(collection(db, "currentPosts/post/post"), slug);
+      const clubRef = doc(
+        collection(db, "clubs/" + data.club + "/" + "post"),
+        slug
+      );
       const refreence = doc(collection(db, `users/${user.uid}/posts`), slug);
-      await updateDoc(refreence, {
+      const batch = writeBatch(db);
+      batch.set(clubRef, {
         ...data,
+        admin: false,
         updatedAt: serverTimestamp(),
       });
+      batch.update(refreence, {
+        ...data,
+        admin: false,
+        updatedAt: serverTimestamp(),
+      });
+
+      batch.set(currenPostRef, {
+        ...data,
+        admin: false,
+        updatedAt: serverTimestamp(),
+      });
+      await batch.commit();
       toast.success("Post Updated");
       Router.push("/");
     } catch (err) {
@@ -78,6 +98,9 @@ function PostManger({ defaultValues, clubs }) {
     }
   }
   const data = {
+    username: username,
+    askAdmin: false,
+    slug: Router.query.slug,
     club: watch("club"),
     date: watch("date"),
     description: watch("description"),
@@ -326,10 +349,22 @@ function PostManger({ defaultValues, clubs }) {
               collection(db, `users/${user.uid}/posts`),
               slug
             );
+            const currentPostref = doc(
+              collection(db, "currentPosts/post/post"),
+              slug
+            );
 
             if (istrue) {
-              deleteDoc(refreence);
-              toast.success("post Deleeted");
+              let batch = writeBatch(db);
+              batch.delete(refreence);
+              batch.delete(currentPostref);
+              if (watch("club") != "") {
+                batch.delete(
+                  doc(collection(db, `clubs/${watch("club")}/post`), slug)
+                );
+              }
+              batch.commit();
+              toast.success("post Deleted");
               Router.push("/");
             }
           }}

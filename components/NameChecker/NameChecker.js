@@ -96,7 +96,6 @@ export default function NameChecker() {
           toast.error(err.message.toString());
         }
 
-        console.log("Firestore read executed!");
         setIsValid(!docSnap.exists());
         setLoading(false);
       }

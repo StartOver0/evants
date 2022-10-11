@@ -2030,6 +2030,11 @@
   dependencies:
     "yallist" "^4.0.0"
 
+"luxon@^3.0.4":
+  "integrity" "sha512-aV48rGUwP/Vydn8HT+5cdr26YYQiUZ42NM6ToMoaGKwYfWbfLeRkEu1wXWMHBZT6+KyLfcbbtVcoQFCbbPjKlw=="
+  "resolved" "https://registry.npmjs.org/luxon/-/luxon-3.0.4.tgz"
+  "version" "3.0.4"
+
 "mdast-util-definitions@^5.0.0":
   "integrity" "sha512-rQ+Gv7mHttxHOBx2dkF4HWTg+EE+UR78ptQWDylzPKaQuVGdG4HIoY3SrS/pCp80nZ04greFvXbVFHT+uf0JVQ=="
   "resolved" "https://registry.npmjs.org/mdast-util-definitions/-/mdast-util-definitions-5.1.1.tgz"

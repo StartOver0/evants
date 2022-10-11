@@ -25,7 +25,7 @@ function Home() {
       docs.forEach((doc) => {
         arti.push(postToJSON(doc));
       });
-      setArticles(arti);
+      setArticles(arti, pdata);
     })();
   }, []);
   return (

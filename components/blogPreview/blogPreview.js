@@ -6,7 +6,6 @@ import { auth } from "../../lib/firebase";
 export default function BlogPreview(props) {
   const { user, username } = useContext(UserContext);
   let articles = Object.values(props);
-
   return articles.length !== 0 ? (
     <div className="m-auto max-w-[700px]  p-[30px]">
       {articles.map((article, index) => {

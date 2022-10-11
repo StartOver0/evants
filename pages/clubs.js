@@ -4,7 +4,6 @@ import { db } from "/lib/firebase";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { data } from "autoprefixer";
 export default function Clubs({ clubData }) {
-  console.log(clubData);
   return (
     <div className={styles.container}>
       <div className={styles.inner_container}>
