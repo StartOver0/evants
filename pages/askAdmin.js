@@ -14,7 +14,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../lib/Context";
 import Link from "next/link";
 import toast from "react-hot-toast";
-export default function home() {
+export default function Home() {
   let { user, username } = useContext(UserContext);
   let [isAdmin, setIsAdmin] = useState(true);
   let [posts, setPosts] = useState();
