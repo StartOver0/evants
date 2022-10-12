@@ -22,11 +22,8 @@ export default function BlogPreview(props) {
                 </div>
               </div>
               <div className="font-bold text-2xl">{article.title}</div>
-              <div
-                style={{ hyphen: "auto" }}
-                className="flex flex-col hyphens-auto sm:text-base text-sm"
-              >
-                <ReactMarkdown>
+              <div className="flex flex-col  sm:text-base text-sm">
+                <div className="hyphen-auto">
                   {(() => {
                     let ar = article.description.split(" ");
                     let a = 0;
@@ -42,7 +39,7 @@ export default function BlogPreview(props) {
                     });
                     return string;
                   })()}
-                </ReactMarkdown>
+                </div>
                 <div className="flex justify-center pt-1 text-blue-400 hover:text-red-400">
                   <div>Know more</div>
                 </div>
