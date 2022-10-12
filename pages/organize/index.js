@@ -39,7 +39,7 @@ function CreateNewPost() {
       title: "",
       slug,
       username,
-      club: "",
+      club: "Choose Club",
       askAdmin: false,
       admin: false,
       description: "# hello world!",

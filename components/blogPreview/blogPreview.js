@@ -11,10 +11,15 @@ export default function BlogPreview(props) {
       {articles.map((article, index) => {
         return (
           <Link key={index} href={"/" + username + "/" + article.slug}>
-            <div key={index} className="pb-[30px] mb-[30px] mt-[20px]">
+            <div
+              key={index}
+              className="pb-[30px] hover:bg-slate-300 hover:rounded-lg p-8 mb-[30px] mt-[20px]"
+            >
               <div className="flex justify-between">
                 <div className="text-[12px]">{article.date}</div>
-                <Link href={`organize/${article.slug}`}>✏️</Link>
+                <div className="text-red-600 hover:text-red-900">
+                  <Link href={`organize/${article.slug}`}>edit</Link>
+                </div>
               </div>
               <div className="font-bold text-2xl">{article.title}</div>
               <div className="flex flex-col">

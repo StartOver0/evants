@@ -77,7 +77,7 @@ function Home() {
         <Avatar {...pdata} />
         {pdata.isAdmin && (
           <Link href="/askAdmin">
-            <div className="tracking-wider flex justify-center items-center  bg-red-600 h-[10vh] hover:bg-red-500 rounded-full mt-[30px]">
+            <div className="tracking-wider flex justify-center items-center  bg-red-600 h-[7vh] hover:bg-red-500 rounded-full mt-[30px]">
               <div className="text-white  ">Requests For Publication</div>
             </div>
           </Link>
@@ -88,7 +88,7 @@ function Home() {
           !postEnd &&
           JSON.stringify(articles) !== JSON.stringify([]) && (
             <div className="  max-w-[100vw] tracking-wider flex justify-center items-center mb-4 bg-color cursor-pointer ">
-              <div className="w-[180px] text-white bg-red-600 flex p-2 rounded-full items-center justify-center">
+              <div className="w-[180px] text-white bg-red-600 hover:bg-red-900 flex p-2 rounded-full items-center justify-center">
                 <div onClick={getMore}>Load more</div>
               </div>
             </div>
