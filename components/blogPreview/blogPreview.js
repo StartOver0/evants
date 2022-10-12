@@ -13,7 +13,7 @@ export default function BlogPreview(props) {
           <Link key={index} href={"/" + username + "/" + article.slug}>
             <div
               key={index}
-              className="pb-[30px] hover:bg-slate-300 hover:rounded-lg p-8 mb-[30px] mt-[20px]"
+              className="pb-[30px] hover:bg-slate-300 hover:rounded-lg sm:p-8 p-4   my-[30px]"
             >
               <div className="flex justify-between">
                 <div className="text-[12px]">{article.date}</div>
@@ -22,7 +22,10 @@ export default function BlogPreview(props) {
                 </div>
               </div>
               <div className="font-bold text-2xl">{article.title}</div>
-              <div className="flex flex-col">
+              <div
+                style={{ hyphen: "auto" }}
+                className="flex flex-col hyphens-auto sm:text-base text-sm"
+              >
                 <ReactMarkdown>
                   {(() => {
                     let ar = article.description.split(" ");
