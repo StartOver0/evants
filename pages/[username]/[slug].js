@@ -22,9 +22,25 @@ export default function Slug({ post }) {
     </div>
   );
 }
-export async function getServerSideProps({ query }) {
-  const { username, slug } = query;
+export async function getStaticPaths() {
+  let ref = collection(db, "HomePosts/post/post");
+  let snapshot = await getDocs(ref);
+  let paths = [];
+  snapshot.forEach((doc) => {
+    const { slug, username } = doc.data();
+    let params = { slug, username };
+    paths.push({ params });
+  });
+  console.log(paths);
+  return {
+    paths,
+    fallback: "blocking",
+  };
+}
+export async function getStaticProps({ params }) {
+  const { username, slug } = params;
   let post;
+
   const refUid = await getDoc(doc(collection(db, "usernames"), username));
   if (refUid.exists()) {
     const uid = refUid.data().uid;
@@ -40,5 +56,5 @@ export async function getServerSideProps({ query }) {
     post = "not define";
   }
 
-  return { props: { post } };
+  return { props: { post }, revalidate: 5000 };
 }

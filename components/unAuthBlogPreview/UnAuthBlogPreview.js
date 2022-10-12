@@ -8,13 +8,16 @@ export default function UnAuthBlogPreview(props) {
       {articles.map((article, index) => {
         return (
           <Link key={index} href={"/" + article.username + "/" + article.slug}>
-            <div key={index} className="pb-[30px] mb-[30px] mt-[20px]">
-              <div className="flex ">
+            <div
+              key={index}
+              className="pb-[30px] hover:bg-slate-300 hover:rounded-lg sm:p-8 p-4   my-[30px]"
+            >
+              <div className="flex justify-between">
                 <div className="text-[12px]">{article.date}</div>
               </div>
               <div className="font-bold text-2xl">{article.title}</div>
-              <div className="flex flex-col">
-                <ReactMarkdown>
+              <div className="flex flex-col  sm:text-base text-sm">
+                <div className="hyphen-auto">
                   {(() => {
                     let ar = article.description.split(" ");
                     let a = 0;
@@ -30,7 +33,7 @@ export default function UnAuthBlogPreview(props) {
                     });
                     return string;
                   })()}
-                </ReactMarkdown>
+                </div>
                 <div className="flex justify-center pt-1 text-blue-400 hover:text-red-400">
                   <div>Know more</div>
                 </div>

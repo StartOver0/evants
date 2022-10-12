@@ -30,18 +30,17 @@ function CreateNewPost() {
 
   const slug = encodeURI(kebabCase(title));
 
-  const isValid = title.length > 3 && title.length < 100;
-
   const createPost = async (e) => {
     e.preventDefault();
 
     const ref = doc(collection(db, `users/${user.uid}/posts/`), slug);
     const batch = writeBatch(db);
     const data = {
+      published: false,
       title: "",
       slug,
       username,
-      club: "",
+      club: "Choose Club",
       askAdmin: false,
       admin: false,
       description: "# hello world!",
@@ -82,17 +81,15 @@ function CreateNewPost() {
         <input
           className="border-solid border-black border-3"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="My Awesome Article!"
+          onChange={(e) => {
+            if (e.target.value.length <= 100) setTitle(e.target.value);
+          }}
+          placeholder="slug"
         />
         <p>
           <strong>Slug:</strong> {slug}
         </p>
-        <button
-          type="submit"
-          className="bg-green-300 p-2 rounded-lg"
-          disabled={!isValid}
-        >
+        <button type="submit" className="bg-green-300 p-2 rounded-lg">
           Create New Post
         </button>
         <div className="text-red-800">
