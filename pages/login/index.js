@@ -184,7 +184,7 @@ export default function Login() {
             <input
               value={suEmail}
               onChange={(e) => {
-                setSuEmail(e.target.value);
+                if (e.target.value.length <= 100) setSuEmail(e.target.value);
               }}
               id="email"
               type="email"
@@ -195,18 +195,20 @@ export default function Login() {
             <input
               value={suPass}
               onChange={(e) => {
-                setSuPass(e.target.value);
+                if (e.target.value.length <= 12) setSuPass(e.target.value);
               }}
               id="password1"
               type="password"
-              placeholder="Password should be atleast 6 characters long"
+              placeholder="Password should be atleast 6-12 characters long"
               required
             />
             <label htmlFor="password2">Confirm Password:</label> <br />
             <input
               value={rSuPass}
               onChange={(e) => {
-                setRsuPass(e.target.value);
+                if (e.target.value.length <= 12) {
+                  setRsuPass(e.target.value);
+                }
               }}
               id="password2"
               type="password"
@@ -225,7 +227,7 @@ export default function Login() {
                 />
               </div>
             )}
-            {!loader && <button className={styles.button}> send otp</button>}
+            {!loader && <button className={styles.button}> Send OTP</button>}
           </form>
         ) : (
           <form className={styles.formi} onSubmit={SignInSubmit}>

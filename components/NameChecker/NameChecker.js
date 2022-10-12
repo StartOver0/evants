@@ -69,8 +69,8 @@ export default function NameChecker() {
 
   const onChange = (e) => {
     const val = e.target.value;
-
-    if (val.length < 3) {
+    if (val.length > 10) {
+    } else if (val.length < 3) {
       setFormValue(val);
       setLoading(false);
       setIsValid(false);
@@ -164,7 +164,7 @@ export default function NameChecker() {
           <input
             className="border-solid border-2 border-black"
             name="username"
-            placeholder="myname"
+            placeholder="less then 10 character"
             value={formValue}
             onChange={onChange}
           />
@@ -177,9 +177,12 @@ export default function NameChecker() {
           <div>description</div>
           <textarea
             type="text"
+            placeholder="description less then 200 character"
             value={des}
             onChange={(e) => {
-              setDes(e.target.value);
+              if (e.target.value.length <= 200) {
+                setDes(e.target.value);
+              }
             }}
             className="border-solid border-2 border-black"
           />

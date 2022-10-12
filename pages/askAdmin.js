@@ -8,6 +8,7 @@ import {
   getDocs,
   setDoc,
   writeBatch,
+  serverTimestamp,
 } from "firebase/firestore";
 import { auth, db, postToJSON } from "../lib/firebase";
 import { useContext, useEffect, useState } from "react";
@@ -82,6 +83,8 @@ function Posts(props) {
                 onClick={async () => {
                   let yes = confirm("Are you sure you want to accept it");
                   if (yes) {
+                    post.updatedAt = serverTimestamp();
+
                     let ref = doc(
                       collection(db, "HomePosts/post/post"),
                       post.slug
