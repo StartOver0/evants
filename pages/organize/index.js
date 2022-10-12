@@ -36,6 +36,7 @@ function CreateNewPost() {
     const ref = doc(collection(db, `users/${user.uid}/posts/`), slug);
     const batch = writeBatch(db);
     const data = {
+      published: false,
       title: "",
       slug,
       username,

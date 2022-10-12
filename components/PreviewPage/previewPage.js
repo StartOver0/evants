@@ -3,6 +3,7 @@ import styles from "/styles/PreviewPage.module.css";
 import clubIcon from "/public/images/uuit.png";
 import Image from "next/image";
 import Link from "next/link";
+import reactMarkDown from "/styles/reactmarkdown.module.css";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 export default function PreviewPage({
   club,
@@ -10,6 +11,7 @@ export default function PreviewPage({
   description,
   eligibility,
   fee,
+  published,
   edate,
   googleFormLink,
   venue,
@@ -38,7 +40,12 @@ export default function PreviewPage({
           </div>
         </div>
         <h1 className={styles.title}>{title}</h1>
-        <ReactMarkdown>{description}</ReactMarkdown>
+        <ReactMarkdown
+          linkTarget={"_blank"}
+          className={reactMarkDown.reactMarkDown}
+        >
+          {description}
+        </ReactMarkdown>
 
         <h3>Details about the program:</h3>
         <ul className={styles.details_list}>
@@ -69,7 +76,21 @@ export default function PreviewPage({
         {notes && (
           <div>
             <h3>Additonal Details:</h3>
-            <ReactMarkdown>{notes}</ReactMarkdown>
+
+            <ReactMarkdown
+              linkTarget={"_blank"}
+              className={reactMarkDown.reactMarkDown}
+            >
+              {notes}
+            </ReactMarkdown>
+
+            <style jsx>
+              {`
+                a {
+                  color: red;
+                }
+              `}
+            </style>
           </div>
         )}
 
@@ -87,6 +108,20 @@ export default function PreviewPage({
               )}
             </ul>
           </>
+        )}
+        {googleFormLink && (
+          <div className="flex justify-center">
+            <div className="text-white bg-green-400 hover:bg-green-300 p-3 rounded-full">
+              <Link href={googleFormLink}>
+                <a target={"_blank"}>Google Form Link</a>
+              </Link>
+            </div>
+          </div>
+        )}
+        {published && (
+          <div className="flex justify-end text-green-400">
+            <div className="">Published📢</div>
+          </div>
         )}
       </div>
 

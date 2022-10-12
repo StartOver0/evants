@@ -10,6 +10,9 @@ import {
   writeBatch,
   serverTimestamp,
 } from "firebase/firestore";
+import Image from "next/image";
+import processing from "/public/images/processing.png";
+
 import { auth, db, postToJSON } from "../lib/firebase";
 import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../lib/Context";
@@ -18,6 +21,7 @@ import toast from "react-hot-toast";
 export default function Home() {
   let { user, username } = useContext(UserContext);
   let [isAdmin, setIsAdmin] = useState(true);
+  let [loading, setLoading] = useState(true);
   let [posts, setPosts] = useState();
   useEffect(() => {
     let adminPostRef = collection(db, "adminPosts/post/post");
@@ -40,9 +44,21 @@ export default function Home() {
           setIsAdmin(info.isAdmin);
           setPosts(p);
         }
+        setLoading(false);
       })();
     }
   }, [username]);
+  if (loading) {
+    return (
+      <div className="w-[100%] h-[100px] flex justify-center items-center">
+        <Image
+          className="w-[40px] h-[30px] animate-spin"
+          src={processing}
+          alt="something"
+        />
+      </div>
+    );
+  }
   return (
     <AuthCheck>
       {isAdmin ? (
@@ -98,8 +114,17 @@ function Posts(props) {
                     try {
                       batch.set(clubref, post);
                       batch.set(ref, post);
+                      let uidRef = doc(
+                        collection(db, "usernames"),
+                        post.username
+                      );
+                      let uid = (await getDoc(uidRef)).data().uid;
+                      batch.update(
+                        doc(collection(db, `users/${uid}/posts`), post.slug),
+                        { published: true }
+                      );
                       let adminPostRef = collection(db, "adminPosts/post/post");
-                      toast.success("procesing...");
+                      toast.success("procesing...", { duration: 10000 });
                       batch.delete(doc(adminPostRef, post.slug));
                       await batch.commit();
                       const el = document.getElementById("id" + "-" + index);

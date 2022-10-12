@@ -18,7 +18,7 @@ export default function BlogPreview(props) {
               <div className="flex justify-between">
                 <div className="text-[12px]">{article.date}</div>
                 <div className="text-red-600 hover:text-red-900">
-                  <Link href={`organize/${article.slug}`}>edit</Link>
+                  <Link href={`organize/${article.slug}`}>Edit</Link>
                 </div>
               </div>
               <div className="font-bold text-2xl">{article.title}</div>
@@ -45,12 +45,15 @@ export default function BlogPreview(props) {
                 </div>
               </div>
 
-              <div className="flex pb-[10px]">
+              <div className="flex pb-[10px] justify-between">
                 <div className="m-[5px]">
                   {`${
                     Math.ceil(article.description.split(" ").length / 100) +
                     " min read"
                   }`}
+                </div>
+                <div title="published" className="text-green-400">
+                  {article.published && "📢"}
                 </div>
               </div>
               <div className="bg-black h-[0.1px] w-[100%]"></div>

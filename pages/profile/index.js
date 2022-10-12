@@ -76,12 +76,35 @@ function Home() {
       <div>
         <Avatar {...pdata} />
         {pdata.isAdmin && (
-          <Link href="/askAdmin">
-            <div className="tracking-wider flex justify-center items-center  bg-red-600 h-[7vh] hover:bg-red-500 rounded-full mt-[30px]">
-              <div className="text-white  ">Requests For Publication</div>
+          <div className="flex  justify-around flex-col sm:flex-row">
+            <Link href="/askAdmin">
+              <div className="tracking-wider flex justify-center items-center  bg-red-600 h-[6vh] hover:bg-red-500 rounded-full mt-[30px] p-2">
+                <div className="text-white  ">Requests For Publication</div>
+              </div>
+            </Link>
+
+            <Link href="/DeleteHome">
+              <div className="tracking-wider flex justify-center items-center  p-2 bg-red-600 h-[6vh] hover:bg-red-500 rounded-full sm:mt-[30px] mt-1">
+                <div className="text-white  ">Delete Post from Home page</div>
+              </div>
+            </Link>
+            <Link href="/descriptionEdit">
+              <div className="tracking-wider flex justify-center items-center  p-2 bg-red-600 h-[6vh] hover:bg-red-500 rounded-full sm:mt-[30px] mt-1">
+                <div className="text-white  ">Edit description</div>
+              </div>
+            </Link>
+          </div>
+        )}
+        {!pdata.isAdmin && (
+          <Link href="/descriptionEdit">
+            <div className="tracking-wider m-2 flex justify-center rounded-full items-center  ">
+              <div className="w-[300px] flex justify-center  bg-red-600 hover:bg-red-900 p-2 h-[6vh] rounded-full">
+                <div className="text-white ">Edit description</div>
+              </div>
             </div>
           </Link>
         )}
+
         <BlogPreview {...articles} />
 
         {!loading &&

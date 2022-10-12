@@ -9,6 +9,7 @@ import {
   limit,
   orderBy,
   query,
+  where,
 } from "firebase/firestore";
 import { auth, db, postToJSON } from "../../lib/firebase";
 import UnAuthBlogPreview from "../../components/unAuthBlogPreview/UnAuthBlogPreview";
@@ -38,7 +39,12 @@ export async function getServerSideProps(context) {
   if (refUid.exists()) {
     const uid = refUid.data().uid;
     const ref = collection(db, `users/${uid}/posts`);
-    const q = query(ref, orderBy("updatedAt", "desc"), limit(li));
+    const q = query(
+      ref,
+      where("published", "==", true),
+      orderBy("updatedAt", "desc"),
+      limit(li)
+    );
     const docs = await getDocs(q);
     const pref = doc(collection(db, `users`), uid);
     const pdoc = await getDoc(pref);

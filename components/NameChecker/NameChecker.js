@@ -177,10 +177,10 @@ export default function NameChecker() {
           <div>description</div>
           <textarea
             type="text"
-            placeholder="description less then 200 character"
+            placeholder="description less then 150 character"
             value={des}
             onChange={(e) => {
-              if (e.target.value.length <= 200) {
+              if (e.target.value.length <= 150) {
                 setDes(e.target.value);
               }
             }}

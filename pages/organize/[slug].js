@@ -91,6 +91,7 @@ function PostManger({ defaultValues, clubs }) {
     }
   }
   const data = {
+    published: false,
     username: username,
     askAdmin: false,
     slug: Router.query.slug,
@@ -120,7 +121,9 @@ function PostManger({ defaultValues, clubs }) {
           <form className={styles.form} onSubmit={handleSubmit(submit)}>
             <div className="text-blue-400 hover:text-red-400">
               <Link href="https://www.markdownguide.org/cheat-sheet#basic-syntax">
-                basic markdown for Description and Additional notes
+                <a target={"blank"}>
+                  basic markdown for Description and Additional notes
+                </a>
               </Link>
             </div>
 
@@ -248,21 +251,22 @@ function PostManger({ defaultValues, clubs }) {
                 />
               </div>
               <div>
-                <label htmlFor="googleFormLink">Google Form Link:</label>
+                <div htmlFor="googleFormLink">Google Form Link:</div>
                 <input
                   {...register("googleFormLink")}
                   type="text"
                   id="googleFormLink"
                   name="googleFormLink"
-                  placeholder="Registration Link"
+                  placeholder="Registration Link (optional)"
                   spellCheck="false"
-                  required
                 />
               </div>
             </div>
             <div className={styles.outer_div}>
               <div>
-                <label htmlFor="first">Contact No:</label>
+                <label htmlFor="first">
+                  Contact No:{"  (second number and name is optional)"}
+                </label>
                 <br />
                 <div className={styles.contact}>
                   <div className={styles.inner_div}>
@@ -291,7 +295,7 @@ function PostManger({ defaultValues, clubs }) {
                       type="text"
                       className={styles.name}
                       name="name2"
-                      placeholder="Name2"
+                      placeholder="Name2(optional)"
                       spellCheck="false"
                     />
                     <input
@@ -299,7 +303,7 @@ function PostManger({ defaultValues, clubs }) {
                       type="number"
                       className={styles.contact}
                       name="contact2"
-                      placeholder="Contact No. 2"
+                      placeholder="Contact No. 2(optional)"
                       spellCheck="false"
                     />
                   </div>
