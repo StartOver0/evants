@@ -25,6 +25,20 @@ export default function NameChecker() {
   const [loader, setLoader] = useState(false);
   const { user, username } = useContext(UserContext);
   const imageRef = useRef();
+  function isEmoji(str) {
+    var ranges = [
+      "[\uE000-\uF8FF]",
+      "\uD83C[\uDC00-\uDFFF]",
+      "\uD83D[\uDC00-\uDFFF]",
+      "[\u2011-\u26FF]",
+      "\uD83E[\uDD10-\uDDFF]",
+    ];
+    if (str.match(ranges.join("|"))) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   const onSubmit = async (e) => {
     e.preventDefault();
     let photoURL = null;
@@ -69,7 +83,7 @@ export default function NameChecker() {
 
   const onChange = (e) => {
     const val = e.target.value;
-    if (val.length > 10) {
+    if (val.length > 10 && !isEmoji(val)) {
     } else if (val.length < 3) {
       setFormValue(val);
       setLoading(false);
@@ -84,7 +98,7 @@ export default function NameChecker() {
   //
 
   useEffect(() => {
-    checkUsername(formValue);
+    if (!isEmoji(formValue)) checkUsername(formValue);
   }, [formValue]);
 
   const checkUsername = useCallback(
@@ -142,7 +156,7 @@ export default function NameChecker() {
                       input.current.click();
                     }}
                   >
-                    choose
+                    Choose
                   </div>
                 </div>
                 <input
@@ -161,6 +175,9 @@ export default function NameChecker() {
             </div>
           )}
           <div className="">Choose Name</div>
+          <div className="text-sm text-red-500">
+            {"don't use any special character or emoji"}
+          </div>
           <input
             className="border-solid border-2 border-black"
             name="username"

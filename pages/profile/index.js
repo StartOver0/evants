@@ -110,9 +110,12 @@ function Home() {
         {!loading &&
           !postEnd &&
           JSON.stringify(articles) !== JSON.stringify([]) && (
-            <div className="  max-w-[100vw] tracking-wider flex justify-center items-center mb-4 bg-color cursor-pointer ">
+            <div
+              onClick={getMore}
+              className="  max-w-[100vw] tracking-wider flex justify-center items-center mb-4 bg-color cursor-pointer "
+            >
               <div className="w-[180px] text-white bg-red-600 hover:bg-red-900 flex p-2 rounded-full items-center justify-center">
-                <div onClick={getMore}>Load more</div>
+                <div>Load more</div>
               </div>
             </div>
           )}

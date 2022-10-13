@@ -3,6 +3,7 @@ import { UserContext } from "../lib/Context";
 import AuthCheck from "/components/AuthCheck/AuthCheck";
 import processing from "/public/images/processing.png";
 import Image from "next/image";
+import { DateTime } from "luxon";
 import { BigLoader } from "../components/loading/loading";
 import {
   doc,
@@ -87,11 +88,57 @@ function Posts(props) {
     return <Home {...posts} />;
   }
 }
+function findOut(date, edate) {
+  let reg = /(\d{4})-(\d{1,2})-(\d{1,2})/;
+  let today = DateTime.now().setZone("Asia/kolkata");
+  let todayTs = BigInt(today.ts.toString());
+  let arr1 = date.match(reg);
+  let starting = DateTime.local(
+    parseInt(arr1[1]),
+    parseInt(arr1[2]),
+    parseInt(arr1[3])
+  ).setZone("Asia/kolkata");
+  let startingTs = BigInt(starting.ts.toString());
+  let arr2 = edate.match(reg);
+  let endingDate = DateTime.local(
+    parseInt(arr2[1]),
+    parseInt(arr2[2]),
+    parseInt(arr2[3]) + 1
+  ).setZone("Asia/kolkata");
+  let endingDateTs = BigInt(endingDate.ts.toString());
+  if (todayTs > endingDate && todayTs > startingTs) {
+    return "past";
+  }
+  if (todayTs < endingDateTs && todayTs < startingTs) {
+    return "upcoming";
+  }
+  if (todayTs >= startingTs && todayTs < endingDateTs) {
+    return "current";
+  }
+}
+function NewPost(posts) {
+  let upcoming = [],
+    current = [];
+  posts.forEach((dc) => {
+    let date = dc.date;
+    let edate = dc.edate;
+    let ans = findOut(date, edate);
+    if (ans == "current") {
+      current.push(dc);
+    }
+    if (ans == "upcoming") {
+      upcoming.push(dc);
+    }
+  });
+  console.log(current.concat(upcoming));
+  return current.concat(upcoming);
+}
 function Home(props) {
-  const [posts, setposts] = useState(Object.values(props));
+  const [posts, setposts] = useState(NewPost(Object.values(props)));
   function handlePosts(newpost) {
     setposts(newpost);
   }
+
   if (JSON.stringify(posts) === JSON.stringify([])) {
     return (
       <div className=" h-[70vh] flex items-center justify-center">

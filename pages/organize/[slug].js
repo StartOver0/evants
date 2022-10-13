@@ -6,6 +6,8 @@ import styles from "/styles/Organize.module.css";
 import userClubs from "/staticData/userClubs";
 import { auth, db } from "../../lib/firebase";
 import { UserContext } from "../../lib/Context";
+import processing from "/public/images/processing.png";
+import Image from "next/image";
 import { useForm } from "react-hook-form";
 import PreviewPage from "../../components/PreviewPage/previewPage";
 import {
@@ -56,6 +58,7 @@ export default function CreatePost(props) {
   );
 }
 function PostManger({ defaultValues, clubs }) {
+  let [loading, setloading] = useState(false);
   const Router = useRouter();
   const { user, username } = useContext(UserContext);
   const { register, handleSubmit, reset, watch } = useForm({
@@ -65,6 +68,7 @@ function PostManger({ defaultValues, clubs }) {
   const [allData, setAllData] = useState({});
   const [preview, setPreview] = useState(false);
   async function submit() {
+    setloading(true);
     try {
       const { slug } = Router.query;
       const adminPostRef = doc(collection(db, "adminPosts/post/post"), slug);
@@ -87,6 +91,7 @@ function PostManger({ defaultValues, clubs }) {
       toast.success("Post Updated");
       Router.push("/");
     } catch (err) {
+      setloading(false);
       toast.error(err.message.toString());
     }
   }
@@ -323,8 +328,18 @@ function PostManger({ defaultValues, clubs }) {
                 ></textarea>
               </div>
             </div>
-
-            <button className={styles.button}>Send to Admin</button>
+            {!loading && (
+              <button className={styles.button}>Send to Admin</button>
+            )}
+            {loading && (
+              <div className="flex justify-center">
+                <Image
+                  className="w-[40px] h-[30px] animate-spin"
+                  src={processing}
+                  alt="something"
+                />
+              </div>
+            )}
           </form>
         </div>
       )}
