@@ -10,6 +10,7 @@ import {
   writeBatch,
   serverTimestamp,
 } from "firebase/firestore";
+import { BigLoader } from "../components/loading/loading";
 import Image from "next/image";
 import processing from "/public/images/processing.png";
 
@@ -72,7 +73,7 @@ export default function Home() {
   );
 }
 function Posts(props) {
-  let posts = Object.values(props);
+  const [posts, setPosts] = useState(Object.values(props));
 
   if (JSON.stringify(posts) === JSON.stringify([])) {
     return (
@@ -81,119 +82,111 @@ function Posts(props) {
       </div>
     );
   }
+  function HandlePosts(pos) {
+    setPosts(pos);
+  }
   return (
     <div className="min-h-[70vh]">
       {posts.map((post, index) => {
         return (
-          <div
+          <List
             key={index}
-            id={`id-${index}`}
-            className="flex   justify-between border-solid w-[90vw] border-black rounded-lg border-2 min-h-[10vh] items-center m-3 sm:flex-row flex-col "
-          >
-            <div className="p-2 overflow-hidden">{post.title}</div>
-            <div className="flex justify-around sm:w-[40vw] w-[90vw]  ">
-              <Link href={"/" + post.username + "/" + post.slug}>
-                <div className="text-blue-300 hover:text-blue-600">View</div>
-              </Link>
-              <div
-                onClick={async () => {
-                  let yes = confirm("Are you sure you want to accept it");
-                  if (yes) {
-                    post.updatedAt = serverTimestamp();
-
-                    let ref = doc(
-                      collection(db, "HomePosts/post/post"),
-                      post.slug
-                    );
-                    const clubref = doc(
-                      collection(db, `clubs/${post.club}/post`),
-                      post.slug
-                    );
-
-                    let batch = writeBatch(db);
-                    try {
-                      batch.set(clubref, post);
-                      batch.set(ref, post);
-                      let uidRef = doc(
-                        collection(db, "usernames"),
-                        post.username
-                      );
-                      let uid = (await getDoc(uidRef)).data().uid;
-                      batch.update(
-                        doc(collection(db, `users/${uid}/posts`), post.slug),
-                        { published: true }
-                      );
-                      let adminPostRef = collection(db, "adminPosts/post/post");
-                      toast.success("procesing...", { duration: 10000 });
-                      batch.delete(doc(adminPostRef, post.slug));
-                      await batch.commit();
-                      const el = document.getElementById("id" + "-" + index);
-                      el.remove();
-                      toast.success("Officially club post");
-                    } catch (err) {
-                      toast.error(err.message);
-                    }
-                  }
-                }}
-                className="text-green-400 hover:text-green-700 "
-              >
-                accept
-              </div>
-              <div
-                onClick={async () => {
-                  let yes = confirm("Are you sure you want to reject it");
-                  if (yes) {
-                    let batch = writeBatch(db);
-                    try {
-                      let adminPostRef = collection(db, "adminPosts/post/post");
-                      toast.success("procesing...");
-                      batch.delete(doc(adminPostRef, post.slug));
-                      await batch.commit();
-                      const el = document.getElementById("id" + "-" + index);
-                      el.remove();
-                      toast.success("Deleted");
-                    } catch (err) {
-                      toast.error(err.message);
-                    }
-                  }
-                }}
-                className="text-red-400 hover:text-red-700 "
-              >
-                reject
-              </div>
-            </div>
-          </div>
+            posts={posts}
+            post={post}
+            HandlePosts={HandlePosts}
+          />
         );
       })}
     </div>
   );
-  // ) : (
-  //   <div className=" h-[70vh] flex items-center justify-center">
-  //     <div className="text-lg text-red-800">No Request</div>
-  //   </div>
-  // );
 }
+function List({ post, HandlePosts, posts }) {
+  const [loading, setloading] = useState(false);
+  return (
+    <div className="flex   justify-between border-solid w-[90vw] border-black rounded-lg border-2 min-h-[10vh] items-center sm:m-3 sm:flex-row flex-col mt-4">
+      <div className="sm:p-2 overflow-hidden">{post.title}</div>
+      {!loading && (
+        <>
+          <div className="flex justify-around sm:w-[40vw] w-[90vw]  ">
+            <Link href={"/" + post.username + "/" + post.slug}>
+              <div className="text-blue-300 hover:text-blue-600">View</div>
+            </Link>
+            <div
+              onClick={async () => {
+                let yes = confirm("Are you sure you want to accept it");
+                if (yes) {
+                  post.updatedAt = serverTimestamp();
+                  setloading(true);
+                  let ref = doc(
+                    collection(db, "HomePosts/post/post"),
+                    post.slug
+                  );
+                  const clubref = doc(
+                    collection(db, `clubs/${post.club}/post`),
+                    post.slug
+                  );
 
-// export async function getServerSideProps() {
-//   let adminPostRef = collection(db, "adminPosts/post/post");
-
-//   let info = (
-//     await getDoc(doc(collection(db, `users`), auth.currentUser.uid))
-//   ).data();
-//   let isAdmin = info.isAdmin;
-//   let posts = [];
-//   if (isAdmin) {
-//     let AdminOf = info.AdminOf;
-//     for (let i = 0; i < AdminOf.length; i++) {
-//       let docs = query(adminPostRef, where("club", "==", AdminOf[i]));
-//       let d = await getDocs(doc);
-//       d.forEach((e) => {
-//         posts.push(postToJSON(e));
-//       });
-//     }
-//   }
-
-//   return {
-//     props: { posts, isAdmin }, // will be passed to the page component as props
-//   };
-// }
+                  let batch = writeBatch(db);
+                  try {
+                    batch.set(clubref, post);
+                    batch.set(ref, post);
+                    let uidRef = doc(
+                      collection(db, "usernames"),
+                      post.username
+                    );
+                    let uid = (await getDoc(uidRef)).data().uid;
+                    batch.update(
+                      doc(collection(db, `users/${uid}/posts`), post.slug),
+                      { published: true }
+                    );
+                    let adminPostRef = collection(db, "adminPosts/post/post");
+                    batch.delete(doc(adminPostRef, post.slug));
+                    await batch.commit();
+                    let newPosts = posts.filter((po) => {
+                      return po.slug !== post.slug;
+                    });
+                    HandlePosts(newPosts);
+                    setloading(false);
+                    toast.success("Officially club post");
+                  } catch (err) {
+                    setloading(false);
+                    toast.error(err.message);
+                  }
+                }
+              }}
+              className="text-green-400 hover:text-green-700 "
+            >
+              accept
+            </div>
+            <div
+              onClick={async () => {
+                let yes = confirm("Are you sure you want to reject it");
+                if (yes) {
+                  let batch = writeBatch(db);
+                  try {
+                    setloading(true);
+                    let adminPostRef = collection(db, "adminPosts/post/post");
+                    batch.delete(doc(adminPostRef, post.slug));
+                    await batch.commit();
+                    let newPosts = posts.filter((po) => {
+                      return po.slug !== post.slug;
+                    });
+                    HandlePosts(newPosts);
+                    setloading(false);
+                    toast.success("Deleted");
+                  } catch (err) {
+                    toast.error(err.message);
+                  }
+                }
+              }}
+              className="text-red-400 hover:text-red-700 "
+            >
+              reject
+            </div>
+          </div>
+        </>
+      )}
+      {loading && <BigLoader />}
+    </div>
+  );
+}

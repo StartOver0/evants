@@ -11,6 +11,7 @@ export default function PreviewPage({
   description,
   eligibility,
   fee,
+  username,
   published,
   edate,
   googleFormLink,
@@ -71,6 +72,14 @@ export default function PreviewPage({
           <li>
             Team size: <span className={styles.details}>{teamsize}</span>{" "}
           </li>
+          <li>
+            Author:
+            <div className="inline text-lg">
+              <Link href={`/${username}`}>
+                <a target={"_blank"}>{" @" + username}</a>
+              </Link>
+            </div>
+          </li>
         </ul>
 
         {notes && (
@@ -83,14 +92,6 @@ export default function PreviewPage({
             >
               {notes}
             </ReactMarkdown>
-
-            <style jsx>
-              {`
-                a {
-                  color: red;
-                }
-              `}
-            </style>
           </div>
         )}
 
