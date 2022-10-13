@@ -6,10 +6,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        l1: "big .6s ease-in-out alternate infinite",
+        l2: "big .6s ease-in-out alternate .2s infinite",
+        l3: "big .6s ease-in-out alternate .4s infinite",
+      },
       keyframes: {
-        rotate: {
-          "0%,": { transform: "rotate(0deg)" },
-          "100%": { transform: "rotate(360deg)" },
+        big: {
+          "100%": { transform: "scale(2)" },
         },
       },
     },

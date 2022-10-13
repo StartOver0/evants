@@ -30,7 +30,7 @@ function Description() {
     }
   }
   return (
-    <div className="flex rounded-lg px-[20vw] py-[15vh] m-8 border-solid border-black border-2">
+    <div className="mb-8">
       <form onSubmit={submit} className="flex flex-col">
         <div className="">Changed Description</div>
         <textarea
@@ -42,6 +42,7 @@ function Description() {
           rows="8"
           cols="30"
           className="border-solid border-black border-2 rounded-lg"
+          required
         />
         {!loading && (
           <button className="bg-green-400  mt-3 rounded-lg">Change</button>

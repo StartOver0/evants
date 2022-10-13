@@ -3,6 +3,7 @@ import { UserContext } from "../lib/Context";
 import AuthCheck from "/components/AuthCheck/AuthCheck";
 import processing from "/public/images/processing.png";
 import Image from "next/image";
+import { BigLoader } from "../components/loading/loading";
 import {
   doc,
   collection,
@@ -87,60 +88,83 @@ function Posts(props) {
   }
 }
 function Home(props) {
-  let posts = Object.values(props);
-
+  const [posts, setposts] = useState(Object.values(props));
+  function handlePosts(newpost) {
+    setposts(newpost);
+  }
+  if (JSON.stringify(posts) === JSON.stringify([])) {
+    return (
+      <div className=" h-[70vh] flex items-center justify-center">
+        <div className="text-lg text-red-800">
+          NO post are in your Home page from your club
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="min-h-[70vh]">
       {posts.map((post, index) => {
         return (
-          <div
+          <List
             key={index}
-            id={`id-${index}`}
-            className="flex   justify-between border-solid w-[90vw] border-black rounded-lg border-2 min-h-[10vh] items-center m-3 sm:flex-row flex-col "
-          >
-            <div className="p-2 overflow-hidden">{post.title}</div>
-            <div className="flex justify-around sm:w-[40vw] w-[90vw]  ">
-              <div
-                onClick={async () => {
-                  let yes = confirm(
-                    "Are you sure you want to remove this post from home"
-                  );
-
-                  if (yes) {
-                    const ref = doc(
-                      collection(db, "HomePosts/post/post"),
-                      post.slug
-                    );
-                    console.log(ref);
-                    const el = document.getElementById("id" + "-" + index);
-                    el.remove();
-                    let batch = writeBatch(db);
-                    try {
-                      let uidRef = doc(
-                        collection(db, "usernames"),
-                        post.username
-                      );
-                      let uid = (await getDoc(uidRef)).data().uid;
-                      batch.update(
-                        doc(collection(db, `users/${uid}/posts`), post.slug),
-                        { published: false }
-                      );
-                      batch.delete(ref);
-                      await batch.commit();
-                    } catch (err) {
-                      Router.reload(window.location.pathname);
-                      toast.error(err.message.toString());
-                    }
-                  }
-                }}
-                className="text-red-400 hover:text-red-700 "
-              >
-                Delete
-              </div>
-            </div>
-          </div>
+            post={post}
+            posts={posts}
+            handlePosts={handlePosts}
+          />
         );
       })}
+    </div>
+  );
+}
+function List({ post, handlePosts, posts }) {
+  const [loading, setloading] = useState(false);
+  return (
+    <div className="flex   justify-between border-solid w-[90vw] border-black rounded-lg border-2 min-h-[10vh] items-center m-3 sm:flex-row flex-col ">
+      <div className="p-2 overflow-hidden">{post.title}</div>
+      <div className="flex justify-around sm:w-[40vw] w-[90vw]  ">
+        {!loading && (
+          <div
+            onClick={async () => {
+              let yes = confirm(
+                "Are you sure you want to remove this post from home"
+              );
+
+              if (yes) {
+                setloading(true);
+                const ref = doc(
+                  collection(db, "HomePosts/post/post"),
+                  post.slug
+                );
+
+                let batch = writeBatch(db);
+                try {
+                  let uidRef = doc(collection(db, "usernames"), post.username);
+                  let uid = (await getDoc(uidRef)).data().uid;
+                  batch.update(
+                    doc(collection(db, `users/${uid}/posts`), post.slug),
+                    { published: false }
+                  );
+                  batch.delete(ref);
+                  await batch.commit();
+                  let newPosts = posts.filter((po) => {
+                    return po.slug !== post.slug;
+                  });
+                  toast.success("sucessful!");
+                  handlePosts(newPosts);
+                  setloading(false);
+                } catch (err) {
+                  setloading(false);
+                  toast.error(err.message.toString());
+                }
+              }
+            }}
+            className="text-red-400 hover:text-red-700 "
+          >
+            Delete
+          </div>
+        )}
+        {loading && <BigLoader />}
+      </div>
     </div>
   );
 }
