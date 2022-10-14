@@ -105,16 +105,9 @@ function findOut(date, edate) {
     parseInt(arr2[2]),
     parseInt(arr2[3]) + 1
   ).setZone("Asia/kolkata");
-  if (today > starting && today > endingDate) {
-    console.log("past");
-    return "past";
-  } else if (today < endingDate && today < starting) {
-    console.log("upcoming");
-    return "upcoming";
-  } else {
-    console.log("current");
-    return "current";
-  }
+  if (today < starting) return "upcoming";
+  if (today > endingDate) return "past";
+  return "current";
 }
 function NewPost(posts) {
   let upcoming = [],
