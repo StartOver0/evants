@@ -24,6 +24,7 @@ import {
 
 import toast from "react-hot-toast";
 import Link from "next/link";
+import { maxLength } from "cookieparser";
 export default function CreatePost(props) {
   const { user, username } = useContext(UserContext);
   const [defaultValues, setDefaultValues] = useState();
@@ -48,7 +49,7 @@ export default function CreatePost(props) {
   }, [user]);
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-2">
+      <div className="flex items-center justify-center py-2 h-[80vh] ">
         <Image
           className="w-[40px] h-[30px] animate-spin"
           src={processing}
@@ -69,12 +70,13 @@ function PostManger({ defaultValues, clubs }) {
   let [loading, setloading] = useState(false);
   const Router = useRouter();
   const { user, username } = useContext(UserContext);
-  const { register, handleSubmit, reset, watch } = useForm({
+  const { register, handleSubmit, reset, watch, formState } = useForm({
     defaultValues,
     mode: "onChange",
   });
   const [allData, setAllData] = useState({});
   const [preview, setPreview] = useState(false);
+  let { isValid, isDirty, errors } = formState;
   async function submit() {
     setloading(true);
     try {
@@ -145,7 +147,7 @@ function PostManger({ defaultValues, clubs }) {
             <div className={styles.outer_div}>
               <div>
                 <label htmlFor="club">Select Club:</label>
-                <select name="club" {...register("club")}>
+                <select name="club" {...register("club", { required: true })}>
                   {clubs.map((clubName) => (
                     <option key={`clubname${clubName}`} value={clubName}>
                       {clubName}
@@ -156,37 +158,66 @@ function PostManger({ defaultValues, clubs }) {
               <div>
                 <label htmlFor="title">Event Title:</label>
                 <input
-                  {...register("title")}
+                  className={errors.title && "m-0"}
+                  {...register("title", {
+                    maxLength: { value: 100, message: "Title is too long" },
+                  })}
                   type="text"
                   id="title"
                   name="title"
                   spellCheck="false"
                   required
                 />
+                {errors.title && (
+                  <p className="text-red-500 text-base">
+                    {errors.title.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className={styles.outer_div}>
               <div>
                 <label htmlFor="description">Description:</label>
                 <textarea
-                  {...register("description")}
+                  {...register("description", {
+                    maxLength: {
+                      value: 3500,
+                      message: "3500 words are limit of Description",
+                    },
+                  })}
+                  className={errors.description && "m-0"}
                   name="description"
                   id="description"
                   rows="5"
                   spellCheck="false"
                   required
-                ></textarea>
+                />
+                {errors.description && (
+                  <p className="text-red-500 text-base">
+                    {errors.description.message}
+                  </p>
+                )}
               </div>
               <div>
                 <label htmlFor="eligibility">Who can Participate?:</label>
                 <textarea
-                  {...register("eligibility")}
+                  {...register("eligibility", {
+                    maxLength: {
+                      value: 100,
+                      message: "100 words are limit for Eligibility ",
+                    },
+                  })}
                   name="eligibility"
                   id="eligiblity"
                   rows="3"
-                  spellCheck="false"
+                  className={errors.eligibility && "m-0"}
                   required
-                ></textarea>
+                />
+                {errors.eligibility && (
+                  <p className="text-red-500 text-base">
+                    {errors.eligibility.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className={styles.outer_div}>
@@ -215,7 +246,13 @@ function PostManger({ defaultValues, clubs }) {
               <div>
                 <label htmlFor="time">Time:</label>
                 <input
-                  {...register("time")}
+                  className={errors.time && "m-0"}
+                  {...register("time", {
+                    maxLength: {
+                      value: 25,
+                      message: "25 words are limit for text",
+                    },
+                  })}
                   type="text"
                   id="time"
                   name="time"
@@ -223,24 +260,46 @@ function PostManger({ defaultValues, clubs }) {
                   spellCheck="false"
                   required
                 />
+                {errors.time && (
+                  <p className="text-red-500 text-base">
+                    {errors.time.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className={styles.outer_div}>
               <div>
                 <label htmlFor="venue">Venue</label>
                 <input
-                  {...register("venue")}
+                  className={errors.venue && "m-0"}
+                  {...register("venue", {
+                    maxLength: {
+                      value: 35,
+                      message: "35 words are limit for venue",
+                    },
+                  })}
                   type="text"
                   id="venue"
                   name="venue"
                   spellCheck="false"
                   required
                 />
+                {errors.venue && (
+                  <p className="text-red-500 text-base">
+                    {errors.venue.message}
+                  </p>
+                )}
               </div>
               <div>
                 <label htmlFor="teamsize">Team Size:</label>
                 <input
-                  {...register("teamsize")}
+                  className={errors.teamsize && "m-0"}
+                  {...register("teamsize", {
+                    maxLength: {
+                      value: 20,
+                      message: "20 words are limit of TeamSize",
+                    },
+                  })}
                   type="text"
                   id="teamsize"
                   name="teamsize"
@@ -248,13 +307,24 @@ function PostManger({ defaultValues, clubs }) {
                   spellCheck="false"
                   required
                 />
+                {errors.teamsize && (
+                  <p className="text-red-500 text-base">
+                    {errors.teamsize.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className={styles.outer_div}>
               <div>
                 <label htmlFor="fee">Entry Fee:</label>
                 <input
-                  {...register("fee")}
+                  className={errors.fee && "m-0"}
+                  {...register("fee", {
+                    maxLength: {
+                      value: 15,
+                      message: "15 words are limit for Fee",
+                    },
+                  })}
                   type="text"
                   id="fee"
                   name="fee"
@@ -262,17 +332,31 @@ function PostManger({ defaultValues, clubs }) {
                   spellCheck="false"
                   required
                 />
+                {errors.fee && (
+                  <p className="text-red-500 text-base">{errors.fee.message}</p>
+                )}
               </div>
               <div>
                 <div htmlFor="googleFormLink">Google Form Link:</div>
                 <input
-                  {...register("googleFormLink")}
+                  className={errors.googleFormLink && "m-0"}
+                  {...register("googleFormLink", {
+                    maxLength: {
+                      value: 100,
+                      message: "100 words are limit for GoogleLink",
+                    },
+                  })}
                   type="text"
                   id="googleFormLink"
                   name="googleFormLink"
                   placeholder="Registration Link (optional)"
                   spellCheck="false"
                 />
+                {errors.googleFormLink && (
+                  <p className="text-red-500 text-base">
+                    {errors.googleFormLink.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className={styles.outer_div}>
@@ -285,40 +369,80 @@ function PostManger({ defaultValues, clubs }) {
                   <div className={styles.inner_div}>
                     <input
                       type="text"
-                      {...register("name1")}
+                      {...register("name1", {
+                        maxLength: {
+                          value: 15,
+                          message: "15 words are limit for Name1",
+                        },
+                      })}
                       className={styles.name}
                       name="name1"
                       placeholder="Name1"
                       spellCheck="false"
                       required
                     />
+                    {errors.name1 && (
+                      <p className="text-red-500 text-base">
+                        {errors.name1.message}
+                      </p>
+                    )}
                     <input
                       type="number"
                       className={styles.contact}
-                      {...register("contact1")}
+                      {...register("contact1", {
+                        maxLength: {
+                          value: 10,
+                          message: "Too Long for contact Number",
+                        },
+                      })}
                       name="contact1"
                       placeholder="Contact No. 1"
                       spellCheck="false"
                       required
                     />
+                    {errors.contact1 && (
+                      <p className="text-red-500 text-base">
+                        {errors.contact1.message}
+                      </p>
+                    )}
                   </div>
                   <div className={styles.inner_div}>
                     <input
-                      {...register("name2")}
+                      {...register("name2", {
+                        maxLength: {
+                          value: 15,
+                          message: "15 words are limit for Name2",
+                        },
+                      })}
                       type="text"
                       className={styles.name}
                       name="name2"
                       placeholder="Name2(optional)"
                       spellCheck="false"
                     />
+                    {errors.name2 && (
+                      <p className="text-red-500 text-base">
+                        {errors.name2.message}
+                      </p>
+                    )}
                     <input
-                      {...register("contact2")}
+                      {...register("contact2", {
+                        maxLength: {
+                          value: 10,
+                          message: "Too long for contact Number",
+                        },
+                      })}
                       type="number"
                       className={styles.contact}
                       name="contact2"
                       placeholder="Contact No. 2(optional)"
                       spellCheck="false"
                     />
+                    {errors.contact2 && (
+                      <p className="text-red-500 text-base">
+                        {errors.contact2.message}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -328,16 +452,29 @@ function PostManger({ defaultValues, clubs }) {
               <div>
                 <label htmlFor="extra_notes">Additional Notes:</label>
                 <textarea
-                  {...register("notes")}
+                  className={errors.notes && "m-0"}
+                  {...register("notes", {
+                    maxLength: {
+                      value: 1000,
+                      message: "1000 words are limit for Notes",
+                    },
+                  })}
                   name="notes"
                   id="extra_notes"
                   rows="4"
                   spellCheck="false"
-                ></textarea>
+                />
+                {errors.notes && (
+                  <p className="text-red-500 text-base">
+                    {errors.notes.message}
+                  </p>
+                )}
               </div>
             </div>
             {!loading && (
-              <button className={styles.button}>Send to Admin</button>
+              <button disabled={!isDirty || !isValid} className={styles.button}>
+                Send to Admin
+              </button>
             )}
             {loading && (
               <div className="flex justify-center">
