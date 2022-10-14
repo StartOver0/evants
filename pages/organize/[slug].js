@@ -89,7 +89,7 @@ function PostManger({ defaultValues, clubs }) {
     mode: "onChange",
   });
   const [allData, setAllData] = useState({});
-  const [checkDate, SetcheckDate] = useState(true);
+  const [checkDate, SetcheckDate] = useState(false);
   const [preview, setPreview] = useState(false);
 
   let { isValid, isDirty, errors } = formState;
@@ -498,7 +498,7 @@ function PostManger({ defaultValues, clubs }) {
             </div>
             {!loading && (
               <button
-                disabled={!isDirty || !isValid || checkDate}
+                disabled={!isValid || !isDirty || checkDate}
                 className={styles.button}
               >
                 Send to Admin
