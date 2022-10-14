@@ -1,13 +1,12 @@
-// import {use} from 'next-auth/react';
 import AuthCheck from "/components/AuthCheck/AuthCheck";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import styles from "/styles/Organize.module.css";
-import userClubs from "/staticData/userClubs";
 import { auth, db } from "../../lib/firebase";
 import { UserContext } from "../../lib/Context";
 import processing from "/public/images/processing.png";
 import Image from "next/image";
+import { DateTime } from "luxon";
 import { useForm } from "react-hook-form";
 import PreviewPage from "../../components/PreviewPage/previewPage";
 import {
@@ -24,7 +23,6 @@ import {
 
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { maxLength } from "cookieparser";
 export default function CreatePost(props) {
   const { user, username } = useContext(UserContext);
   const [defaultValues, setDefaultValues] = useState();
@@ -66,6 +64,22 @@ export default function CreatePost(props) {
     </AuthCheck>
   );
 }
+function compareTime(date, edate) {
+  let reg = /(\d{4})-(\d{1,2})-(\d{1,2})/;
+  let arr1 = date.match(reg);
+  let starting = DateTime.local(
+    parseInt(arr1[1]),
+    parseInt(arr1[2]),
+    parseInt(arr1[3])
+  ).setZone("Asia/kolkata");
+  let arr2 = edate.match(reg);
+  let endingDate = DateTime.local(
+    parseInt(arr2[1]),
+    parseInt(arr2[2]),
+    parseInt(arr2[3])
+  ).setZone("Asia/kolkata");
+  return endingDate >= starting;
+}
 function PostManger({ defaultValues, clubs }) {
   let [loading, setloading] = useState(false);
   const Router = useRouter();
@@ -75,8 +89,11 @@ function PostManger({ defaultValues, clubs }) {
     mode: "onChange",
   });
   const [allData, setAllData] = useState({});
+  const [checkDate, SetcheckDate] = useState(false);
   const [preview, setPreview] = useState(false);
+
   let { isValid, isDirty, errors } = formState;
+
   async function submit() {
     setloading(true);
     try {
@@ -105,6 +122,9 @@ function PostManger({ defaultValues, clubs }) {
       toast.error(err.message.toString());
     }
   }
+  useEffect(() => {
+    SetcheckDate(!compareTime(watch("date"), watch("edate")));
+  }, [watch("edate"), watch("date")]);
   const data = {
     published: false,
     username: username,
@@ -127,6 +147,7 @@ function PostManger({ defaultValues, clubs }) {
     contact2: watch("contact2"),
     notes: watch("notes"),
   };
+
   return (
     <div>
       {preview ? (
@@ -242,6 +263,9 @@ function PostManger({ defaultValues, clubs }) {
                   spellCheck="false"
                   required
                 />
+                {checkDate && (
+                  <p className="text-red-500">Dates are not right</p>
+                )}
               </div>
               <div>
                 <label htmlFor="time">Time:</label>
@@ -472,7 +496,10 @@ function PostManger({ defaultValues, clubs }) {
               </div>
             </div>
             {!loading && (
-              <button disabled={!isDirty || !isValid} className={styles.button}>
+              <button
+                disabled={!isDirty || !isValid || checkDate}
+                className={styles.button}
+              >
                 Send to Admin
               </button>
             )}

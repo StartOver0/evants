@@ -51,7 +51,7 @@ export default function Home() {
   }, [username]);
   if (loading) {
     return (
-      <div className="w-[100%] h-[100px] flex justify-center items-center">
+      <div className="w-[100%] h-[80vh] flex justify-center items-center">
         <Image
           className="w-[40px] h-[30px] animate-spin"
           src={processing}
