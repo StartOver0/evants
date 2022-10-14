@@ -31,7 +31,6 @@ export async function getStaticPaths() {
     let params = { slug, username };
     paths.push({ params });
   });
-  console.log(paths);
   return {
     paths,
     fallback: "blocking",

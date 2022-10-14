@@ -51,7 +51,7 @@ function Home() {
   }, []);
   if (wholeL) {
     return (
-      <div className="flex items-center justify-center py-2">
+      <div className="flex items-center justify-center py-2 h-[80vh] ">
         <Image
           className="w-[40px] h-[30px] animate-spin"
           src={processing}
