@@ -89,7 +89,7 @@ function PostManger({ defaultValues, clubs }) {
     mode: "onChange",
   });
   const [allData, setAllData] = useState({});
-  const [checkDate, SetcheckDate] = useState(false);
+  const [checkDate, SetcheckDate] = useState(true);
   const [preview, setPreview] = useState(false);
 
   let { isValid, isDirty, errors } = formState;
@@ -122,6 +122,7 @@ function PostManger({ defaultValues, clubs }) {
       toast.error(err.message.toString());
     }
   }
+
   useEffect(() => {
     SetcheckDate(!compareTime(watch("date"), watch("edate")));
   }, [watch("edate"), watch("date")]);
