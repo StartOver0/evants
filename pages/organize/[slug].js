@@ -81,6 +81,7 @@ function compareTime(date, edate) {
   return endingDate >= starting;
 }
 function PostManger({ defaultValues, clubs }) {
+  let [date, setDate] = useState(defaultValues.date);
   let [loading, setloading] = useState(false);
   const Router = useRouter();
   const { user, username } = useContext(UserContext);
@@ -148,7 +149,18 @@ function PostManger({ defaultValues, clubs }) {
     contact2: watch("contact2"),
     notes: watch("notes"),
   };
-
+  function isDateIsValid(date) {
+    let t = DateTime.now();
+    let reg = /(\d{4})-(\d{1,2})-(\d{1,2})/;
+    let arr1 = date.match(reg);
+    let today = DateTime.local(t.year, t.month, t.day).setZone("Asia/kolkata");
+    let starting = DateTime.local(
+      parseInt(arr1[1]),
+      parseInt(arr1[2]),
+      parseInt(arr1[3])
+    ).setZone("Asia/kolkata");
+    return today <= starting;
+  }
   return (
     <div>
       {preview ? (
@@ -247,6 +259,12 @@ function PostManger({ defaultValues, clubs }) {
                 <label htmlFor="date">Starting Date:</label>
                 <input
                   {...register("date")}
+                  onChange={(e) => {
+                    if (isDateIsValid(e.target.value)) {
+                      setDate(e.target.value);
+                    }
+                  }}
+                  value={date}
                   type="date"
                   id="date"
                   name="date"
