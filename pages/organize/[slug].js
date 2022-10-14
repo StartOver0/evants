@@ -122,6 +122,7 @@ function PostManger({ defaultValues, clubs }) {
       toast.error(err.message.toString());
     }
   }
+
   useEffect(() => {
     SetcheckDate(!compareTime(watch("date"), watch("edate")));
   }, [watch("edate"), watch("date")]);
@@ -497,7 +498,7 @@ function PostManger({ defaultValues, clubs }) {
             </div>
             {!loading && (
               <button
-                disabled={!isDirty || !isValid || checkDate}
+                disabled={!isValid || !isDirty || checkDate}
                 className={styles.button}
               >
                 Send to Admin
