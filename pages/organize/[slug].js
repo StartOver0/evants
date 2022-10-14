@@ -24,13 +24,12 @@ import {
 
 import toast from "react-hot-toast";
 import Link from "next/link";
-import { ref } from "firebase/storage";
 export default function CreatePost(props) {
   const { user, username } = useContext(UserContext);
   const [defaultValues, setDefaultValues] = useState();
   const [allclubs, setallclubs] = useState();
   const Router = useRouter();
-
+  let [loading, setloading] = useState(true);
   useEffect(() => {
     (async () => {
       if (user) {
@@ -40,15 +39,24 @@ export default function CreatePost(props) {
           await getDoc(doc(collection(db, "club"), "clubname"))
         ).data().clubs;
         setallclubs(clubs);
-        ref = doc(collection(db, `users/${user.uid}/posts`), slug);
+        let ref = doc(collection(db, `users/${user.uid}/posts`), slug);
         let value = await getDoc(ref);
         setDefaultValues(value.data());
+        setloading(false);
       }
     })();
   }, [user]);
-
-  let ref;
-
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-2">
+        <Image
+          className="w-[40px] h-[30px] animate-spin"
+          src={processing}
+          alt="something"
+        />
+      </div>
+    );
+  }
   return (
     <AuthCheck>
       {defaultValues && (

@@ -91,28 +91,28 @@ function Posts(props) {
 function findOut(date, edate) {
   let reg = /(\d{4})-(\d{1,2})-(\d{1,2})/;
   let today = DateTime.now().setZone("Asia/kolkata");
-  let todayTs = BigInt(today.ts.toString());
+
   let arr1 = date.match(reg);
+
   let starting = DateTime.local(
     parseInt(arr1[1]),
     parseInt(arr1[2]),
     parseInt(arr1[3])
   ).setZone("Asia/kolkata");
-  let startingTs = BigInt(starting.ts.toString());
   let arr2 = edate.match(reg);
   let endingDate = DateTime.local(
     parseInt(arr2[1]),
     parseInt(arr2[2]),
     parseInt(arr2[3]) + 1
   ).setZone("Asia/kolkata");
-  let endingDateTs = BigInt(endingDate.ts.toString());
-  if (todayTs > endingDate && todayTs > startingTs) {
+  if (today > starting && today > endingDate) {
+    console.log("past");
     return "past";
-  }
-  if (todayTs < endingDateTs && todayTs < startingTs) {
+  } else if (today < endingDate && today < starting) {
+    console.log("upcoming");
     return "upcoming";
-  }
-  if (todayTs >= startingTs && todayTs < endingDateTs) {
+  } else {
+    console.log("current");
     return "current";
   }
 }

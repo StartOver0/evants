@@ -31,6 +31,7 @@ function Home() {
   const [articles, setArticles] = useState();
   const [loading, setLoading] = useState(false);
   const [postEnd, setPostEnd] = useState(false);
+  const [wholeL, setWholeL] = useState(true);
   useEffect(() => {
     (async () => {
       const ref = collection(db, `users/${auth.currentUser.uid}/posts`);
@@ -45,8 +46,20 @@ function Home() {
         arti.push(postToJSON(doc));
       });
       setArticles(arti, pdata);
+      setWholeL(false);
     })();
   }, []);
+  if (wholeL) {
+    return (
+      <div className="flex items-center justify-center py-2">
+        <Image
+          className="w-[40px] h-[30px] animate-spin"
+          src={processing}
+          alt="something"
+        />
+      </div>
+    );
+  }
   async function getMore() {
     setLoading(true);
     const last = articles[articles.length - 1];
