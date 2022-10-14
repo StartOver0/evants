@@ -46,6 +46,9 @@ function Home() {
         arti.push(postToJSON(doc));
       });
       setArticles(arti, pdata);
+      if (arti.length < li) {
+        setPostEnd(true);
+      }
       setWholeL(false);
     })();
   }, []);

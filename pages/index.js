@@ -13,33 +13,36 @@ import {
 import { db, postToJSON } from "/lib/firebase";
 import { DateTime } from "luxon";
 import { MainLoading } from "../lib/Context";
-
+let i = 0;
 export default function Home() {
   let [props, setProps] = useState({ current: [], upcoming: [] });
   let [loading, setLoading] = useState(true);
   useEffect(() => {
-    (async () => {
-      const ref = collection(db, "HomePosts/post/post");
-      const dc = await getDocs(ref);
+    if (i == 0) {
+      i++;
+      (async () => {
+        const ref = collection(db, "HomePosts/post/post");
+        const dc = await getDocs(ref);
 
-      let upcoming = [],
-        current = [];
-      dc.forEach((doc) => {
-        let date = doc.data().date;
-        let edate = doc.data().edate;
-        let ans = findOut(date, edate);
-        if (ans == "current") {
-          current.push(postToJSON(doc));
-        }
-        if (ans == "upcoming") {
-          upcoming.push(postToJSON(doc));
-        }
+        let upcoming = [],
+          current = [];
+        dc.forEach((doc) => {
+          let date = doc.data().date;
+          let edate = doc.data().edate;
+          let ans = findOut(date, edate);
+          if (ans == "current") {
+            current.push(postToJSON(doc));
+          }
+          if (ans == "upcoming") {
+            upcoming.push(postToJSON(doc));
+          }
 
-        // arr.push(postToJSON(doc));
-      });
-      setProps({ current, upcoming });
-      setLoading(false);
-    })();
+          // arr.push(postToJSON(doc));
+        });
+        setProps({ current, upcoming });
+        setLoading(false);
+      })();
+    }
   }, []);
 
   return (
