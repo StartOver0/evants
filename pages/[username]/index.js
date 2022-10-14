@@ -20,14 +20,10 @@ export default function Profile(props) {
 }
 const li = 3;
 function Home({ user, post }) {
-  return user !== "not define" ? (
+  return (
     <div>
       <Avatar {...user} />
       <UnAuthBlogPreview {...post} />
-    </div>
-  ) : (
-    <div className="h-[60vh] flex justify-center items-center text-green-600">
-      <div>no user this name exists</div>
     </div>
   );
 }
@@ -55,7 +51,9 @@ export async function getServerSideProps(context) {
     // const post = arr;
     user = pdoc.data();
   } else {
-    user = "not define";
+    return {
+      notFound: true,
+    };
   }
 
   return {

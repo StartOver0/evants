@@ -14,13 +14,7 @@ import BlogPreview from "../../components/blogPreview/blogPreview";
 import UnAuthBlogPreview from "../../components/unAuthBlogPreview/UnAuthBlogPreview";
 import { db, postToJSON } from "../../lib/firebase";
 export default function Slug({ post }) {
-  return post !== "not define" ? (
-    <PreviewPage {...post} />
-  ) : (
-    <div className="h-[60vh] flex justify-center items-center text-red-700">
-      <div>No event is organize by this slug</div>
-    </div>
-  );
+  return <PreviewPage {...post} />;
 }
 export async function getStaticPaths() {
   let ref = collection(db, "HomePosts/post/post");
@@ -49,10 +43,14 @@ export async function getStaticProps({ params }) {
     if (post.exists()) {
       post = postToJSON(post);
     } else {
-      post = "not define";
+      return {
+        notFound: true,
+      };
     }
   } else {
-    post = "not define";
+    return {
+      notFound: true,
+    };
   }
 
   return { props: { post }, revalidate: 5000 };
