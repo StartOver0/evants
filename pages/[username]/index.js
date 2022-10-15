@@ -34,7 +34,7 @@ export async function getServerSideProps(context) {
   const refUid = await getDoc(doc(collection(db, "usernames"), username));
   if (refUid.exists()) {
     const uid = refUid.data().uid;
-    const ref = collection(db, `users/${uid}/posts`);
+    const ref = collection(db, `users/${uid}/events`);
     const q = query(
       ref,
       where("published", "==", true),
