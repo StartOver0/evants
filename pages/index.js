@@ -20,6 +20,7 @@ export default function Home() {
   let [props, setProps] = useState({ current: [], upcoming: [] });
   let [loading, setLoading] = useState(true);
   useEffect(() => {
+    console.log("hello world");
     (async () => {
       const ref = query(
         collectionGroup(db, "hEvents"),
