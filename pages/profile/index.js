@@ -1,6 +1,6 @@
 import Avatar from "/components/Avatar/Avatar";
 import BlogPreview from "/components/blogPreview/blogPreview";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import {
   collection,
@@ -18,6 +18,7 @@ import AuthCheck from "/components/AuthCheck/AuthCheck";
 import processing from "/public/images/processing.png";
 import { fromMillis } from "firebase/firestore";
 import Link from "next/link";
+import { UserContext } from "../../lib/Context";
 export default function Profile() {
   return (
     <AuthCheck>
@@ -27,6 +28,8 @@ export default function Profile() {
 }
 const li = 3;
 function Home() {
+  const { profileData } = useContext(UserContext);
+
   const [pdata, setPdata] = useState();
   const [articles, setArticles] = useState();
   const [loading, setLoading] = useState(false);
@@ -34,13 +37,12 @@ function Home() {
   const [wholeL, setWholeL] = useState(true);
   useEffect(() => {
     (async () => {
-      const ref = collection(db, `users/${auth.currentUser.uid}/posts`);
+      const ref = collection(db, `users/${auth.currentUser.uid}/events`);
       const q = query(ref, orderBy("updatedAt", "desc"), limit(li));
 
       const docs = await getDocs(q);
-      const pref = doc(collection(db, `users`), auth.currentUser.uid);
-      const pdoc = await getDoc(pref);
-      setPdata(pdoc.data());
+
+      setPdata(profileData);
       let arti = [];
       docs.forEach((doc) => {
         arti.push(postToJSON(doc));
@@ -69,7 +71,7 @@ function Home() {
     console.log(last.updatedAt);
     const cursor = Timestamp.fromMillis(last.updatedAt);
 
-    const ref = collection(db, `users/${auth.currentUser.uid}/posts`);
+    const ref = collection(db, `users/${auth.currentUser.uid}/events`);
     const q = query(
       ref,
       orderBy("updatedAt", "desc"),

@@ -17,7 +17,7 @@ export default function Slug({ post }) {
   return <PreviewPage {...post} />;
 }
 export async function getStaticPaths() {
-  let ref = collection(db, "HomePosts/post/post");
+  let ref = collectionGroup(db, "hEvents");
   let snapshot = await getDocs(ref);
   let paths = [];
   snapshot.forEach((doc) => {
@@ -37,7 +37,7 @@ export async function getStaticProps({ params }) {
   const refUid = await getDoc(doc(collection(db, "usernames"), username));
   if (refUid.exists()) {
     const uid = refUid.data().uid;
-    const postref = doc(collection(db, `users/${uid}/posts`), slug);
+    const postref = doc(collection(db, `users/${uid}/events`), slug);
 
     post = await getDoc(postref);
     if (post.exists()) {

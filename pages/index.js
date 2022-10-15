@@ -8,18 +8,23 @@ import {
   query,
   where,
   getDocs,
+  orderBy,
   collection,
 } from "firebase/firestore";
 import { db, postToJSON } from "/lib/firebase";
 import { DateTime } from "luxon";
 import { MainLoading } from "../lib/Context";
+
 let i = 0;
 export default function Home() {
   let [props, setProps] = useState({ current: [], upcoming: [] });
   let [loading, setLoading] = useState(true);
   useEffect(() => {
     (async () => {
-      const ref = collection(db, "HomePosts/post/post");
+      const ref = query(
+        collectionGroup(db, "hEvents"),
+        orderBy("updatedAt", "desc")
+      );
       const dc = await getDocs(ref);
 
       let upcoming = [],

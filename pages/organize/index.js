@@ -36,7 +36,7 @@ function CreateNewPost() {
   const createPost = async (e) => {
     e.preventDefault();
     setloading(true);
-    const ref = doc(collection(db, `users/${user.uid}/posts/`), slug);
+    const ref = doc(collection(db, `users/${user.uid}/events/`), slug);
     const batch = writeBatch(db);
     const d = new Date();
     let da = d.getDate();

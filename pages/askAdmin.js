@@ -9,6 +9,7 @@ import {
   setDoc,
   writeBatch,
   serverTimestamp,
+  collectionGroup,
 } from "firebase/firestore";
 import { BigLoader } from "../components/loading/loading";
 import Image from "next/image";
@@ -25,19 +26,28 @@ export default function Home() {
   let [loading, setLoading] = useState(true);
   let [posts, setPosts] = useState();
   useEffect(() => {
-    let adminPostRef = collection(db, "adminPosts/post/post");
+    let adminPostRef = collectionGroup(db, "aEvents");
+
     if (username) {
       (async () => {
+        let ad = await getDocs(adminPostRef);
+        console.log(ad);
+        ad.forEach((el) => {
+          console.log(el.data());
+        });
         let info = (
           await getDoc(doc(collection(db, `users`), user.uid))
         ).data();
+
         if (info.isAdmin) {
           let AdminOf = info.AdminOf;
           let p = [];
+
           for (let i = 0; i < AdminOf.length; i++) {
             let docs = query(adminPostRef, where("club", "==", AdminOf[i]));
 
             let d = await getDocs(docs);
+
             d.forEach((e) => {
               p.push(postToJSON(e));
             });
@@ -118,11 +128,14 @@ function List({ post, HandlePosts, posts }) {
                   post.updatedAt = serverTimestamp();
                   setloading(true);
                   let ref = doc(
-                    collection(db, "HomePosts/post/post"),
+                    collection(db, `homeEvents/${post.username}/hEvents`),
                     post.slug
                   );
                   const clubref = doc(
-                    collection(db, `clubs/${post.club}/post`),
+                    collection(
+                      db,
+                      `clubs/${post.club}/events/username/${post.username}`
+                    ),
                     post.slug
                   );
 
@@ -136,10 +149,13 @@ function List({ post, HandlePosts, posts }) {
                     );
                     let uid = (await getDoc(uidRef)).data().uid;
                     batch.update(
-                      doc(collection(db, `users/${uid}/posts`), post.slug),
+                      doc(collection(db, `users/${uid}/events`), post.slug),
                       { published: true }
                     );
-                    let adminPostRef = collection(db, "adminPosts/post/post");
+                    let adminPostRef = collection(
+                      db,
+                      `adminEvents/${post.username}/aEvents`
+                    );
                     batch.delete(doc(adminPostRef, post.slug));
                     await batch.commit();
                     let newPosts = posts.filter((po) => {
@@ -165,7 +181,10 @@ function List({ post, HandlePosts, posts }) {
                   let batch = writeBatch(db);
                   try {
                     setloading(true);
-                    let adminPostRef = collection(db, "adminPosts/post/post");
+                    let adminPostRef = collection(
+                      db,
+                      `adminEvents/${post.username}/aEvents`
+                    );
                     batch.delete(doc(adminPostRef, post.slug));
                     await batch.commit();
                     let newPosts = posts.filter((po) => {

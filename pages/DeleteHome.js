@@ -16,6 +16,7 @@ import {
   writeBatch,
   serverTimestamp,
   deleteDoc,
+  collectionGroup,
 } from "firebase/firestore";
 import { auth, db, postToJSON } from "../lib/firebase";
 import toast from "react-hot-toast";
@@ -26,7 +27,7 @@ export default function DeleteHome() {
   const [isAdmin, setIsAdmin] = useState(true);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    let adminPostRef = collection(db, "HomePosts/post/post");
+    let adminPostRef = collectionGroup(db, "hEvents");
     if (username) {
       (async () => {
         let info = (
@@ -172,7 +173,7 @@ function List({ post, handlePosts, posts }) {
               if (yes) {
                 setloading(true);
                 const ref = doc(
-                  collection(db, "HomePosts/post/post"),
+                  collection(db, `homeEvents/${post.username}/hEvents`),
                   post.slug
                 );
 
@@ -181,7 +182,7 @@ function List({ post, handlePosts, posts }) {
                   let uidRef = doc(collection(db, "usernames"), post.username);
                   let uid = (await getDoc(uidRef)).data().uid;
                   batch.update(
-                    doc(collection(db, `users/${uid}/posts`), post.slug),
+                    doc(collection(db, `users/${uid}/events`), post.slug),
                     { published: false }
                   );
                   batch.delete(ref);

@@ -38,7 +38,7 @@ export default function CreatePost(props) {
           await getDoc(doc(collection(db, "club"), "clubname"))
         ).data().clubs;
         setallclubs(clubs);
-        let ref = doc(collection(db, `users/${user.uid}/posts`), slug);
+        let ref = doc(collection(db, `users/${user.uid}/events`), slug);
         let value = await getDoc(ref);
         setDefaultValues(value.data());
         setloading(false);
@@ -99,9 +99,12 @@ function PostManger({ defaultValues, clubs }) {
     setloading(true);
     try {
       const { slug } = Router.query;
-      const adminPostRef = doc(collection(db, "adminPosts/post/post"), slug);
+      const adminPostRef = doc(
+        collection(db, `adminEvents/${username}/aEvents`),
+        slug
+      );
 
-      const refreence = doc(collection(db, `users/${user.uid}/posts`), slug);
+      const refreence = doc(collection(db, `users/${user.uid}/events`), slug);
       const batch = writeBatch(db);
 
       batch.update(refreence, {
@@ -549,11 +552,11 @@ function PostManger({ defaultValues, clubs }) {
             let istrue = confirm("Are you sure you want to delete it");
             const { slug } = Router.query;
             const refreence = doc(
-              collection(db, `users/${user.uid}/posts`),
+              collection(db, `users/${user.uid}/events`),
               slug
             );
             const currentPostref = doc(
-              collection(db, "adminPosts/post/post"),
+              collection(db, `adminEvents/${username}/aEvents`),
               slug
             );
 
@@ -561,11 +564,6 @@ function PostManger({ defaultValues, clubs }) {
               let batch = writeBatch(db);
               batch.delete(refreence);
               batch.delete(currentPostref);
-              if (watch("club") != "") {
-                batch.delete(
-                  doc(collection(db, `clubs/${watch("club")}/post`), slug)
-                );
-              }
               batch.commit();
               toast.success("post Deleted");
               Router.push("/");
