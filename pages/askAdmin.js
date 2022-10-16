@@ -27,7 +27,7 @@ export default function Home() {
   let [posts, setPosts] = useState();
   useEffect(() => {
     let adminPostRef = collectionGroup(db, "aEvents");
-
+    setLoading(true);
     if (username) {
       (async () => {
         let ad = await getDocs(adminPostRef);
@@ -57,6 +57,8 @@ export default function Home() {
         }
         setLoading(false);
       })();
+    } else {
+      setLoading(false);
     }
   }, [username]);
   if (loading) {
@@ -83,7 +85,7 @@ export default function Home() {
   );
 }
 function Posts(props) {
-  const [posts, setPosts] = useState(Object.values(props));
+  const [posts, setPosts] = useState(() => Object.values(props));
 
   if (JSON.stringify(posts) === JSON.stringify([])) {
     return (
@@ -93,7 +95,10 @@ function Posts(props) {
     );
   }
   function HandlePosts(pos) {
-    setPosts(pos);
+    let newPosts = posts.filter((po) => {
+      return po.slug !== pos.slug;
+    });
+    setPosts(newPosts);
   }
   return (
     <div className="min-h-[70vh]">
@@ -158,10 +163,8 @@ function List({ post, HandlePosts, posts }) {
                     );
                     batch.delete(doc(adminPostRef, post.slug));
                     await batch.commit();
-                    let newPosts = posts.filter((po) => {
-                      return po.slug !== post.slug;
-                    });
-                    HandlePosts(newPosts);
+
+                    HandlePosts(post);
                     setloading(false);
                     toast.success("Officially club post");
                   } catch (err) {
@@ -187,12 +190,9 @@ function List({ post, HandlePosts, posts }) {
                     );
                     batch.delete(doc(adminPostRef, post.slug));
                     await batch.commit();
-                    let newPosts = posts.filter((po) => {
-                      return po.slug !== post.slug;
-                    });
-                    HandlePosts(newPosts);
+                    HandlePosts(post);
                     setloading(false);
-                    toast.success("Deleted");
+                    toast.success("rejected");
                   } catch (err) {
                     toast.error(err.message);
                   }

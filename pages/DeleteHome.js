@@ -29,6 +29,7 @@ export default function DeleteHome() {
   useEffect(() => {
     let adminPostRef = collectionGroup(db, "hEvents");
     if (username) {
+      setLoading(true);
       (async () => {
         let info = (
           await getDoc(doc(collection(db, `users`), user.uid))
@@ -52,6 +53,8 @@ export default function DeleteHome() {
           setLoading(false);
         }
       })();
+    } else {
+      setLoading(false);
     }
   }, [username]);
   if (loading) {
