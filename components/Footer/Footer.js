@@ -16,10 +16,13 @@ export default function Footer() {
     if (e.target.value == "") {
       return;
     }
+    if (!auth.currentUser) {
+      return;
+    }
     let ref = collection(db, `feedback/${username}/feedback`);
     let d = doc(ref, Math.ceil(Math.random() * 1000000).toString());
     toast.success("Thank you for sending feedback");
-    await setDoc(d, { input });
+    setDoc(d, { input });
     setInput("");
   }
 

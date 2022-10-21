@@ -2,8 +2,8 @@ import styles from "./ClubItem.module.css";
 import Image from "next/image";
 
 export default function ClubItem({ data }) {
-  let newdata = data.data;
-  const { clubName, clubCode, clubAdmin, clubPhoto } = newdata;
+  let newdata = data;
+  const { clubName, clubCode, clubAdmins, clubPhoto } = newdata;
 
   return (
     <div>
@@ -20,7 +20,7 @@ export default function ClubItem({ data }) {
               Admin:
               {(() => {
                 let string = "";
-                clubAdmin.forEach((element) => {
+                clubAdmins.forEach((element) => {
                   string += " " + element;
                 });
                 return string;

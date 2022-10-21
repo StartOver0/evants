@@ -70,6 +70,7 @@ export default function NameChecker() {
       photoURL: user.photoURL ?? photoURL,
       displayName: user.displayName ?? "",
       Description: des,
+      Ban: false,
     });
     batch.set(usernameDoc, { uid: user.uid });
     try {

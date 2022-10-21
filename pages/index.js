@@ -3,6 +3,7 @@ import styles from "/styles/Home.module.css";
 import Content from "../components/Content/Content";
 import { useState, useEffect } from "react";
 import TeamSection from "../components/TeamSection/TeamSection";
+import { Leader } from "../components/Leader/leader";
 import {
   collectionGroup,
   query,
@@ -14,13 +15,27 @@ import {
 import { db, postToJSON } from "/lib/firebase";
 import { DateTime } from "luxon";
 import { MainLoading } from "../lib/Context";
-
-let i = 0;
+import toast from "react-hot-toast";
 export default function Home() {
   let [props, setProps] = useState({ current: [], upcoming: [] });
   let [loading, setLoading] = useState(true);
+  const [allIn, setAllIn] = useState(false);
   useEffect(() => {
-    console.log("hello world");
+    let pressed = new Set();
+    let onkeydown = (event) => {
+      pressed.add(event.key);
+      for (let code of ["Shift", "Control", ":"]) {
+        if (!pressed.has(code)) return;
+      }
+      pressed.clear();
+      setAllIn(true);
+    };
+    window.addEventListener("keydown", onkeydown);
+    return () => {
+      window.removeEventListener("keydown", onkeydown);
+    };
+  }, []);
+  useEffect(() => {
     (async () => {
       const ref = query(
         collectionGroup(db, "hEvents"),
@@ -47,7 +62,12 @@ export default function Home() {
       setLoading(false);
     })();
   }, []);
-
+  function handleSetAllIn(bool) {
+    setAllIn(bool);
+  }
+  if (allIn) {
+    return <Leader handleSetAllIn={handleSetAllIn} />;
+  }
   return (
     <MainLoading.Provider value={{ loading }}>
       <div className={styles.main}>
