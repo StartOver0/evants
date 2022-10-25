@@ -44,6 +44,7 @@ function CreateNewPost() {
     let year = d.getFullYear();
     const data = {
       published: false,
+      uid: auth.currentUser.uid,
       title: "",
       slug,
       username,
