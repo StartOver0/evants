@@ -17,16 +17,8 @@ export default function Slug({ post }) {
   return <PreviewPage {...post} />;
 }
 export async function getStaticPaths() {
-  let ref = collectionGroup(db, "hEvents");
-  let snapshot = await getDocs(ref);
-  let paths = [];
-  snapshot.forEach((doc) => {
-    const { slug, username } = doc.data();
-    let params = { slug, username };
-    paths.push({ params });
-  });
   return {
-    paths,
+    paths: [],
     fallback: "blocking",
   };
 }
@@ -53,5 +45,5 @@ export async function getStaticProps({ params }) {
     };
   }
 
-  return { props: { post }, revalidate: 5000 };
+  return { props: { post }, revalidate: 3600 };
 }

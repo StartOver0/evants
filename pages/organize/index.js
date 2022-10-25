@@ -48,8 +48,6 @@ function CreateNewPost() {
       slug,
       username,
       club: "Choose Club",
-      askAdmin: false,
-      admin: false,
       description: "# hello world!",
       eligibility: "",
       googleFormLink: "",
@@ -114,13 +112,13 @@ function CreateNewPost() {
           className="p-2 rounded-lg border-solid border-black border-3"
           value={title}
           onChange={(e) => {
-            if (e.target.value.length <= 30 && !isEmoji(e.target.value)) {
+            if (e.target.value.length <= 60 && !isEmoji(e.target.value)) {
               let v = e.target.value;
 
               setTitle(v);
             }
           }}
-          placeholder="slug(30 words limit)"
+          placeholder="slug has 60 words limit)"
           required
         />
         <p>

@@ -10,11 +10,12 @@ import processing from "/public/images/processing.png";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, collection, setDoc, getDoc } from "firebase/firestore";
 import NameChecker from "../../components/NameChecker/NameChecker";
-import { UserContext } from "../../lib/Context";
+import { RouterContext, UserContext } from "../../lib/Context";
 import Otproot from "../../components/optroot/Otproot";
 import toast from "react-hot-toast";
 
 export default function Login() {
+  const { path } = useContext(RouterContext);
   const { user, username } = useContext(UserContext);
   const [eio, seteio] = useState(false); //everything is okay
   const Router = useRouter();
@@ -53,7 +54,7 @@ export default function Login() {
       const snap = await getDoc(ref);
       if (snap.exists()) {
         toast.success("Login Sucessfully!");
-        Router.push("/");
+        Router.push(path);
       } else {
         seteio(true);
       }
@@ -83,7 +84,7 @@ export default function Login() {
             await signInWithEmailAndPassword(auth, suEmail, suPass);
             toast.success("Login sucessfully!");
 
-            Router.push("/");
+            Router.push(path);
           } catch (err) {
             setmsz("Account already exits but password is wrong");
             setPassCheck(true);
@@ -128,12 +129,11 @@ export default function Login() {
     return <Otproot given={{ email: suEmail, pass: suPass }} />;
   }
   if (eio) {
-    toast.success("Choose your name");
     return <NameChecker />;
   }
 
   if (username && user) {
-    Router.push("/");
+    Router.push(path);
   }
 
   return (
@@ -280,7 +280,7 @@ export default function Login() {
                   if (docSnap.exists()) {
                     // console.log("yes done it");
                     toast.success("LogIn with Google Sucessful");
-                    Router.push("/");
+                    Router.push(path);
                   } else {
                     seteio(true);
                   }

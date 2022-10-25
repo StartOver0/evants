@@ -3,7 +3,6 @@ import styles from "/styles/Home.module.css";
 import Content from "../components/Content/Content";
 import { useState, useEffect } from "react";
 import TeamSection from "../components/TeamSection/TeamSection";
-import { Leader } from "../components/Leader/leader";
 import {
   collectionGroup,
   query,
@@ -16,6 +15,8 @@ import { db, postToJSON } from "/lib/firebase";
 import { DateTime } from "luxon";
 import { MainLoading } from "../lib/Context";
 import toast from "react-hot-toast";
+import dynamic from "next/dynamic";
+const Leader = dynamic(() => import("../components/Leader/leader"));
 export default function Home() {
   let [props, setProps] = useState({ current: [], upcoming: [] });
   let [loading, setLoading] = useState(true);
@@ -30,9 +31,14 @@ export default function Home() {
       pressed.clear();
       setAllIn(true);
     };
+    let onkeyup = (event) => {
+      pressed.delete(event.key);
+    };
+    window.addEventListener("keyup", onkeyup);
     window.addEventListener("keydown", onkeydown);
     return () => {
       window.removeEventListener("keydown", onkeydown);
+      window.removeEventListener("keyup", onkeyup);
     };
   }, []);
   useEffect(() => {
@@ -65,10 +71,9 @@ export default function Home() {
   function handleSetAllIn(bool) {
     setAllIn(bool);
   }
-  if (allIn) {
-    return <Leader handleSetAllIn={handleSetAllIn} />;
-  }
-  return (
+  return allIn ? (
+    <Leader handleSetAllIn={handleSetAllIn} />
+  ) : (
     <MainLoading.Provider value={{ loading }}>
       <div className={styles.main}>
         <ImageSlider /> <hr className={styles.hr} />
