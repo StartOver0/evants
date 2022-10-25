@@ -89,7 +89,6 @@ function PostManger({ defaultValues, clubs }) {
     defaultValues,
     mode: "onChange",
   });
-  const [allData, setAllData] = useState({});
   const [checkDate, SetcheckDate] = useState(false);
   const [preview, setPreview] = useState(false);
 
@@ -106,18 +105,18 @@ function PostManger({ defaultValues, clubs }) {
 
       const refreence = doc(collection(db, `users/${user.uid}/events`), slug);
       const batch = writeBatch(db);
+      let a = { ...data, updatedAt: serverTimestamp() };
+      let c = defaultValues;
+      for (let key in a) {
+        if (a.hasOwnProperty(key)) {
+          c[key] = a[key];
+        }
+      }
+      console.log(c);
+      batch.set(refreence, c);
 
-      batch.update(refreence, {
-        ...data,
-        admin: false,
-        updatedAt: serverTimestamp(),
-      });
-
-      batch.set(adminPostRef, {
-        ...data,
-        admin: false,
-        updatedAt: serverTimestamp(),
-      });
+      console.log(c);
+      batch.set(adminPostRef, c);
       await batch.commit();
       toast.success("Post Updated");
       Router.push("/");
@@ -133,13 +132,12 @@ function PostManger({ defaultValues, clubs }) {
   const data = {
     published: false,
     username: username,
-    askAdmin: false,
     slug: Router.query.slug,
     club: watch("club"),
     date: watch("date"),
     description: watch("description"),
     eligibility: watch("eligibility"),
-    fee: watch("eligibility"),
+    fee: watch("fee"),
     edate: watch("edate"),
     googleFormLink: watch("googleFormLink"),
     venue: watch("venue"),
@@ -197,7 +195,7 @@ function PostManger({ defaultValues, clubs }) {
                 <input
                   className={errors.title && "m-0"}
                   {...register("title", {
-                    maxLength: { value: 100, message: "Title is too long" },
+                    maxLength: { value: 150, message: "Title is too long" },
                   })}
                   type="text"
                   id="title"
@@ -264,6 +262,9 @@ function PostManger({ defaultValues, clubs }) {
                   {...register("date")}
                   onChange={(e) => {
                     if (isDateIsValid(e.target.value)) {
+                      SetcheckDate(
+                        !compareTime(e.target.value, watch("edate"))
+                      );
                       setDate(e.target.value);
                     }
                   }}

@@ -1,14 +1,17 @@
 import { useForm } from "react-hook-form";
-import { cloneElement, useRef, useState } from "react";
+import { cloneElement, useContext, useRef, useState } from "react";
 import processing from "/public/images/processing.png";
 import Image from "next/image";
 import clubPhoto from "/public/images/clubphoto.jpg";
 import { collection, doc, getDoc, writeBatch } from "firebase/firestore";
-import { db, storage } from "../../lib/firebase";
+import { auth, db, storage } from "../../lib/firebase";
 import toast from "react-hot-toast";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { LeaderContext } from "../../lib/Context";
 export default function UCClub({ back, handle }) {
   let [clubphoto, setClubphoto] = useState(null);
+  const { current } = useContext(LeaderContext);
+
   const [loading, setLoading] = useState(false);
   let form = useRef(null);
   let input = useRef(null);
@@ -18,6 +21,10 @@ export default function UCClub({ back, handle }) {
     setLoading(bool);
   }
   function submit() {
+    if (!current.includes(auth?.currentUser?.uid ?? "none")) {
+      toast.error("you are not leader");
+      return;
+    }
     setLoading(true);
     let social = GiveSocial(
       watch("twitter"),
@@ -50,6 +57,7 @@ export default function UCClub({ back, handle }) {
               const oldids = await getUserId(oldAdmins);
               await removeadmin(oldids, batch, data.clubCode);
               await createClub(
+                false,
                 batch,
                 clubs,
                 form,
@@ -64,7 +72,15 @@ export default function UCClub({ back, handle }) {
             }
           }
         } else {
-          await createClub(batch, clubs, form, clubphoto, _setloading, data);
+          await createClub(
+            true,
+            batch,
+            clubs,
+            form,
+            clubphoto,
+            _setloading,
+            data
+          );
           setPhoto(null);
         }
         setLoading(false);
@@ -258,15 +274,25 @@ async function profile(file, clubCode) {
   const url = await getDownloadURL(imgref);
   return url;
 }
-async function createClub(batch, clubs, form, clubphoto, _setloading, data) {
+async function createClub(
+  is = true,
+  batch,
+  clubs,
+  form,
+  clubphoto,
+  _setloading,
+  data
+) {
   try {
     data.clubPhoto = await profile(clubphoto, data.clubCode);
     let ids = await getUserId(data.clubAdmins);
     await makeAdmin(ids, batch, data.clubCode);
-    batch.set(doc(collection(db, "club"), "clubname"), {
+    batch.update(doc(collection(db, "club"), "clubname"), {
       clubs: rDuplicate([...clubs, data.clubCode]),
     });
-    batch.set(doc(collection(db, "clubs"), data.clubCode), data);
+    if (is) batch.set(doc(collection(db, "clubs"), data.clubCode), data);
+    else batch.update(doc(collection(db, "clubs"), data.clubCode), data);
+
     await batch.commit();
     toast.success("sucessfully created");
     form.current.reset();

@@ -127,15 +127,18 @@ function NewPost(posts) {
       upcoming.push(dc);
     }
   });
-  console.log(current.concat(upcoming));
   return current.concat(upcoming);
 }
 function Home(props) {
+  const [isBlocked, setIsBlocked] = useState(false);
   const [posts, setposts] = useState(NewPost(Object.values(props)));
   function handlePosts(newpost) {
     setposts(newpost);
+    setIsBlocked(false);
   }
-
+  function handleblock(bool) {
+    setIsBlocked(bool);
+  }
   if (JSON.stringify(posts) === JSON.stringify([])) {
     return (
       <div className=" h-[70vh] flex items-center justify-center">
@@ -153,14 +156,16 @@ function Home(props) {
             key={index}
             post={post}
             posts={posts}
+            isBlocked={isBlocked}
             handlePosts={handlePosts}
+            handleBlock={handleblock}
           />
         );
       })}
     </div>
   );
 }
-function List({ post, handlePosts, posts }) {
+function List({ post, handlePosts, posts, handleBlock, isBlocked }) {
   const [loading, setloading] = useState(false);
   return (
     <div className="flex   justify-between border-solid w-[90vw] border-black rounded-lg border-2 min-h-[10vh] items-center m-3 sm:flex-row flex-col ">
@@ -169,17 +174,35 @@ function List({ post, handlePosts, posts }) {
         {!loading && (
           <div
             onClick={async () => {
+              if (isBlocked) {
+                toast.success("Waiting for previous task...");
+                return;
+              }
               let yes = confirm(
                 "Are you sure you want to remove this post from home"
               );
 
               if (yes) {
+                handleBlock(true);
                 setloading(true);
                 const ref = doc(
                   collection(db, `homeEvents/${post.username}/hEvents`),
                   post.slug
                 );
+                console.log(post.username, post.club, post.slug);
+                ///clubs/clubcode/events/username/admin/ap
+                ///clubs/party/events/username/admin/ban
+                let cRef = doc(
+                  collection(
+                    db,
+                    `clubs/${post.club}/events/username/${post.username}`
+                  ),
 
+                  post.slug
+                );
+                console.log(
+                  `clubs/${post.club}/events/username/${post.username}`
+                );
                 let batch = writeBatch(db);
                 try {
                   let uidRef = doc(collection(db, "usernames"), post.username);
@@ -188,6 +211,7 @@ function List({ post, handlePosts, posts }) {
                     doc(collection(db, `users/${uid}/events`), post.slug),
                     { published: false }
                   );
+                  batch.delete(cRef);
                   batch.delete(ref);
                   await batch.commit();
                   let newPosts = posts.filter((po) => {
@@ -198,7 +222,8 @@ function List({ post, handlePosts, posts }) {
                   setloading(false);
                 } catch (err) {
                   setloading(false);
-                  toast.error(err.message.toString());
+                  handleBlock(false);
+                  toast.error("Unable to Delete it.Try again");
                 }
               }
             }}
