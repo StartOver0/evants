@@ -136,7 +136,7 @@ export default function NameChecker() {
     <section className="w-[100vw] h-[70vh] flex items-center justify-center">
       <div className="border-solid border-black border-3 p-[60px] ">
         <form onSubmit={onSubmit}>
-          {!user.photoURL && (
+          {"photoURL" in (user ?? {}) && (
             <div className="overflow-hidden ">
               <div className="w-[100%] flex justify-center items-center">
                 <div className="relative w-[100px] h-[100px] rounded-full overflow-hidden">
