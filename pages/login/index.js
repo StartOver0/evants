@@ -114,6 +114,7 @@ export default function Login() {
             setOtproot(true);
           }
         } catch (err) {
+          setLoaderSi(false);
           toast.error(err.message.toString(), { duration: 5000 });
         }
       }

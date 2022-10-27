@@ -220,7 +220,8 @@ function ClubInfo(social, clubName, clubCode, clubDescription, clubAdmins) {
 }
 async function ClubExist(clubcode) {
   let ref = doc(collection(db, "club"), "clubname");
-  let clubs = (await getDoc(ref)).data().clubs ?? [];
+  let clubsdata = (await getDoc(ref)).data();
+  let clubs = clubsdata ? clubsdata.clubs : [];
   let bool = clubs.includes(clubcode);
   return { bool, clubs };
 }
@@ -287,14 +288,18 @@ async function createClub(
     data.clubPhoto = await profile(clubphoto, data.clubCode);
     let ids = await getUserId(data.clubAdmins);
     await makeAdmin(ids, batch, data.clubCode);
-    batch.update(doc(collection(db, "club"), "clubname"), {
+    batch.set(doc(collection(db, "club"), "clubname"), {
       clubs: rDuplicate([...clubs, data.clubCode]),
     });
     if (is) batch.set(doc(collection(db, "clubs"), data.clubCode), data);
-    else batch.update(doc(collection(db, "clubs"), data.clubCode), data);
-
+    else {
+      batch.update(doc(collection(db, "clubs"), data.clubCode), data);
+    }
     await batch.commit();
-    toast.success("sucessfully created");
+
+    is
+      ? toast.success("sucessfully created")
+      : toast.success("sucessfully  udpated");
     form.current.reset();
   } catch (err) {
     toast.error(err.message.toString());

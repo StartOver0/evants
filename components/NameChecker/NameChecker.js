@@ -76,7 +76,7 @@ export default function NameChecker() {
     try {
       await batch.commit();
     } catch (error) {
-      toast.error(err.message.toString());
+      toast.error(error.message.toString());
     }
     toast.success("Login Sucessfully!");
     router.push("/");
@@ -84,7 +84,7 @@ export default function NameChecker() {
 
   const onChange = (e) => {
     const val = e.target.value;
-    if (val.length > 10 && !isEmoji(val)) {
+    if (val.length > 15 && !isEmoji(val)) {
     } else if (val.length < 3) {
       setFormValue(val);
       setLoading(false);
@@ -182,7 +182,7 @@ export default function NameChecker() {
           <input
             className="border-solid border-2 border-black"
             name="username"
-            placeholder="less then 10 character"
+            placeholder="less then 15 character"
             value={formValue}
             onChange={onChange}
           />

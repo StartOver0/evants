@@ -1,0 +1,89 @@
+rules_version = '2';
+service cloud.firestore {
+ match /databases/{database}/documents {
+    match /{document=**} {
+      allow read:if true;
+      match /users/{userId} {
+        allow create:if isValidUser(userId);
+        allow update:if OnlyDescription(userId)|| isLeader();
+      }
+      match /users/{userId}/events/{slug} {
+      allow create:if login(userId) && isValidEventData();
+      allow update:if (login(userId) && isValidEventData())||isAdmin();
+      }
+      match /usernames/{username} {
+        allow create:if isValidUsername(username);
+      }
+    
+      match /club/clubname {
+        allow write:if isLeader();
+      }
+      match /{username}/aEvents/{slug}{
+      
+      allow create:if isValidEventData() && checkIfUserNameIsHisOrNot(username,request.auth.uid);
+      allow update:if isValidEventData() && FileIsHis(username);
+      allow delete:if login(resource.data.uid) && checkIfUserNameIsHisOrNot(username,request.auth.uid) ;
+      } 
+      match /clubs/{clubcode} {
+        allow write:if isLeader();
+      }
+      match /events/username/{username}/{slug} {
+        allow write:if isAdmin()||isLeader();
+      }
+      match /{username}/hEvents/{slug} {
+        allow write:if isAdmin()||isLeader(); 
+      }
+      match /leaders/list {
+        allow write:if false;
+      }
+      match /verifiedEmail/{email}{
+        allow write;
+      }
+      match /otp/{email} {
+        allow write;
+      }
+      function isValidUser(userId){
+        let username=request.resource.data.username;
+        let createdValidUsername = existsAfter(/databases/$(database)/documents/usernames/$(username));
+        return request.auth.uid==userId && createdValidUsername;
+      }
+      function isValidUsername(username) {
+		    let isOwner = request.auth.uid == request.resource.data.uid;
+        let isValidLength = username.size() >= 3 && username.size() <= 15;
+        let isValidUserDoc = getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.username == username;
+        
+        return isOwner && isValidLength && isValidUserDoc;     
+      }
+      function isAdmin(){
+        let username=get(/databases/$(database)/documents/users/$(request.auth.uid)).data.username;
+        let clubname=request.resource.data.club;
+        let realclubAdmin=get(/databases/$(database)/documents/clubs/$(clubname)).data.clubAdmins;//pradeep ,someone
+        return realclubAdmin.hasAny([username]);
+      }
+      function isValidEventData(){
+         let data=request.resource.data;
+         let _is=data.keys().hasOnly(["club","contact1","contact2","createdAt","date","description","edate","eligibility","fee","googleFormLink","name1","name2","notes","published","slug","teamsize","time","title","uid","updatedAt","username","venue"]);
+         let __is= data.googleFormLink.size()<=100 && data.slug.size()<=60 && string(data.published).size()<=10 && data.username.size()<=15 && data.club.size()<=100 && data.title.size()<=150 && data.description.size()<=3500 && data.eligibility.size()<=100 && data.date.size()<=10 && data.edate.size()<=10 && data.time.size()<=25 && data.venue.size()<=35 && data.teamsize.size()<=20 && data.fee.size()<=15 && data.name1.size()<=15 && data.name2.size()<=15 && data.contact1.size()<=10 && data.contact2.size()<=10 && data.notes.size()<=1000; 
+         return  __is && _is; 
+      }
+      function login(uid){
+        return request.auth.uid==uid;
+      }
+      function FileIsHis(username){
+       let file=request.resource.data.uid==request.auth.uid &&  request.resource.data.username == username;
+       return file && checkIfUserNameIsHisOrNot(username,request.auth.uid);
+      }
+      function isLeader(){
+          let leaders=get(/databases/$(database)/documents/leaders/list).data.leaders;
+          return leaders.hasAny([request.auth.uid]);
+      }
+      function OnlyDescription(uid){
+         return login(uid) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["Description"]);
+      }
+      function checkIfUserNameIsHisOrNot(username,uid){
+        let uid2=get(/databases/$(database)/documents/usernames/$(username)).data.uid;
+       return uid2==uid;
+      }
+    }
+  }
+}
