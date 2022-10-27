@@ -7,6 +7,9 @@ const nextConfig = {
 module.exports = {
   reactStrictMode: true,
   swcMinify: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
     domains: ["lh3.googleusercontent.com", "firebasestorage.googleapis.com"],
   },
