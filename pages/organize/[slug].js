@@ -112,10 +112,8 @@ function PostManger({ defaultValues, clubs }) {
           c[key] = a[key];
         }
       }
-      console.log(c);
-      batch.set(refreence, c);
+      batch.update(refreence, c);
 
-      console.log(c);
       batch.set(adminPostRef, c);
       await batch.commit();
       toast.success("Post Updated");
