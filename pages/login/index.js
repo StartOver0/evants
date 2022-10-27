@@ -47,9 +47,11 @@ export default function Login() {
     let email = siEmail;
     let pass = siPass;
     setLoaderSi(true);
+    console.log("nothing");
+    console.log(email);
     try {
       let cred = await signInWithEmailAndPassword(auth, email, pass);
-
+      console.log("hello world");
       const ref = doc(db, "users", cred.user.uid);
       const snap = await getDoc(ref);
       if (snap.exists()) {
@@ -61,6 +63,7 @@ export default function Login() {
     } catch (err) {
       setLoaderSi(false);
       setPasscheckSi(true);
+      console.log(err);
       toast.error(err.message.toString(), { duration: 5000 });
     }
   }
@@ -236,6 +239,10 @@ export default function Login() {
             <input
               id="email"
               type="eamil"
+              value={siEmail}
+              onChange={function (e) {
+                setsiEmail(e.target.value);
+              }}
               placeholder="Enter your email"
               required
             />
@@ -243,6 +250,10 @@ export default function Login() {
             <input
               id="password1"
               type="password"
+              value={siPass}
+              onChange={function (e) {
+                setsiPass(e.target.value);
+              }}
               placeholder="Enter Password"
               required
             />
