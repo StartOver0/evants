@@ -39,6 +39,7 @@ export default function NameChecker() {
       return false;
     }
   }
+  console.log(user);
   const onSubmit = async (e) => {
     e.preventDefault();
     let photoURL = null;
@@ -64,6 +65,7 @@ export default function NameChecker() {
     const verifiedEmail = doc(db, "verifiedEmail", user.email);
     batch.set(verifiedEmail, { byGoogle: false });
     batch.set(userDoc, {
+      gmail: user.email,
       AdminOf: [],
       isAdmin: false,
       username: formValue,
@@ -97,6 +99,7 @@ export default function NameChecker() {
   };
 
   //
+  console.log(user);
 
   useEffect(() => {
     if (!isEmoji(formValue)) checkUsername(formValue);
@@ -136,7 +139,7 @@ export default function NameChecker() {
     <section className="w-[100vw] h-[70vh] flex items-center justify-center">
       <div className="border-solid border-black border-3 p-[60px] ">
         <form onSubmit={onSubmit}>
-          {"photoURL" in (user ?? {}) && (
+          {user != null && user.photoURL == null && (
             <div className="overflow-hidden ">
               <div className="w-[100%] flex justify-center items-center">
                 <div className="relative w-[100px] h-[100px] rounded-full overflow-hidden">
