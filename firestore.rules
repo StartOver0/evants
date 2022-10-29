@@ -10,6 +10,7 @@ service cloud.firestore {
       match /users/{userId}/events/{slug} {
       allow create:if login(userId) && isValidEventData();
       allow update:if (login(userId) && isValidEventData())||isAdmin();
+      allow delete:if login(userId);
       }
       match /usernames/{username} {
         allow create:if isValidUsername(username);
@@ -22,7 +23,7 @@ service cloud.firestore {
       
       allow create:if isValidEventData() && checkIfUserNameIsHisOrNot(username,request.auth.uid);
       allow update:if isValidEventData() && FileIsHis(username);
-      allow delete:if login(resource.data.uid) && checkIfUserNameIsHisOrNot(username,request.auth.uid) ;
+      allow delete:if checkIfUserNameIsHisOrNot(username,request.auth.uid) ;
       } 
       match /clubs/{clubcode} {
         allow write:if isLeader();

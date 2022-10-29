@@ -547,7 +547,7 @@ function PostManger({ defaultValues, clubs }) {
         </button>
         <button
           className="bg-red-400 p-3 mb-2"
-          onClick={() => {
+          onClick={async () => {
             let istrue = confirm("Are you sure you want to delete it");
             const { slug } = Router.query;
             const refreence = doc(
@@ -558,11 +558,13 @@ function PostManger({ defaultValues, clubs }) {
               collection(db, `adminEvents/${username}/aEvents`),
               slug
             );
-
+            let d = await getDoc(
+              doc(db, `adminEvents/${username}/aEvents/${slug}`)
+            );
             if (istrue) {
               let batch = writeBatch(db);
               batch.delete(refreence);
-              batch.delete(currentPostref);
+              if (d.exists()) batch.delete(currentPostref);
               batch.commit();
               toast.success("post Deleted");
               Router.push("/");
