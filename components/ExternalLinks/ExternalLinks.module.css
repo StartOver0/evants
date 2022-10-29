@@ -1,0 +1,27 @@
+.external_links{
+    padding: .5rem;
+    display: flex;
+    gap: 1.5rem;
+    margin-left: 4px;
+}
+.external_links a{
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 6px;
+    background: linear-gradient(145deg, #edf1f5, #ffffff);
+    box-shadow: 5px 5px 10px #dbdee2,
+                -5px -5px 10px #ffffff;
+    transition: 150ms;
+    
+}
+.external_links svg{
+    transform: scale(1.05);
+}
+
+.external_links > a:hover{
+    transform: scale(1.1);
+    box-shadow: 5px 5px 12px #dbdee2,
+                -5px -5px 12px #ffffff;
+}

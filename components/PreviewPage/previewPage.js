@@ -4,6 +4,8 @@ import clubIcon from "/public/images/uuit.png";
 import Image from "next/image";
 import Link from "next/link";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import ExternalLinks from '/components/ExternalLinks/ExternalLinks';
+
 export default function PreviewPage({
   club,
   date,
@@ -24,6 +26,17 @@ export default function PreviewPage({
 }) {
   const buildingName = "Uttaranchal institute of Technology";
   const clubCode = "UU-CSC";
+  const instagram = "https://instagram.com";
+  const twitter = "https://twitter.com";
+  const linkedin = "https://linkedin.com";
+  const facebook = "https://facebook.com";
+  const links = {
+      instagram: instagram, 
+      twitter: twitter,
+      linkedin: linkedin,
+      facebook: facebook
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.left_div}>
@@ -118,18 +131,8 @@ export default function PreviewPage({
               </Link>
             </div>
           </div>
-          <p>Follow on other platforms:</p>
-          <div>
-            <a href="https://twitter.com" target="_blank" rel="noreferrer">
-              <p>twitter</p>
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noreferrer">
-              <p>facebook</p>
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noreferrer">
-              <p>instagram</p>
-            </a>
-          </div>
+          <p style={{marginBottom: '8px'}}>Follow on other platforms:</p>
+          <ExternalLinks links = {links} />
         </div>
         <div>
           <p>How request process works ?</p>

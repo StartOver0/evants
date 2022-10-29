@@ -33,8 +33,8 @@ export default function ImageSlider(){
                   </div>
                   <div className={styles.first_image__desktop}>
                       <Image src={data[sliderIndex].imgD} objectFit='contain' alt="notdount"/>
-                  </div></a>
-              </Link>
+                  </div>
+              </a></Link>
               <div className={styles.image_text}>
                   <h2 className={styles.head}>{data[sliderIndex].heading}</h2>
                   <div className={styles.desc_div}>
