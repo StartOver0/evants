@@ -25,6 +25,20 @@ export default function NameChecker() {
   const [loader, setLoader] = useState(false);
   const { user, username } = useContext(UserContext);
   const imageRef = useRef();
+  function isEmoji(str) {
+    var ranges = [
+      "[\uE000-\uF8FF]",
+      "\uD83C[\uDC00-\uDFFF]",
+      "\uD83D[\uDC00-\uDFFF]",
+      "[\u2011-\u26FF]",
+      "\uD83E[\uDD10-\uDDFF]",
+    ];
+    if (str.match(ranges.join("|"))) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   const onSubmit = async (e) => {
     e.preventDefault();
     let photoURL = null;
@@ -40,7 +54,7 @@ export default function NameChecker() {
         let url = await getDownloadURL(profilePhotoRef);
         photoURL = url;
       } catch (err) {
-        toast.error(err.message.toString());
+        toast.error("Erorr!");
       }
     }
 
@@ -50,16 +64,20 @@ export default function NameChecker() {
     const verifiedEmail = doc(db, "verifiedEmail", user.email);
     batch.set(verifiedEmail, { byGoogle: false });
     batch.set(userDoc, {
+      gmail: user.email,
+      AdminOf: [],
+      isAdmin: false,
       username: formValue,
       photoURL: user.photoURL ?? photoURL,
       displayName: user.displayName ?? "",
       Description: des,
+      Ban: false,
     });
     batch.set(usernameDoc, { uid: user.uid });
     try {
       await batch.commit();
     } catch (error) {
-      toast.error(err.message.toString());
+      toast.error("Error!");
     }
     toast.success("Login Sucessfully!");
     router.push("/");
@@ -67,8 +85,8 @@ export default function NameChecker() {
 
   const onChange = (e) => {
     const val = e.target.value;
-
-    if (val.length < 3) {
+    if (val.length > 15 && !isEmoji(val)) {
+    } else if (val.length < 3) {
       setFormValue(val);
       setLoading(false);
       setIsValid(false);
@@ -82,7 +100,7 @@ export default function NameChecker() {
   //
 
   useEffect(() => {
-    checkUsername(formValue);
+    if (!isEmoji(formValue)) checkUsername(formValue);
   }, [formValue]);
 
   const checkUsername = useCallback(
@@ -96,7 +114,6 @@ export default function NameChecker() {
           toast.error(err.message.toString());
         }
 
-        console.log("Firestore read executed!");
         setIsValid(!docSnap.exists());
         setLoading(false);
       }
@@ -120,7 +137,7 @@ export default function NameChecker() {
     <section className="w-[100vw] h-[70vh] flex items-center justify-center">
       <div className="border-solid border-black border-3 p-[60px] ">
         <form onSubmit={onSubmit}>
-          {!user.photoURL && (
+          {user != null && user.photoURL == null && (
             <div className="overflow-hidden ">
               <div className="w-[100%] flex justify-center items-center">
                 <div className="relative w-[100px] h-[100px] rounded-full overflow-hidden">
@@ -141,7 +158,7 @@ export default function NameChecker() {
                       input.current.click();
                     }}
                   >
-                    choose
+                    Choose
                   </div>
                 </div>
                 <input
@@ -160,10 +177,13 @@ export default function NameChecker() {
             </div>
           )}
           <div className="">Choose Name</div>
+          <div className="text-sm text-red-500">
+            {"don't use any special character or emoji"}
+          </div>
           <input
             className="border-solid border-2 border-black"
             name="username"
-            placeholder="myname"
+            placeholder="less then 15 character"
             value={formValue}
             onChange={onChange}
           />
@@ -176,9 +196,12 @@ export default function NameChecker() {
           <div>description</div>
           <textarea
             type="text"
+            placeholder="description less then 150 character"
             value={des}
             onChange={(e) => {
-              setDes(e.target.value);
+              if (e.target.value.length <= 150) {
+                setDes(e.target.value);
+              }
             }}
             className="border-solid border-2 border-black"
           />

@@ -3,65 +3,44 @@ import Link from "next/link";
 import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../../lib/Context";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "../../lib/firebase";
+import { auth, db } from "../../lib/firebase";
 import toast from "react-hot-toast";
 import { connectStorageEmulator } from "firebase/storage";
 
 export default function Footer() {
   const { user, username } = useContext(UserContext);
-  const [suggestionGiven, setSuggestionGiven] = useState(false);
-  const [msz, setMsz] = useState("Please Sign with your Google account"); //Your suggestion is recorded :)
   const [input, setInput] = useState("");
-  const [open, setOpen] = useState(false);
-  let ref;
-  if (user && username) {
-    ref = doc(collection(db, "feedback"), username);
-  }
+  const [login, setLogin] = useState(false);
   async function submit(e) {
     e.preventDefault();
-
-    if (!suggestionGiven && open) {
-      console.log("inside here");
-      try {
-        setDoc(ref, { feedback: input });
-        setOpen(false);
-        toast.success("Thank you for giving suggestion");
-        setMsz("Your suggestion is recorded :)");
-        setSuggestionGiven(false);
-      } catch (err) {
-        toast.error(err.message.toString());
-      }
+    if (e.target.value == "") {
+      return;
     }
+    if (!auth.currentUser) {
+      return;
+    }
+    let ref = collection(db, `feedback/${username}/feedback`);
+    let d = doc(ref, Math.ceil(Math.random() * 1000000).toString());
+    toast.success("Thank you for sending feedback");
+    setDoc(d, { input });
+    setInput("");
   }
 
   useEffect(() => {
     if (username) {
-      (async () => {
-        let ans = await getDoc(ref);
-        if (ans.exists() && ans.data().feedback != null) {
-          setSuggestionGiven(false);
-
-          setOpen(false);
-          setMsz("Your suggestion is recorded :)");
-        } else {
-          console.log("helo");
-          setOpen(true);
-          setSuggestionGiven(true);
-        }
-      })();
+      setLogin(true);
     }
   }, [username]);
-
   return (
     <div className={footer.container}>
       <div className={footer.footer}>
         <div className={footer.suggestion_div}>
           <h3 className={footer.head}>Have&nbsp;suggestions?</h3>
           <form onSubmit={submit}>
-            {suggestionGiven ? (
+            {login ? (
               <textarea
                 onChange={(e) => {
-                  setInput(e.target.value);
+                  if (e.target.value.length <= 300) setInput(e.target.value);
                 }}
                 value={input}
                 rows="4"
@@ -70,14 +49,11 @@ export default function Footer() {
                 required
               ></textarea>
             ) : (
-              <div className={footer.submitted}>{msz}</div>
+              <div className={footer.submitted}>
+                {"Please Sign with your Google account"}
+              </div>
             )}
-            <button
-              className={footer.button}
-              onClick={() => {
-                setSuggestionGiven(false);
-              }}
-            >
+            <button disabled={!login} className={footer.button}>
               Submit
             </button>
           </form>

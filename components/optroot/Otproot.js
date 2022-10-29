@@ -20,17 +20,16 @@ export default function Otproot({ given }) {
   async function submit(e) {
     e.preventDefault();
     setloading(true);
-    // console.log(given);
     let fieldValue = otp.current.value;
     let ref = doc(db, "otp", given.email);
     let docSnap;
     try {
       docSnap = await getDoc(ref);
     } catch (err) {
-      toast.error(err.message.toString());
+      setloading(false);
+      toast.error("Error!");
     }
     const realOtp = docSnap.data().Otp;
-    console.log(docSnap.data());
     if (realOtp == fieldValue) {
       setMsz("");
       try {
@@ -38,14 +37,13 @@ export default function Otproot({ given }) {
 
         setNameChecker(true);
       } catch (err) {
-        toast.error(err.message.toString());
+        toast.error("Error!");
         setloading(false);
         setMsz("email already exists");
       }
     } else {
       setloading(false);
       setMsz("Incorrect OTP");
-      toast.error("Incorrect OTP!");
     }
   }
   if (nameCheker) {

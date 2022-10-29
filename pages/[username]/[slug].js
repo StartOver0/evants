@@ -14,31 +14,36 @@ import BlogPreview from "../../components/blogPreview/blogPreview";
 import UnAuthBlogPreview from "../../components/unAuthBlogPreview/UnAuthBlogPreview";
 import { db, postToJSON } from "../../lib/firebase";
 export default function Slug({ post }) {
-  return post !== "not define" ? (
-    <PreviewPage {...post} />
-  ) : (
-    <div className="h-[60vh] flex justify-center items-center text-red-700">
-      <div>No event is organize by this slug</div>
-    </div>
-  );
+  return <PreviewPage {...post} />;
 }
-export async function getServerSideProps({ query }) {
-  const { username, slug } = query;
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
+}
+export async function getStaticProps({ params }) {
+  const { username, slug } = params;
   let post;
+
   const refUid = await getDoc(doc(collection(db, "usernames"), username));
   if (refUid.exists()) {
     const uid = refUid.data().uid;
-    const postref = doc(collection(db, `users/${uid}/posts`), slug);
+    const postref = doc(collection(db, `users/${uid}/events`), slug);
 
     post = await getDoc(postref);
     if (post.exists()) {
       post = postToJSON(post);
     } else {
-      post = "not define";
+      return {
+        notFound: true,
+      };
     }
   } else {
-    post = "not define";
+    return {
+      notFound: true,
+    };
   }
 
-  return { props: { post } };
+  return { props: { post }, revalidate: 3600 };
 }

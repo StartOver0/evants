@@ -10,11 +10,12 @@ import processing from "/public/images/processing.png";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, collection, setDoc, getDoc } from "firebase/firestore";
 import NameChecker from "../../components/NameChecker/NameChecker";
-import { UserContext } from "../../lib/Context";
+import { RouterContext, UserContext } from "../../lib/Context";
 import Otproot from "../../components/optroot/Otproot";
 import toast from "react-hot-toast";
 
 export default function Login() {
+  const { path } = useContext(RouterContext);
   const { user, username } = useContext(UserContext);
   const [eio, seteio] = useState(false); //everything is okay
   const Router = useRouter();
@@ -46,20 +47,23 @@ export default function Login() {
     let email = siEmail;
     let pass = siPass;
     setLoaderSi(true);
+    console.log("nothing");
+    console.log(email);
     try {
       let cred = await signInWithEmailAndPassword(auth, email, pass);
-
+      console.log("hello world");
       const ref = doc(db, "users", cred.user.uid);
       const snap = await getDoc(ref);
       if (snap.exists()) {
         toast.success("Login Sucessfully!");
-        Router.push("/");
+        Router.push(path);
       } else {
         seteio(true);
       }
     } catch (err) {
       setLoaderSi(false);
       setPasscheckSi(true);
+      console.log(err);
       toast.error(err.message.toString(), { duration: 5000 });
     }
   }
@@ -72,6 +76,7 @@ export default function Login() {
       setPassCheck(false);
       const verifiedEmail = doc(db, "verifiedEmail", suEmail);
       const docSnap = await getDoc(verifiedEmail);
+
       if (docSnap.exists()) {
         if (docSnap.data().byGoogle) {
           setmsz("You already have a account(Sign with Google)");
@@ -82,7 +87,7 @@ export default function Login() {
             await signInWithEmailAndPassword(auth, suEmail, suPass);
             toast.success("Login sucessfully!");
 
-            Router.push("/");
+            Router.push(path);
           } catch (err) {
             setmsz("Account already exits but password is wrong");
             setPassCheck(true);
@@ -93,6 +98,7 @@ export default function Login() {
       } else {
         try {
           let email = suEmail;
+
           let response = await fetch("/api/contact", {
             method: "POST",
             headers: {
@@ -111,6 +117,7 @@ export default function Login() {
             setOtproot(true);
           }
         } catch (err) {
+          setLoaderSi(false);
           toast.error(err.message.toString(), { duration: 5000 });
         }
       }
@@ -126,12 +133,11 @@ export default function Login() {
     return <Otproot given={{ email: suEmail, pass: suPass }} />;
   }
   if (eio) {
-    toast.success("Choose your name");
     return <NameChecker />;
   }
 
   if (username && user) {
-    Router.push("/");
+    Router.push(path);
   }
 
   return (
@@ -182,7 +188,7 @@ export default function Login() {
             <input
               value={suEmail}
               onChange={(e) => {
-                setSuEmail(e.target.value);
+                if (e.target.value.length <= 100) setSuEmail(e.target.value);
               }}
               id="email"
               type="email"
@@ -193,18 +199,20 @@ export default function Login() {
             <input
               value={suPass}
               onChange={(e) => {
-                setSuPass(e.target.value);
+                if (e.target.value.length <= 12) setSuPass(e.target.value);
               }}
               id="password1"
               type="password"
-              placeholder="Password should be atleast 6 characters long"
+              placeholder="Password should be atleast 6-12 characters long"
               required
             />
             <label htmlFor="password2">Confirm Password:</label> <br />
             <input
               value={rSuPass}
               onChange={(e) => {
-                setRsuPass(e.target.value);
+                if (e.target.value.length <= 12) {
+                  setRsuPass(e.target.value);
+                }
               }}
               id="password2"
               type="password"
@@ -223,7 +231,7 @@ export default function Login() {
                 />
               </div>
             )}
-            {!loader && <button className={styles.button}> send otp</button>}
+            {!loader && <button className={styles.button}> Send OTP</button>}
           </form>
         ) : (
           <form className={styles.formi} onSubmit={SignInSubmit}>
@@ -231,6 +239,10 @@ export default function Login() {
             <input
               id="email"
               type="eamil"
+              value={siEmail}
+              onChange={function (e) {
+                setsiEmail(e.target.value);
+              }}
               placeholder="Enter your email"
               required
             />
@@ -238,6 +250,10 @@ export default function Login() {
             <input
               id="password1"
               type="password"
+              value={siPass}
+              onChange={function (e) {
+                setsiPass(e.target.value);
+              }}
               placeholder="Enter Password"
               required
             />
@@ -271,11 +287,12 @@ export default function Login() {
                 const collectionref = collection(db, "users");
                 signInWithPopup(auth, provider).then(async (result) => {
                   const ref = doc(db, "users", result.user.uid);
+
                   const docSnap = await getDoc(ref);
                   if (docSnap.exists()) {
                     // console.log("yes done it");
                     toast.success("LogIn with Google Sucessful");
-                    Router.push("/");
+                    Router.push(path);
                   } else {
                     seteio(true);
                   }
