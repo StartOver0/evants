@@ -14,7 +14,6 @@ import {
 import { db, postToJSON } from "/lib/firebase";
 import { DateTime } from "luxon";
 import { MainLoading } from "../lib/Context";
-import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
 const Leader = dynamic(() => import("../components/Leader/leader"));
 export default function Home() {

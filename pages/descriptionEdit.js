@@ -25,7 +25,7 @@ function Description() {
       await updateDoc(ref, { Description: input });
       Router.push("/profile");
     } catch (err) {
-      toast.error(err.message.toString());
+      toast.error("Error");
       setLoading(false);
     }
   }

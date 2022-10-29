@@ -39,7 +39,6 @@ export default function NameChecker() {
       return false;
     }
   }
-  console.log(user);
   const onSubmit = async (e) => {
     e.preventDefault();
     let photoURL = null;
@@ -55,7 +54,7 @@ export default function NameChecker() {
         let url = await getDownloadURL(profilePhotoRef);
         photoURL = url;
       } catch (err) {
-        toast.error(err.message.toString());
+        toast.error("Erorr!");
       }
     }
 
@@ -78,7 +77,7 @@ export default function NameChecker() {
     try {
       await batch.commit();
     } catch (error) {
-      toast.error(error.message.toString());
+      toast.error("Error!");
     }
     toast.success("Login Sucessfully!");
     router.push("/");
@@ -99,7 +98,6 @@ export default function NameChecker() {
   };
 
   //
-  console.log(user);
 
   useEffect(() => {
     if (!isEmoji(formValue)) checkUsername(formValue);
