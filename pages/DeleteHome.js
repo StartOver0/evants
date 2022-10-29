@@ -189,9 +189,6 @@ function List({ post, handlePosts, posts, handleBlock, isBlocked }) {
                   collection(db, `homeEvents/${post.username}/hEvents`),
                   post.slug
                 );
-                console.log(post.username, post.club, post.slug);
-                ///clubs/clubcode/events/username/admin/ap
-                ///clubs/party/events/username/admin/ban
                 let cRef = doc(
                   collection(
                     db,
@@ -200,9 +197,7 @@ function List({ post, handlePosts, posts, handleBlock, isBlocked }) {
 
                   post.slug
                 );
-                console.log(
-                  `clubs/${post.club}/events/username/${post.username}`
-                );
+
                 let batch = writeBatch(db);
                 try {
                   let uidRef = doc(collection(db, "usernames"), post.username);

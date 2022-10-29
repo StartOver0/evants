@@ -129,6 +129,7 @@ export default function UCClub({ back, handle }) {
         Club Admins
         <input
           {...register("clubAdmin")}
+          placeholder="name seprated by ,"
           className=" p-2 border-solid border-2 border-black"
           required
         />
