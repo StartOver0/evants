@@ -43,6 +43,7 @@ export default function DeleteClubEvent({ back, handle }) {
     } else {
       toast.error("not present");
     }
+    setinput("");
     setloading(false);
   }
   return (
