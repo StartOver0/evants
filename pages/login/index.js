@@ -107,7 +107,7 @@ export default function Login() {
             body: JSON.stringify({ email }),
           });
           if (response.status != "200") {
-            settLoader(true);
+            settLoader(false);
             toast.error("Unable to send gmail to ur account", {
               duration: 5000,
             });
