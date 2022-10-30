@@ -21,18 +21,17 @@ export default function UnAuthBlogPreview(props) {
               <div className="flex flex-col  sm:text-base text-sm">
                 <div className="hyphen-auto">
                   {(() => {
-                    let ar = article.description.split(" ");
-                    let a = 0;
                     let string = "";
-                    ar.forEach((element) => {
-                      if (a <= 40) {
-                        string += " " + element;
-                      }
-                      if (a == 41) {
-                        string += "...";
-                      }
-                      a++;
-                    });
+                    if (article.description.length <= 260) {
+                      string = article.description.substring(
+                        0,
+                        article.description.length
+                      );
+                    } else {
+                      string = article.description.substring(0, 260);
+                      string += "...";
+                    }
+
                     return string;
                   })()}
                 </div>
