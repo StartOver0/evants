@@ -5,51 +5,40 @@ import Image from "next/image";
 import Link from "next/link";
 import reactMarkDown from "/styles/reactmarkdown.module.css";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-import ExternalLinks from '/components/ExternalLinks/ExternalLinks';
+import ExternalLinks from "/components/ExternalLinks/ExternalLinks";
 
-export default function PreviewPage({
-  club,
-  date,
-  description,
-  eligibility,
-  fee,
-  username,
-  published,
-  edate,
-  googleFormLink,
-  venue,
-  teamsize,
-  time,
-  title,
-  name1,
-  name2,
-  contact1,
-  contact2,
-  notes,
-}) {
-  const buildingName = "Uttaranchal institute of Technology";
-  const clubCode = "UU-CSC";
-  const instagram = "https://instagram.com";
-  const twitter = "https://twitter.com";
-  const linkedin = "https://linkedin.com";
-  const facebook = "https://facebook.com";
-  const links = {
-      instagram: instagram, 
-      twitter: twitter,
-      linkedin: linkedin,
-      facebook: facebook
-  }
-
+export default function PreviewPage({ post, ClubInfo }) {
+  const {
+    club,
+    date,
+    description,
+    eligibility,
+    fee,
+    username,
+    published,
+    edate,
+    googleFormLink,
+    venue,
+    teamsize,
+    time,
+    title,
+    name1,
+    name2,
+    contact1,
+    contact2,
+    notes,
+  } = post;
+  const { clubCode, social: links, clubPhoto, clubName } = ClubInfo;
   return (
     <div className={styles.container}>
       <div className={styles.left_div}>
         {/* event details: */}
         <div className={styles.club_data}>
           <div className={styles.club_image}>
-            <Image src={clubIcon} alt="club Icon" width={40} height={40} />
+            <Image src={clubPhoto} alt="club Icon" width={40} height={40} />
           </div>
           <div className={styles.club_details}>
-            <p className={styles.club_name}>{club}</p>
+            <p className={styles.club_name}>{clubName}</p>
             <p className={styles.club_code}>{clubCode}</p>
           </div>
         </div>
@@ -143,11 +132,11 @@ export default function PreviewPage({
         <div>
           <div className={styles.rclub}>
             <div>
-              <Image src={clubIcon} alt="club Icon" width={60} height={60} />
+              <Image src={clubPhoto} alt="club Icon" width={60} height={60} />
             </div>
             <div className={styles.club_links}>
               <p>{clubCode}</p>
-              <Link href="nowhere">
+              <Link href={`/clubs/${club}`}>
                 <a className={styles.buttonx}>
                   Visit&nbsp;
                   <svg
@@ -167,8 +156,8 @@ export default function PreviewPage({
               </Link>
             </div>
           </div>
-          <p style={{marginBottom: '8px'}}>Follow on other platforms:</p>
-          <ExternalLinks links = {links} />
+          <p style={{ marginBottom: "8px" }}>Follow on other platforms:</p>
+          <ExternalLinks links={links} />
         </div>
         <div>
           <p>How request process works ?</p>

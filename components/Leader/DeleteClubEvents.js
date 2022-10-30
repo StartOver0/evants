@@ -24,7 +24,7 @@ export default function DeleteClubEvent({ back, handle }) {
     const slug = part[6];
     if (clubname && username && slug) {
       let ref = doc(
-        collection(db, `clubs/${clubname}/events/username/${username}`),
+        collection(db, `clubs/${clubname}/events/${username}/un`),
         slug
       );
 
