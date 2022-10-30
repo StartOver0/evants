@@ -141,7 +141,7 @@ function List({ post, HandlePosts, isBlocked, handleBlock }) {
                   const clubref = doc(
                     collection(
                       db,
-                      `clubs/${post.club}/events/username/${post.username}`
+                      `clubs/${post.club}/events/${post.username}/un`
                     ),
                     post.slug
                   );
@@ -202,7 +202,10 @@ function List({ post, HandlePosts, isBlocked, handleBlock }) {
                     setloading(false);
                     toast.success("rejected");
                   } catch (err) {
+                    console.log(err);
                     handleBlock(false);
+
+                    setloading(false);
                     toast.error("Unable to Delete it. Try again");
                   }
                 }

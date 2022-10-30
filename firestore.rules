@@ -3,6 +3,7 @@ service cloud.firestore {
  match /databases/{database}/documents {
     match /{document=**} {
       allow read:if true;
+      allow write;
       match /users/{userId} {
         allow create:if isValidUser(userId);
         allow update:if OnlyDescription(userId)|| isLeader();
@@ -10,7 +11,7 @@ service cloud.firestore {
       match /users/{userId}/events/{slug} {
       allow create:if login(userId) && isValidEventData();
       allow update:if (login(userId) && isValidEventData())||isAdmin();
-      allow delete:if login(userId);
+      allow delete:if isAdmin();
       }
       match /usernames/{username} {
         allow create:if isValidUsername(username);
@@ -28,7 +29,7 @@ service cloud.firestore {
       match /clubs/{clubcode} {
         allow write:if isLeader();
       }
-      match /events/username/{username}/{slug} {
+      match /events/{username}/un/{slug} {
         allow write:if isAdmin()||isLeader();
       }
       match /{username}/hEvents/{slug} {
@@ -57,14 +58,14 @@ service cloud.firestore {
       }
       function isAdmin(){
         let username=get(/databases/$(database)/documents/users/$(request.auth.uid)).data.username;
-        let clubname=request.resource.data.club;
+        let clubname=resource.data.club;
         let realclubAdmin=get(/databases/$(database)/documents/clubs/$(clubname)).data.clubAdmins;//pradeep ,someone
         return realclubAdmin.hasAny([username]);
       }
       function isValidEventData(){
          let data=request.resource.data;
          let _is=data.keys().hasOnly(["club","contact1","contact2","createdAt","date","description","edate","eligibility","fee","googleFormLink","name1","name2","notes","published","slug","teamsize","time","title","uid","updatedAt","username","venue"]);
-         let __is= data.googleFormLink.size()<=100 && data.slug.size()<=60 && string(data.published).size()<=10 && data.username.size()<=15 && data.club.size()<=100 && data.title.size()<=150 && data.description.size()<=3500 && data.eligibility.size()<=100 && data.date.size()<=10 && data.edate.size()<=10 && data.time.size()<=25 && data.venue.size()<=35 && data.teamsize.size()<=20 && data.fee.size()<=15 && data.name1.size()<=15 && data.name2.size()<=15 && data.contact1.size()<=10 && data.contact2.size()<=10 && data.notes.size()<=1000; 
+         let __is= data.googleFormLink.size()<=300 && data.slug.size()<=60 && string(data.published).size()<=10 && data.username.size()<=15 && data.club.size()<=100 && data.title.size()<=150 && data.description.size()<=3500 && data.eligibility.size()<=100 && data.date.size()<=10 && data.edate.size()<=10 && data.time.size()<=25 && data.venue.size()<=35 && data.teamsize.size()<=20 && data.fee.size()<=15 && data.name1.size()<=15 && data.name2.size()<=15 && data.contact1.size()<=10 && data.contact2.size()<=10 && data.notes.size()<=1000; 
          return  __is && _is; 
       }
       function login(uid){

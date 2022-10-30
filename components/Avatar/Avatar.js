@@ -1,6 +1,6 @@
 import Image from "next/image";
+import backgroundImage from "/public/images/uuitimg.jpg";
 
-import backgroundImage from "/public/images/b-1.jpg";
 const Avatar = ({ Description, username, photoURL }) => {
   return (
     <div style={{ maxWidth: "800px" }} className="rounded-lg overflow-hidden ">
@@ -19,18 +19,6 @@ const Avatar = ({ Description, username, photoURL }) => {
           {username}
         </div>
       </div>
-      {/* <div className="block relative left-[20px]">
-        {clubMemeber.map((club, index) => {
-          return (
-            <div
-              key={index}
-              className="text-sm text-blue-800 hover:underline inline "
-            >
-              <Link href="/profile">{club + " "}</Link>
-            </div>
-          );
-        })}
-      </div> */}
 
       <div className=" pl-[30px] text-center pt-3 pr-[30px] font-thin text-sm">
         {Description}

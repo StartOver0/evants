@@ -387,8 +387,8 @@ function PostManger({ defaultValues, clubs }) {
                   className={errors.googleFormLink && "m-0"}
                   {...register("googleFormLink", {
                     maxLength: {
-                      value: 100,
-                      message: "100 words are limit for GoogleLink",
+                      value: 300,
+                      message: "300 words are limit for GoogleLink",
                     },
                   })}
                   type="text"

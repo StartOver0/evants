@@ -9,7 +9,7 @@ export default function ListItem({ post }) {
   let d = date.match(reg)[3];
   return (
     <div>
-      <Link href={`/${post.username}/${post.slug}`}>
+      <Link href={`/clubs/${post.club}/${post.username}/${post.slug}`}>
         <a>
           <div className={styles.list_item}>
             <div className={styles.head_div}>
