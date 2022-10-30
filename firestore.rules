@@ -3,7 +3,6 @@ service cloud.firestore {
  match /databases/{database}/documents {
     match /{document=**} {
       allow read:if true;
-      allow write;
       match /users/{userId} {
         allow create:if isValidUser(userId);
         allow update:if OnlyDescription(userId)|| isLeader();
@@ -11,7 +10,7 @@ service cloud.firestore {
       match /users/{userId}/events/{slug} {
       allow create:if login(userId) && isValidEventData();
       allow update:if (login(userId) && isValidEventData())||isAdmin();
-      allow delete:if isAdmin();
+      allow delete:if login(userId);
       }
       match /usernames/{username} {
         allow create:if isValidUsername(username);
@@ -21,20 +20,23 @@ service cloud.firestore {
         allow write:if isLeader();
       }
       match /{username}/aEvents/{slug}{
-      
       allow create:if isValidEventData() && checkIfUserNameIsHisOrNot(username,request.auth.uid);
       allow update:if isValidEventData() && FileIsHis(username);
-      allow delete:if checkIfUserNameIsHisOrNot(username,request.auth.uid) ;
+      allow delete:if isAdmin3(username,slug) ;
       } 
+       match /{username}/hEvents/{slug} {
+        allow delete:if isAdmin2(username,slug)||isLeader();
+        allow create:if isAdmin()||isLeader();
+        allow update:if isAdmin()||isLeader();
+      }
       match /clubs/{clubcode} {
         allow write:if isLeader();
       }
-      match /events/{username}/un/{slug} {
-        allow write:if isAdmin()||isLeader();
+      match /clubs/{clubname}/events/{username}/un/{slug} {
+        allow create,update:if isAdmin()||isLeader();
+        allow delete:if isAdmin1(clubname)||isLeader();
       }
-      match /{username}/hEvents/{slug} {
-        allow write:if isAdmin()||isLeader(); 
-      }
+     
       match /leaders/list {
         allow write:if false;
       }
@@ -44,10 +46,24 @@ service cloud.firestore {
       match /otp/{email} {
         allow write;
       }
+      function isAdmin3(username,slug){
+      let clubname=get(/databases/$(database)/documents/adminEvents/$(username)/aEvents/$(slug)).data.club;
+       return isAdmin1(clubname);
+      }
+      function isAdmin1(clubname){
+      let username1=get(/databases/$(database)/documents/users/$(request.auth.uid)).data.username;
+       let realclubAdmin=get(/databases/$(database)/documents/clubs/$(clubname)).data.clubAdmins;
+       return realclubAdmin.hasAny([username1]);
+      }
+      function isAdmin2(username,slug){
+      let clubname=get(/databases/$(database)/documents/homeEvents/$(username)/hEvents/$(slug)).data.club;
+       return isAdmin1(clubname);
+      }
       function isValidUser(userId){
         let username=request.resource.data.username;
         let createdValidUsername = existsAfter(/databases/$(database)/documents/usernames/$(username));
         return request.auth.uid==userId && createdValidUsername;
+        
       }
       function isValidUsername(username) {
 		    let isOwner = request.auth.uid == request.resource.data.uid;
@@ -58,7 +74,7 @@ service cloud.firestore {
       }
       function isAdmin(){
         let username=get(/databases/$(database)/documents/users/$(request.auth.uid)).data.username;
-        let clubname=resource.data.club;
+        let clubname=request.resource.data.club;
         let realclubAdmin=get(/databases/$(database)/documents/clubs/$(clubname)).data.clubAdmins;//pradeep ,someone
         return realclubAdmin.hasAny([username]);
       }
