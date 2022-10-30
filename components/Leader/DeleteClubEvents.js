@@ -19,9 +19,9 @@ export default function DeleteClubEvent({ back, handle }) {
 
     setloading(true);
     const part = input.split("/");
-    const clubname = part[4];
-    const username = part[5];
-    const slug = part[6];
+    const clubname = decodeURIComponent(part[4]);
+    const username = decodeURIComponent(part[5]);
+    const slug = decodeURIComponent(part[6]);
     if (clubname && username && slug) {
       let ref = doc(
         collection(db, `clubs/${clubname}/events/${username}/un`),
