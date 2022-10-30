@@ -192,7 +192,7 @@ function List({ post, handlePosts, posts, handleBlock, isBlocked }) {
                 let cRef = doc(
                   collection(
                     db,
-                    `clubs/${post.club}/events/username/${post.username}`
+                    `clubs/${post.club}/events/${post.username}/un`
                   ),
 
                   post.slug
