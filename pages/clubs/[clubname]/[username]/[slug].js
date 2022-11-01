@@ -20,14 +20,13 @@ export async function getStaticProps({ params }) {
   );
 
   post = await getDoc(postref);
-
-  if (!post.data) {
+  let clubmeta = await getDoc(doc(db, `clubs/${clubname}`));
+  let ClubInfo = clubmeta.data();
+  if (!post.exists() || !clubmeta.exists()) {
     return {
       notFound: true,
     };
   }
-  let ClubInfo = (await getDoc(doc(db, `clubs/${clubname}`))).data();
-
   post = postToJSON(post);
   let full = { ClubInfo, post };
   return { props: { ...full }, revalidate: 3600 };
