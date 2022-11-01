@@ -36,7 +36,11 @@ export default function Home() {
   useEffect(() => {
     (async () => {
       if (clubname) {
-        let ClubInfo = (await getDoc(doc(db, `clubs/${clubname}`))).data();
+        let metaclub = await getDoc(doc(db, `clubs/${clubname}`));
+        if (!metaclub.exists()) {
+          router.push("/404");
+        }
+        let ClubInfo = metaclub.data();
         let PostsRef = collectionGroup(db, "un");
         const q = query(
           PostsRef,
