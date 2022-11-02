@@ -175,7 +175,7 @@ function PostManger({ defaultValues, clubs }) {
   return (
     <div>
       {preview ? (
-        <PreviewPage post={data} ClubInfo={ClubInfo} />
+        <PreviewPage is="yes" post={data} ClubInfo={ClubInfo} />
       ) : (
         <div className={styles.container}>
           <form className={styles.form} onSubmit={handleSubmit(submit)}>
