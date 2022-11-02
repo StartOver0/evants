@@ -7,6 +7,7 @@ import {
   doc,
   collection,
 } from "firebase/firestore";
+import photo from "/public/images/uuit.png";
 import PreviewPage from "/components/PreviewPage/previewPage";
 import { db, postToJSON } from "../../lib/firebase";
 export default function Slug({ post, ClubInfo }) {
@@ -39,6 +40,19 @@ export async function getStaticProps({ params }) {
   } else {
     return {
       notFound: true,
+    };
+  }
+  if (ClubInfo == undefined) {
+    ClubInfo = {
+      ClubCode: "Upload this event for clubInfo",
+      clubName: "Upload this event for clubInfo",
+      clubPhoto: photo,
+      social: {
+        facebook: "",
+        instragram: "",
+        linkdin: "",
+        twitter: "",
+      },
     };
   }
   let full = { post, ClubInfo };

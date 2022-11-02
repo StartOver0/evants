@@ -9,6 +9,7 @@ import Image from "next/image";
 import { DateTime } from "luxon";
 import { useForm } from "react-hook-form";
 import PreviewPage from "../../components/PreviewPage/previewPage";
+import photo from "/public/images/uuit.png";
 import {
   collection,
   deleteDoc,
@@ -160,10 +161,21 @@ function PostManger({ defaultValues, clubs }) {
     ).setZone("Asia/kolkata");
     return today <= starting;
   }
+  const ClubInfo = {
+    ClubCode: "Upload this event for clubInfo",
+    clubName: "Upload this event for clubInfo",
+    clubPhoto: photo,
+    social: {
+      facebook: "",
+      instragram: "",
+      linkdin: "",
+      twitter: "",
+    },
+  };
   return (
     <div>
       {preview ? (
-        <PreviewPage {...data} />
+        <PreviewPage post={data} ClubInfo={ClubInfo} />
       ) : (
         <div className={styles.container}>
           <form className={styles.form} onSubmit={handleSubmit(submit)}>
