@@ -56,7 +56,7 @@ export default function UnAuthBlogPreview(props) {
     </div>
   ) : (
     <div className="h-[30vh] text-green-400 flex items-center justify-center">
-      <div>{"You havn't organize anything yet"}</div>
+      <div>{"This club hasn't organize anything yet"}</div>
     </div>
   );
 }
