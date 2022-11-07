@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { connectStorageEmulator } from "firebase/storage";
 
 export default function Footer() {
+  const { profileData } = useContext(UserContext);
   const { user, username } = useContext(UserContext);
   const [input, setInput] = useState("");
   const [login, setLogin] = useState(false);
@@ -19,10 +20,15 @@ export default function Footer() {
     if (!auth.currentUser) {
       return;
     }
-    let ref = collection(db, `feedback/${auth.currentUser.uid}/feedback`);
+    let ref = collection(db, `feedback/${auth.currentUser.uid}/feed`);
     let d = doc(ref, Math.ceil(Math.random() * 1000000).toString());
     toast.success("Thank you for sending feedback");
-    setDoc(d, { input });
+    setDoc(d, {
+      input,
+      time: Date.now(),
+      username: profileData.username,
+      uid: auth.currentUser.uid,
+    });
     setInput("");
   }
 
