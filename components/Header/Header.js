@@ -60,7 +60,7 @@ export default function Header() {
       </Link>
 
       {user && username && profileImg ? (
-        <div className="flex w-[225px] mr-4 justify-around">
+        <div className={nav.cover}>
           <button
             onClick={async () => {
               try {
@@ -71,12 +71,12 @@ export default function Header() {
                 toast.error(err.message.toString());
               }
             }}
-            className="hover:bg-red-600 ml-6 border-2 hover:text-white border-red-700 border-solid leading-[2px] px-[30px] "
+            className={nav.logOut}
           >
-            Log out
+            Log Out
           </button>
           <Link href="/profile">
-            <div className="cursor-pointer">
+            <div className="cursor-pointer text-[0px]">
               <Image
                 src={profileImg}
                 alt="photo"

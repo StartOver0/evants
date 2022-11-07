@@ -16,7 +16,7 @@ export default function MainNav() {
 
   return (
     <div className={nav.mainNav}>
-      <Link href="/" shallow={true}>
+      <Link href="/">
         <div className={nav.cover}>
           <div className={nav.homeLink}>
             <a className={chosen == "" ? nav.active : ""}>Home</a>

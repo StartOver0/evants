@@ -1,15 +1,15 @@
-import imgM0 from "/public/images/goku1.jpg";
+import imgM0 from "/public/images/goku2.jpg";
 import imgD0 from "/public/images/gokuD2.jpg";
-import imgM1 from "/public/images/v1.jpg";
-import imgD1 from "/public/images/vege.jpg";
+import imgM1 from "/public/images/vega.jpg";
+import imgD1 from "/public/images/vega.jpg";
 import imgM2 from "/public/images/goha.jpg";
 import imgD2 from "/public/images/gohanD2.jpg";
-import imgM3 from "/public/images/pico1.jpg";
+import imgM3 from "/public/images/pico.jpg";
 import imgD3 from "/public/images/peakpx.jpg";
 
 module.exports = [
     {
-        heading: "SON GOKU",
+        heading: "Develop my way",
         content: "Son Goku, born kakarot, is a male Saiyan and the main protagonist of the Dragon Ball series created by Akira Toriyama.",
         imgM: imgM0,
         imgD: imgD0
@@ -21,7 +21,7 @@ module.exports = [
         imgD: imgD2
     },
     {
-        heading: "VEGETA SAN",
+        heading: "PRINCE VEGETA",
         content: "Vegeta is the deuteragonist of the Dragon Ball franchise. He starts as the main antagonist of the Saiyan Saga, but as the story progresses, he becomes one of the heroes of the Z Warriors.",
         imgM: imgM1,
         imgD: imgD1
