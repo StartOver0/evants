@@ -46,7 +46,7 @@ service cloud.firestore {
       match /otp/{email} {
         allow write;
       }
-      match /feedback/{uid}/feedback/{no} {
+      match /feedback/{uid}/feed/{no} {
         allow write:if login(uid);
       }
       function isAdmin3(username,slug){
