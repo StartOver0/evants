@@ -6,6 +6,7 @@ module.exports = {
     "./components/**/*.{js, ts, jsx, tsx}",
   ],
   theme: {
+    
     extend: {
       animation: {
         l1: "big .6s ease-in-out alternate infinite",

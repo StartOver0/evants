@@ -1,6 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import "/styles/login.module.css";
 import styles from "/styles/loginx.module.css";
 import { auth, db } from "../../lib/firebase";
 import { signInWithPopup } from "firebase/auth";

@@ -3,6 +3,7 @@ import styles from "/styles/Home.module.css";
 import Content from "../components/Content/Content";
 import { useState, useEffect } from "react";
 import TeamSection from "../components/TeamSection/TeamSection";
+import NewSection from "../components/NewSection/NewSection";
 import {
   collectionGroup,
   query,
@@ -77,7 +78,8 @@ export default function Home() {
       <div className={styles.main}>
         <ImageSlider /> <hr className={styles.hr} />
         <Content {...props} />
-        <TeamSection />
+        {/* <TeamSection /> */}
+        <NewSection />
       </div>
     </MainLoading.Provider>
   );

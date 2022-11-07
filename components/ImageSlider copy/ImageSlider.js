@@ -23,13 +23,16 @@ export default function ImageSlider(){
     
     <div className={styles.xoxo}>
       <Head>
-        <title>UUEvents</title>
+        <title>Evantss</title>
       </Head>
       <div className={styles.slider_container}> 
           <div className={styles.slider_div} key = {Math.random()}>
               <Link href="#"><a>
                   <div className={styles.first_image__mobile}>
                       <Image src={data[sliderIndex].imgM} objectFit='contain' alt="notdount"/>
+                  </div>
+                  <div className={styles.first_image__desktop}>
+                      <Image src={data[sliderIndex].imgD} objectFit='contain' alt="notdount"/>
                   </div>
               </a></Link>
               <div className={styles.image_text}>
