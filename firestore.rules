@@ -46,6 +46,9 @@ service cloud.firestore {
       match /otp/{email} {
         allow write;
       }
+      match /feedback/{uid}/feedback/{no} {
+        allow write:if login(uid);
+      }
       function isAdmin3(username,slug){
       let clubname=get(/databases/$(database)/documents/adminEvents/$(username)/aEvents/$(slug)).data.club;
        return isAdmin1(clubname);

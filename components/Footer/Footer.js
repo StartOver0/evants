@@ -19,7 +19,7 @@ export default function Footer() {
     if (!auth.currentUser) {
       return;
     }
-    let ref = collection(db, `feedback/${username}/feedback`);
+    let ref = collection(db, `feedback/${auth.currentUser.uid}/feedback`);
     let d = doc(ref, Math.ceil(Math.random() * 1000000).toString());
     toast.success("Thank you for sending feedback");
     setDoc(d, { input });
