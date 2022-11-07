@@ -18,7 +18,7 @@ export default function MainNav(){
   return(
     <div className={nav.mainNav}>
       
-          <Link href="/" shallow={true}>
+          <Link href="/">
             <div className={nav.cover} >
                 <div className={nav.homeLink}>
                     <a className={chosen == '' ? nav.active: ''}>Home</a>
@@ -29,19 +29,11 @@ export default function MainNav(){
             </div>
           </Link>
       
-      
         <Link href="/organize">
           <div className={nav.cover} >
             <a className={chosen == 'organize' ? nav.active: ''}>Organize</a>
           </div>
         </Link>
-      
-      
-      <Link href="/events">
-          <div className={nav.cover} >
-              <a className={chosen == 'events' ? nav.active: ''}>Events</a>
-          </div>
-      </Link>
 
       <Link  href="/clubs">
           <div className={nav.cover} >

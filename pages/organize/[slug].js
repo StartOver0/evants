@@ -47,7 +47,7 @@ export default function CreatePost(props) {
   }, [user]);
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-2 h-[80vh] ">
+      <div className="flex it s-center justify-center py-2 h-[80vh] ">
         <Image
           className="w-[40px] h-[30px] animate-spin"
           src={processing}

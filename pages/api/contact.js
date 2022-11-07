@@ -18,7 +18,7 @@ export default async (req, res) => {
       },
     });
     await transporter.sendMail({
-      from: "uitevants@gmail.com",
+      from: process.env.email,
       to: email,
 
       subject: `text subject`,

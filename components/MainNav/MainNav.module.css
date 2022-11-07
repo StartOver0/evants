@@ -68,11 +68,11 @@
     }
     .homeLink{display: none;}
 }
-@media (max-width: 390px){
+/* @media (max-width: 390px){
     .cover:nth-last-child(1){
         display: none;
     }
-}
+} */
 @media (max-width: 360px){
     .mainNav{
         /* font-size: 12.5px; */
