@@ -21,7 +21,7 @@ export default function Footer() {
       return;
     }
     let ref = collection(db, `feedback/${auth.currentUser.uid}/feed`);
-    let d = doc(ref, Math.ceil(Math.random() * 1000000).toString());
+    let d = doc(ref, Date.now().toString());
     toast.success("Thank you for sending feedback");
     setDoc(d, {
       input,

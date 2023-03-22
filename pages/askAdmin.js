@@ -133,6 +133,8 @@ function List({ post, HandlePosts, isBlocked, handleBlock }) {
                 if (yes) {
                   handleBlock(true);
                   post.updatedAt = serverTimestamp();
+                  post.published = true;
+                  console.log(post);
                   setloading(true);
                   let ref = doc(
                     collection(db, `homeEvents/${post.username}/hEvents`),
