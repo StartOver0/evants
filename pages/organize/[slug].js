@@ -66,22 +66,23 @@ export default function CreatePost(props) {
   );
 }
 function compareTime(date, edate) {
-  if (date) {
-    let reg = /(\d{4})-(\d{1,2})-(\d{1,2})/;
-    let arr1 = date.match(reg);
-    let starting = DateTime.local(
-      parseInt(arr1[1]),
-      parseInt(arr1[2]),
-      parseInt(arr1[3])
-    ).setZone("Asia/kolkata");
-    let arr2 = edate.match(reg);
-    let endingDate = DateTime.local(
-      parseInt(arr2[1]),
-      parseInt(arr2[2]),
-      parseInt(arr2[3])
-    ).setZone("Asia/kolkata");
-    return endingDate >= starting;
+  if (!date || !edate) {
+    return;
   }
+  let reg = /(\d{4})-(\d{1,2})-(\d{1,2})/;
+  let arr1 = date.match(reg);
+  let starting = DateTime.local(
+    parseInt(arr1[1]),
+    parseInt(arr1[2]),
+    parseInt(arr1[3])
+  ).setZone("Asia/kolkata");
+  let arr2 = edate.match(reg);
+  let endingDate = DateTime.local(
+    parseInt(arr2[1]),
+    parseInt(arr2[2]),
+    parseInt(arr2[3])
+  ).setZone("Asia/kolkata");
+  return endingDate >= starting;
 }
 function PostManger({ defaultValues, clubs }) {
   let [date, setDate] = useState(defaultValues.date);
@@ -273,7 +274,7 @@ function PostManger({ defaultValues, clubs }) {
                 <input
                   {...register("date")}
                   onChange={(e) => {
-                    if (isDateIsValid(e.target.value)) {
+                    if (e.target.value && isDateIsValid(e.target.value)) {
                       SetcheckDate(
                         !compareTime(e.target.value, watch("edate"))
                       );
