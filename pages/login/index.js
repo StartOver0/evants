@@ -9,12 +9,11 @@ import processing from "/public/images/processing.png";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, collection, setDoc, getDoc } from "firebase/firestore";
 import NameChecker from "../../components/NameChecker/NameChecker";
-import { RouterContext, UserContext } from "../../lib/Context";
+import { UserContext } from "../../lib/Context";
 import Otproot from "../../components/optroot/Otproot";
 import toast from "react-hot-toast";
 
 export default function Login() {
-  const { path } = useContext(RouterContext);
   const { user, username } = useContext(UserContext);
   const [eio, seteio] = useState(false); //everything is okay
   const Router = useRouter();
