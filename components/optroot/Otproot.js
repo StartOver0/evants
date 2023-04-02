@@ -30,6 +30,7 @@ export default function Otproot({ given }) {
       toast.error("Error!");
     }
     const realOtp = docSnap.data().Otp;
+    console.log(auth, given);
     if (realOtp == fieldValue) {
       setMsz("");
       try {
@@ -37,6 +38,7 @@ export default function Otproot({ given }) {
 
         setNameChecker(true);
       } catch (err) {
+        console.log(err);
         toast.error("Error!");
         setloading(false);
         setMsz("email already exists");
@@ -67,7 +69,10 @@ export default function Otproot({ given }) {
           <p className="text-red-800">{msz}</p>
         ) : (
           <div className="text-blue-600 hover:text-red-600">
-            <Link href="/">go to home(Gmail is Taken!)</Link>
+            <Link href="/" className="min-w-min">
+              go to home(Gmail is Taken!) or you have put less then 6 digit as
+              password
+            </Link>
           </div>
         )}
         {!loading ? (

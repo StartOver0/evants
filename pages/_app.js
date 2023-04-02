@@ -7,6 +7,7 @@ import { useUserData } from "../lib/hooks";
 import { RouterContext } from "../lib/Context";
 import { Toaster } from "react-hot-toast";
 import { useState } from "react";
+import Head from "next/head";
 export default function MyApp({ Component, pageProps }) {
   let [path, _setPath] = useState("/");
   let userData = useUserData();
@@ -14,20 +15,21 @@ export default function MyApp({ Component, pageProps }) {
     _setPath(value);
   };
   return (
-    <RouterContext.Provider value={{ path, setPath }}>
-      <UserContext.Provider value={userData}>
-        <div className="xRoot">
-          <Header />
-          <MainNav />
-          <div className="main_content">
-            <Component {...pageProps} />
-          </div>
-          <Footer />
+    <UserContext.Provider value={userData}>
+      <Head>
+        <title>UUEvents</title>
+      </Head>
+      <div className="xRoot">
+        <Header />
+        <MainNav />
+        <div className="main_content">
+          <Component {...pageProps} />
         </div>
-        <div>
-          <Toaster position="bottom-left" reverseOrder={false} />
-        </div>
-      </UserContext.Provider>
-    </RouterContext.Provider>
+        <Footer />
+      </div>
+      <div>
+        <Toaster position="bottom-left" reverseOrder={false} />
+      </div>
+    </UserContext.Provider>
   );
 }

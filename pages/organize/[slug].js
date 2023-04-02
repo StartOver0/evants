@@ -68,6 +68,9 @@ export default function CreatePost(props) {
   );
 }
 function compareTime(date, edate) {
+  if (!date || !edate) {
+    return;
+  }
   let reg = /(\d{4})-(\d{1,2})-(\d{1,2})/;
   let arr1 = date.match(reg);
   let starting = DateTime.local(
@@ -273,7 +276,7 @@ function PostManger({ defaultValues, clubs }) {
                 <input
                   {...register("date")}
                   onChange={(e) => {
-                    if (isDateIsValid(e.target.value)) {
+                    if (e.target.value && isDateIsValid(e.target.value)) {
                       SetcheckDate(
                         !compareTime(e.target.value, watch("edate"))
                       );
