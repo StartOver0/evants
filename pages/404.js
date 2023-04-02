@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import none from "/public/images/404.gif";
+
 export default function Custom404() {
   return (
     <div className="min-h-[50vh] flex justify-center flex-col items-center m-5 gap-[2rem]">

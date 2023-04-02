@@ -8,6 +8,7 @@ import Link from "next/link";
 export default function AuthCheck(props) {
   const { username } = useContext(UserContext);
   const router = useRouter();
+  
   return username ? (
     props.children
   ) : (

@@ -7,12 +7,12 @@ import { db } from "../../lib/firebase";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import toast from "react-hot-toast";
-
 import processing from "/public/images/processing.png";
 // Username form
 import profilePic from "/public/images/user.png";
 import { storage } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+
 export default function NameChecker() {
   const input = useRef(null);
   const [des, setDes] = useState();
@@ -137,7 +137,7 @@ export default function NameChecker() {
     <section className="w-[100vw] h-[70vh] flex items-center justify-center">
       <div className="border-solid border-black border-3 p-[60px] ">
         <form onSubmit={onSubmit}>
-          {user != null && user.photoURL == null && (
+          {user != null && (
             <div className="overflow-hidden ">
               <div className="w-[100%] flex justify-center items-center">
                 <div className="relative w-[100px] h-[100px] rounded-full overflow-hidden">
@@ -162,18 +162,18 @@ export default function NameChecker() {
                   </div>
                 </div>
                 <input
-                  ref={input}
-                  accept=".png, .jpg, .jpeg"
-                  type="file"
-                  className="hidden"
-                  onChange={(event) => {
-                    setfile(event.target.files[0]);
-                    setProfileimg(URL.createObjectURL(event.target.files[0]));
-                  }}
-                  required
+                    ref={input}
+                    accept=".png, .jpg, .jpeg"
+                    type="file"
+                    className="hidden "
+                    onChange={(event) => {
+                      setfile(event.target.files[0]);
+                      setProfileimg(URL.createObjectURL(event.target.files[0]));
+                    }}
+                    required
                 />
               </div>
-              <div className="h-[30px]"></div>
+              {/* <div className="h-[30px]"></div> */}
             </div>
           )}
           <div className="">Choose Name</div>

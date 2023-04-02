@@ -2,6 +2,7 @@ import { useState } from "react";
 import AuthCheck from "/components/AuthCheck/AuthCheck";
 import processing from "/public/images/processing.png";
 import Image from "next/image";
+import styles from '/styles/descriptionEdit.module.css';
 import toast from "react-hot-toast";
 import { collection, updateDoc, doc } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
@@ -13,8 +14,9 @@ export default function Home() {
     </AuthCheck>
   );
 }
+
 function Description() {
-  const [input, setInput] = useState("");
+  const [desc, setDesc] = useState("");
   const [loading, setLoading] = useState(false);
   async function submit(e) {
     e.preventDefault();
@@ -22,33 +24,39 @@ function Description() {
     let ref = doc(collection(db, "users"), auth.currentUser.uid);
 
     try {
-      await updateDoc(ref, { Description: input });
+      await updateDoc(ref, { Description: desc});
       Router.push("/profile");
     } catch (err) {
-      toast.error("Error");
+      toast.error("Error"); 
       setLoading(false);
     }
   }
   return (
-    <div className="mb-8">
-      <form onSubmit={submit} className="flex flex-col">
-        <div className="">Changed Description</div>
-        <textarea
-          value={input}
-          onChange={(e) => {
-            if (e.target.value.length <= 150) setInput(e.target.value);
-          }}
-          placeholder="description less then 150 character"
-          rows="8"
-          cols="30"
-          className="border-solid border-black border-2 rounded-lg"
-          required
-        />
+    <div className={styles.container}>
+      <form onSubmit={submit} className={styles.form}>
+        <div className={styles.heading}>Edit Details:</div>
+        
+        <div className={styles.fields}>
+          <label htmlFor="description" className={styles.label}>Description:</label>
+          <textarea
+            value={desc}
+            id = 'description'
+            onChange={(e) => {
+              if (e.target.value.length <= 150) setDesc(e.target.value);
+            }}
+            placeholder="description less then 150 character"
+            spellCheck="false"
+            rows="7"
+            cols="30"
+            className={styles.input}
+            required
+          />
+        </div>
         {!loading && (
-          <button className="bg-green-400  mt-3 rounded-lg">Change</button>
+          <button className={styles.btn}>Save Changes</button>
         )}
         {loading && (
-          <div className="w-[100%] h-[100px] flex justify-center items-center">
+          <div className="w-[100%] h-[60px] flex justify-center items-center">
             <Image
               className="w-[40px] h-[30px] animate-spin"
               src={processing}
