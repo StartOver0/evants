@@ -21,7 +21,7 @@ export default function AdminPostsPage() {
   return (
     <main>
       <AuthCheck>
-        <CreateNewPost />
+        <CreateNewPost /> 
       </AuthCheck>
     </main>
   );
@@ -87,6 +87,8 @@ function CreateNewPost() {
 
     router.push(`/organize/${slug}`);
   };
+
+  
   function isEmoji(str) {
     var ranges = [
       "[\uE000-\uF8FF]",
@@ -115,11 +117,12 @@ function CreateNewPost() {
 
   return (
     <div className={styles.fullwidth}>
-        
-        <div className={styles.cover}>
-            <div className={styles.updo} ></div>
-            <div className={styles.leri} ></div>
-            <div className={styles.lerix} ></div>
+        <div>
+          <h1 className={styles.heading}>Organize</h1>
+        {/* <div className={styles.cover}> */}
+            {/* <div className={styles.updo} ></div> */}
+            {/* <div className={styles.leri} ></div> */}
+            {/* <div className={styles.lerix} ></div> */}
             <form
               onSubmit={createPost}
               className={styles.form}
@@ -144,7 +147,7 @@ function CreateNewPost() {
               />
 
               {!loading && (
-                <button type="submit" className="bg-green-300 font-['poppins'] text-[14px] py-[6px] rounded-lg my-[4px]">
+                <button type="submit" className="bg-green-300 mt-2 duration-100 hover:bg-green-400 font-['poppins'] text-[14px] py-[6px] rounded-lg my-[4px]">
                   Create Post
                 </button>
               )}

@@ -15,7 +15,7 @@
 .footer > *{
   font-size: 13px;
   color: white;
-  font-family: 'poppins';
+  font-family: 'open sans';
 }
 .footer hr{
   height: 2px;
@@ -33,11 +33,13 @@
 }
 .suggestion {
   color: black;
-  font-family: "poppins";
+  font-family: "open sans";
   font-size: 15px;
+  resize: none;
   width: 79vw;
-  /* height: 5rem; */
+  letter-spacing: .25px;
   padding: 6px;
+  border-radius: 3px;
   margin: 8px 0;
   outline: none;
   border: 2px solid #2e3444;
@@ -65,14 +67,15 @@
 .button{
   margin: 4px 0 0 2px;
   width: 100px;
+  cursor: pointer;
   font-family: 'poppins';
   font-size: 14px;
   padding: .5rem 1.125rem;
   border-radius: 4px;
-  background-color: #92b2f0;
+  background-color: #76a4ff;
 }
 .button:hover{
-  background-color: #7a9bdd;
+  background-color: rgb(104, 142, 220);
 }
 .navigation{
   display: flex;
@@ -81,17 +84,39 @@
 }
 .navlist{
   display: flex;
+  font-family: "poppins";
   flex-direction: column;
-  /* justify-content: space-between; */
   gap: .35rem;
+
 }
 .navlist h3{
-  font-family: 'open sans';
+  font-family: 'montserrat';
   font-size: 17px;
   margin-bottom: 8px;
+  margin-left: -1px;
+  font-weight: 500;
 }
 .navlist a:hover{
-  color: #5782d8;
+  color: #93b7ff;
+}
+
+.reserves{
+  font-size: 14px;
+  color: white;
+  text-align: center;
+  margin: 0 2rem;
+  padding-bottom: 1rem;
+}
+.reserves div{
+  display: flex;
+  justify-content: center;
+  gap: .75rem;
+}
+.reserves button{
+  text-decoration: underline;
+}
+.reserves button:hover{
+  color: rgb(220, 220, 220);
 }
 
 @media (min-width: 400px){
@@ -106,8 +131,11 @@
   .submitted{
       font-size: 18px;
   }
-}
-@media (min-width: 700px){
+  .reserves hr{
+    display: none;
+  }
+} 
+@media (min-width: 720px){
   .footer{flex-direction: row; gap: 1.5rem; justify-content: space-between; align-items: center;}
   .suggestion, .submitted{
       max-width: 100%;
@@ -119,4 +147,19 @@
   .navigation > div:nth-of-type(2){
       margin-right: 0;
   }
+  .reserves hr{
+    display: none;
+  }
 } 
+@media (max-width: 720px){
+    .d{
+      display: none;
+    }
+}
+.reserves hr{
+  display: block;
+  height: 2px;
+  max-width: 1080px;
+  margin: 0 auto 1rem auto;
+  background-color: #565d70;
+}

@@ -29,6 +29,8 @@ export default function Login() {
   const [passCheck, setPassCheck] = useState(false);
   let [isSignUp, setSignUp] = useState(false);
   const [msz, setmsz] = useState("Password are not same");
+  const {text } = Router.query;
+  // console.log(text)
 
   //for toggle between SignnUp and SignIn.
   useEffect(() => {
@@ -152,11 +154,15 @@ export default function Login() {
         ) : (
           <div className={styles.glass}>
             <h2>Welcome Back User</h2>
+            {/* <p style={{fontWeight: 'bold', color: 'red', fontFamily: ""}}>{text? text: null}</p> */}
             <p>
               You can sign in with to access your with your existing account.
             </p>
           </div>
         )}
+        {/* <div className={styles.glass}>
+            <p style={{fontWeight: 'bold', color: 'red', fontFamily: ""}}>{text? text: null}</p>
+          </div> */}
       </div>
 
       <div className={styles.form}>
@@ -222,7 +228,7 @@ export default function Login() {
               <div className="text-red-800 animate-pulse">{msz}</div>
             ) : null}
             {loader && (
-              <div className="w-[100%] h-[100px] flex justify-center items-center">
+              <div className="w-[100%] h-[70px] flex justify-center items-center">
                 <Image
                   src={processing}
                   className="w-[40px] h-[30px] animate-spin "
@@ -266,7 +272,7 @@ export default function Login() {
         )}
 
         {loaderSi && (
-          <div className="w-[100%] h-[100px] flex justify-center items-center">
+          <div className="w-[100%] h-[70px] flex justify-center items-center">
             <Image
               className="w-[40px] h-[30px] animate-spin"
               src={processing}

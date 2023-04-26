@@ -7,12 +7,13 @@ import { db } from "../../lib/firebase";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import toast from "react-hot-toast";
-
 import processing from "/public/images/processing.png";
 // Username form
 import profilePic from "/public/images/user.png";
 import { storage } from "../../lib/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import styles from "/styles/NameChecker.module.css";
+
 export default function NameChecker() {
   const input = useRef(null);
   const [des, setDes] = useState();
@@ -25,6 +26,7 @@ export default function NameChecker() {
   const [loader, setLoader] = useState(false);
   const { user, username } = useContext(UserContext);
   const imageRef = useRef();
+
   function isEmoji(str) {
     var ranges = [
       "[\uE000-\uF8FF]",
@@ -54,7 +56,7 @@ export default function NameChecker() {
         let url = await getDownloadURL(profilePhotoRef);
         photoURL = url;
       } catch (err) {
-        toast.error("Erorr!");
+        toast.error("Error!");
       }
     }
 
@@ -124,7 +126,7 @@ export default function NameChecker() {
     height: "40px",
     width: "100%",
     position: "absolute",
-    top: "70%",
+    top: "72%",
     left: "50%",
     transform: "translateX(-50%)",
     textAlign: "center",
@@ -132,27 +134,29 @@ export default function NameChecker() {
     color: "red",
     fontSize: "1rem",
     fontWeight: "800",
+    paddingTop: '5px'
   };
   return !username ? (
-    <section className="w-[100vw] h-[70vh] flex items-center justify-center">
-      <div className="border-solid border-black border-3 p-[60px] ">
-        <form onSubmit={onSubmit}>
-          {user != null && user.photoURL == null && (
+    <section className={styles.section}>
+      <div >
+        <h1 className={styles.heading}>Edit Details</h1>
+        <form className={styles.form} onSubmit={onSubmit}>
+          {user != null && (
             <div className="overflow-hidden ">
               <div className="w-[100%] flex justify-center items-center">
-                <div className="relative w-[100px] h-[100px] rounded-full overflow-hidden">
-                  <div className="w-[100px] h-[100px]">
+                <div className="relative w-[135px] h-[135px] rounded-full overflow-hidden border-solid border-[4px] border-[#2a67b1]">
+                  <div className='relative w-[130px] h-[130px] ' >
                     <Image
                       ref={imageRef}
                       className=" m-0 p-0"
                       src={profileimg}
                       layout="fill"
                       alt="profile picture"
-                    />
+                    /> 
                   </div>
 
                   <div
-                    className="pb-[60px]"
+                    className="pb-[60px] cursor-pointer"
                     style={style}
                     onClick={() => {
                       input.current.click();
@@ -162,70 +166,75 @@ export default function NameChecker() {
                   </div>
                 </div>
                 <input
-                  ref={input}
-                  accept=".png, .jpg, .jpeg"
-                  type="file"
-                  className="hidden"
-                  onChange={(event) => {
-                    setfile(event.target.files[0]);
-                    setProfileimg(URL.createObjectURL(event.target.files[0]));
-                  }}
-                  required
+                    ref={input}
+                    accept=".png, .jpg, .jpeg"
+                    type="file"
+                    className="hidden"
+                    onChange={(event) => {
+                      setfile(event.target.files[0]);
+                      setProfileimg(URL.createObjectURL(event.target.files[0]));
+                    }}
+                    required
                 />
               </div>
-              <div className="h-[30px]"></div>
             </div>
           )}
-          <div className="">Choose Name</div>
-          <div className="text-sm text-red-500">
-            {"don't use any special character or emoji"}
-          </div>
-          <input
-            className="border-solid border-2 border-black"
-            name="username"
-            placeholder="less then 15 character"
-            value={formValue}
-            onChange={onChange}
-          />
-          <div className="h-[5px]"></div>
-          <UsernameMessage
-            username={formValue}
-            isValid={isValid}
-            loading={loading}
-          />
-          <div>description</div>
-          <textarea
-            type="text"
-            placeholder="description less then 150 character"
-            value={des}
-            onChange={(e) => {
-              if (e.target.value.length <= 150) {
-                setDes(e.target.value);
-              }
-            }}
-            className="border-solid border-2 border-black"
-          />
-
-          <div className="flex items-center">
-            {!loader && (
-              <button
-                type="submit"
-                className="bg-green-300 p-[10px] rounded-lg"
-                disabled={!isValid}
-              >
-                Choose
-              </button>
-            )}
-
-            {loader && (
-              <div className="w-[100%] flex justify-center">
-                <Image
-                  src={processing}
-                  className="w-[40px]  h-[30px] animate-spin"
-                  alt="something"
-                />
+          <div className={styles.content}>
+            <div>
+              <div className={styles.label}>Choose Name:
+                <span className="text-sm text-red-500">{" (don't use any special character or emoji)"}</span>
               </div>
-            )}
+              <input
+                className={styles.input}
+                name="username"
+                placeholder="less then 15 character"
+                value={formValue}
+                onChange={onChange}
+              />
+              <UsernameMessage
+                username={formValue}
+                isValid={isValid}
+                loading={loading}
+              />
+            </div>         
+
+            <div>
+              <div className={styles.label}>Description:</div>
+              <textarea
+                type="text"
+                placeholder="description less then 250 character"
+                value={des}
+                rows = '3'
+                onChange={(e) => {
+                  if (e.target.value.length <= 250) {
+                    setDes(e.target.value);
+                  }
+                }}
+                className={styles.textarea}
+            />
+            </div>
+
+            <div className="flex items-center">
+              {!loader && (
+                <button
+                  type="submit"
+                  className={styles.button}
+                  disabled={!isValid}
+                >
+                  Save
+                </button>
+              )}
+
+              {loader && (
+                <div className="w-[100%] flex justify-center">
+                  <Image
+                    src={processing}
+                    className="w-[40px]  h-[30px] animate-spin"
+                    alt="something"
+                  />
+                </div>
+              )}
+            </div>
           </div>
         </form>
       </div>
@@ -235,7 +244,7 @@ export default function NameChecker() {
       <Image
         src={processing}
         alt="somthing"
-        className="w-[100px] h-[100px] animate-spin"
+        className="w-[100px] h-[80px] animate-spin"
       />
       {(() => {
         toast.success("Login Sucessfully!");
@@ -247,12 +256,12 @@ export default function NameChecker() {
 
 function UsernameMessage({ username, isValid, loading }) {
   if (loading) {
-    return <p>Checking...</p>;
+    return <p className={styles.condition}>Checking...</p>;
   } else if (isValid) {
-    return <p className="text-green-600">{username} is available!</p>;
+    return <p className={`${styles.condition} text-green-600`}>{username} is available!</p>;
   } else if (username && !isValid) {
-    return <p className="text-red-600">That username is taken!</p>;
+    return <p className={`${styles.condition} text-red-600`}>That username is taken!</p>;
   } else {
-    return <p></p>;
+    return <p className={styles.condition}></p>;
   }
 }

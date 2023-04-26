@@ -2,36 +2,41 @@
     width: 100vw;
     box-shadow: 0 -2px 4px 1px #eaeaea;
 }
-.about{
+.about, .aboutx{
     max-width: 1200px;
-    
-}
-.about{
     font-family: 'montserrat';
     padding: 2rem;
     line-height: 1.5;
-    /* align-items: center; */
+    font-size: clamp(16px, 18px, 20px);
     display: flex;
     flex-direction: column;
     margin: 0 auto;
     margin-bottom: 10px;
 }
-.about > *:not(h1){
-    margin-left: .5rem;
+.about > *:not(h2){
+    width: 80%;
+    margin-left: 2rem;
+    margin-bottom: 1.875rem;
+    padding: 1rem 1.125rem;
+    border-radius: 8px;
+    box-shadow: -32px 1px 18px -9px rgb(122, 174, 253); 
+    /* list-style-type: disc; */
+}
+.about .about_second{
+    margin-left: 5rem;
 }
 .title{
-    font-family: 'montserrat';
+    font-family: 'Roboto Slab';
+    font-weight: 400;
     font-size: 28px;
-    letter-spacing: -.5px;
-    margin-bottom: 1rem;
+    letter-spacing: .75px;
+    margin-bottom: 2.5rem;
 }
 .title span{
     font-weight: bold;
-    border-bottom: 2px solid black;
+    border-bottom: 3px solid black;
 }
-.about {
-    font-size: clamp(16px, 18px, 20px);
-}
+
 .about_third{
     display: flex;
     align-items: center;
@@ -55,6 +60,34 @@
     75%{margin-top: -90.5px;}
 }
 
+.aboutx > div{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    max-width: 800px;
+    padding: 1rem 2.5rem;
+    gap: 2rem;
+}
+.techs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    width: 150px;
+    flex-basis: 150px;
+    height: 150px;
+    box-shadow: 0 0 6px -2px rgb(104, 104, 104);
+    border: 2px solid rgb(217, 217, 217);
+    border-radius: 50%;
+}
+.techs > div:first-of-type{
+    width: 50px;
+    height: 50px;
+}
+.tname{
+    font-weight: bold;
+}
 @media (max-width: 900px) {
     .about > *{
         font-size: 16px;
@@ -62,22 +95,54 @@
     .title{
         font-size: 24px;
     }
+    .aboutx > div{
+        padding: 1rem 1.5rem;
+    }
+
+    /* .techs > div:first-of-type{
+        width: 40px;
+        height: 40px;
+    } */
+}
+@media (max-width: 650px) {
+    .aboutx > div{
+        justify-content: flex-start;
+    }
+}
+@media (max-width: 520px) {
+    .list{margin-left: -1px;}
+    .about .about_second{
+        margin-left: 2rem;
+    }
+    .about_third{
+        display: inline-block;
+    }
     
 }
+
 @media (max-width: 450px) {
+    .about > *:not(h2){
+        width: 100%;
+        margin-left: 1rem;
+        box-shadow: -24px 1px 18px -9px rgb(122, 174, 253); 
+        /* list-style-type: disc; */
+    }
     .about{
-        padding: 1rem;
+        padding: 2rem;
     }
     .title{
-        font-size: 18px;
-        margin-bottom: .5rem;
+        font-size: 24px;
     }
 
     .about > p{
         font-size: 14px;
+        /* width: 70vw;; */
     }
     .about_third, .list{
         font-size: 14px;;
+    }
+    .about_third{
+        margin-left: -2px;
     }
     .list{
         margin-top: -3px;
@@ -96,5 +161,9 @@
         25%{margin-top: -22.5px;}
         50%{margin-top: -43px;}
         75%{margin-top: -65px;}
+    }
+
+    .techs{
+        margin: 0 auto;
     }
 }

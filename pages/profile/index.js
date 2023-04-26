@@ -2,6 +2,7 @@ import Avatar from "/components/Avatar/Avatar";
 import BlogPreview from "/components/blogPreview/blogPreview";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
+import styles from '/styles/Profile.module.css';
 import {
   collection,
   doc,
@@ -16,9 +17,11 @@ import {
 import { auth, db, postToJSON } from "../../lib/firebase";
 import AuthCheck from "/components/AuthCheck/AuthCheck";
 import processing from "/public/images/processing.png";
+import toast from "react-hot-toast";
 import { fromMillis } from "firebase/firestore";
 import Link from "next/link";
 import { UserContext } from "../../lib/Context";
+
 export default function Profile() {
   return (
     <AuthCheck>
@@ -27,6 +30,7 @@ export default function Profile() {
   );
 }
 const li = 3;
+
 function Home() {
   const { profileData } = useContext(UserContext);
 
@@ -35,6 +39,10 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [postEnd, setPostEnd] = useState(false);
   const [wholeL, setWholeL] = useState(true);
+
+  const changeDesc = ()=>{
+    
+  } 
   useEffect(() => {
     (async () => {
       const ref = collection(db, `users/${auth.currentUser.uid}/events`);
@@ -91,36 +99,18 @@ function Home() {
   }
   return (
     articles && (
-      <div>
+      <div className={styles.container}>
         <Avatar {...pdata} />
         {pdata.isAdmin && (
-          <div className="flex  justify-around flex-col sm:flex-row">
+          <div className={styles.foradmin}>
             <Link href="/askAdmin">
-              <div className="tracking-wider flex justify-center items-center  bg-red-600 h-[6vh] hover:bg-red-500 rounded-full mt-[30px] p-2">
-                <div className="text-white  ">Requests For Publication</div>
-              </div>
+              <div className={styles.btn}>Requests For Publication</div>
             </Link>
 
             <Link href="/DeleteHome">
-              <div className="tracking-wider flex justify-center items-center  p-2 bg-red-600 h-[6vh] hover:bg-red-500 rounded-full sm:mt-[30px] mt-1">
-                <div className="text-white  ">Delete Post from Home page</div>
-              </div>
-            </Link>
-            <Link href="/descriptionEdit">
-              <div className="tracking-wider flex justify-center items-center  p-2 bg-red-600 h-[6vh] hover:bg-red-500 rounded-full sm:mt-[30px] mt-1">
-                <div className="text-white  ">Edit description</div>
-              </div>
+              <div className={styles.btn}>Delete Post from Home page</div>
             </Link>
           </div>
-        )}
-        {!pdata.isAdmin && (
-          <Link href="/descriptionEdit">
-            <div className="tracking-wider m-2 flex justify-center rounded-full items-center  ">
-              <div className="w-[300px] flex justify-center  bg-red-600 hover:bg-red-900 p-2 h-[6vh] rounded-full">
-                <div className="text-white ">Edit description</div>
-              </div>
-            </div>
-          </Link>
         )}
 
         <BlogPreview {...articles} />
@@ -132,7 +122,7 @@ function Home() {
               onClick={getMore}
               className="  max-w-[100vw] tracking-wider flex justify-center items-center mb-4 bg-color cursor-pointer "
             >
-              <div className="w-[180px] text-white bg-red-600 hover:bg-red-900 flex p-2 rounded-full items-center justify-center">
+              <div className={styles.loadmore}>
                 <div>Load more</div>
               </div>
             </div>

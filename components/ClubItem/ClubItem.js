@@ -6,7 +6,7 @@ export default function ClubItem({ data }) {
   const { clubName, clubCode, clubAdmins, clubPhoto } = newdata;
 
   return (
-    <div>
+  <div className={styles.container}>
       <div className={styles.list_item}>
         <div className={styles.div1}>
           <div className={styles.img_div}>

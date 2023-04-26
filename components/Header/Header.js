@@ -45,11 +45,12 @@ export default function Header() {
   }, [username]);
 
   return (
+    <div className={nav.navbar_c}>
     <div className={nav.navbar}>
       <Link href="/">
-        <a>
+        <a className={nav.domain_link}>
           <div className={nav.domain_name}>
-            <h1>C . I . K . Y </h1>
+            <p>C . I . K . Y </p>
           </div>
           <div className={nav.domain_icon}>
             <div className={nav.icon_container}>
@@ -104,6 +105,7 @@ export default function Header() {
           </div>
         </>
       )}
+    </div>
     </div>
   );
 }

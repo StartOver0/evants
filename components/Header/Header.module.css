@@ -1,9 +1,15 @@
+.navbar_c{
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 0 4px 2.5px #ededed;
+}
 .navbar{
     display: flex;
-    /* flex-direction: column; */
+    width: 100vw;
+    max-width: 1350px;
     background-color: white;
     /* border-bottom: 1.5px solid #dfdfdf; */
-    box-shadow: 0 0 4px 2.5px #ededed;
+
     justify-content: space-between;
     align-items: center;
 }
@@ -13,7 +19,14 @@
     display: inline-block;
     font-size: 28px;
     font-weight: bold;
-    margin: 1.25rem 2.25rem;
+    padding: .5rem 1.5rem;
+    margin: .4rem .75rem;
+    transition: 250ms;
+    
+}
+.domain_name:hover{
+    background-color: hsl(221, 20%, 97%);
+    border-radius: 4px;
 }
 .domain_icon{
     display: none;

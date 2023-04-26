@@ -24,6 +24,8 @@ import {
 
 import toast from "react-hot-toast";
 import Link from "next/link";
+
+
 export default function CreatePost(props) {
   const { user, username } = useContext(UserContext);
   const [defaultValues, setDefaultValues] = useState();
