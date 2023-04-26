@@ -3,7 +3,7 @@ export default function UnAuthBlogPreview(props) {
   let articles = Object.values(props);
 
   return articles.length !== 0 ? (
-    <div className="m-auto max-w-[700px]  p-[30px]">
+    <div className="m-auto max-w-[700px] p-[30px]">
       {articles.map((article, index) => {
         return (
           <Link key={index} href={"/" + article.username + "/" + article.slug}>

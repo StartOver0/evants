@@ -39,67 +39,78 @@ export default function Footer() {
   }, [username]);
   return (
     <div className={footer.container}>
-      <div className={footer.footer}>
-        <div className={footer.suggestion_div}>
-          <h3 className={footer.head}>Have&nbsp;suggestions?</h3>
-          <form onSubmit={submit}>
-            {login ? (
-              <textarea
-                onChange={(e) => {
-                  if (e.target.value.length <= 300) setInput(e.target.value);
-                }}
-                value={input}
-                rows="4"
-                className={footer.suggestion}
-                placeholder="Write something ..."
-                required
-              ></textarea>
-            ) : (
-              <div className={footer.submitted}>
-                {"Please Sign with your Google account"}
-              </div>
-            )}
-            <button disabled={!login} className={footer.button}>
-              Submit
-            </button>
-          </form>
-        </div>
+      <div >
+        <div className={footer.footer}> 
+          <div className={footer.suggestion_div}>
+            <h3 className={footer.head}>Have&nbsp;suggestions?</h3>
+            <form onSubmit={submit}>
+              {login ? (
+                <textarea 
+                  onChange={(e) => {
+                    if (e.target.value.length <= 300) setInput(e.target.value);
+                  }}
+                  value={input}
+                  rows="4"
 
-        <hr />
-        <div className={footer.navigation}>
-          <div className={footer.navlist}>
-            <h3>C.I.K.Y.</h3>
-            <Link href="#">
-              <a>Home</a>
-            </Link>
-            <Link href="#">
-              <a>Clubs</a>
-            </Link>
-            <Link href="#">
-              <a>Organize</a>
-            </Link>
-            <Link href="#">
-              <a>Compete</a>
-            </Link>
-            <Link href="#">
-              <a>Feedback</a>
-            </Link>
+                  className={footer.suggestion}
+                  placeholder="Write something ..."
+                  required
+                ></textarea>
+              ) : (
+                <div className={footer.submitted}>
+                  {"Please Sign in with your Google account"}
+                </div>
+              )}
+              <button disabled={!login} className={footer.button}>
+                Submit
+              </button>
+            </form>
           </div>
+
           <hr />
-          <div className={footer.navlist}>
-            <h3>About Us</h3>
-            <Link href="#">
-              <a>Team Section</a>
-            </Link>
-            <Link href="#">
-              <a>Technology </a>
-            </Link>
-            <Link href="#">
-              <a>Our Other Projects</a>
-            </Link>
+          <div className={footer.navigation}>
+            <div className={footer.navlist}>
+              <h3>UUEvents</h3>
+              <Link href="#">
+                <a>Home</a>
+              </Link>
+              <Link href="#">
+                <a>Clubs</a>
+              </Link>
+              <Link href="#">
+                <a>Organize</a>
+              </Link>
+              <Link href="#">
+                <a>Compete</a>
+              </Link>
+              <Link href="#">
+                <a>Feedback</a>
+              </Link>
+            </div>
+            <hr />
+            <div className={footer.navlist}>
+              <h3>About Us</h3>
+              <Link href="#">
+                <a>Team Section</a>
+              </Link>
+              <Link href="#">
+                <a>Technology </a>
+              </Link>
+              <Link href="#">
+                <a>Our Other Projects</a>
+              </Link>
+            </div>
           </div>
+          <hr className={footer.d}/>
         </div>
-        <hr />
+        <div className={footer.reserves}>
+          <hr />
+          Copyright &copy; 2022-2023 UUEvents Inc.
+          <div ><button>Terms of Use</button>
+          <button>Privacy Policy</button>
+          </div>
+
+        </div>
       </div>
     </div>
   );

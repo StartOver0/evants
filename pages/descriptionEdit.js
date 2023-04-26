@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import AuthCheck from "/components/AuthCheck/AuthCheck";
 import processing from "/public/images/processing.png";
 import Image from "next/image";
@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import { collection, updateDoc, doc } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
 import Router from "next/router";
+import profilePic from "/public/images/user.png";
+
 export default function Home() {
   return (
     <AuthCheck>
@@ -16,8 +18,27 @@ export default function Home() {
 }
 
 function Description() {
+  const imageRef = useRef();
+  const input = useRef();
+  const [profileimg, setProfileimg] = useState(profilePic);
+  
   const [desc, setDesc] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const style = {
+    height: "40px",
+    width: "100%",
+    position: "absolute",
+    top: "70%",
+    left: "50%",
+    transform: "translateX(-50%)",
+    textAlign: "center",
+    background: "rgba(0,0,0,0.7)",
+    color: "red",
+    fontSize: "1rem",
+    fontWeight: "800",
+  };
+
   async function submit(e) {
     e.preventDefault();
     setLoading(true);
@@ -35,7 +56,41 @@ function Description() {
     <div className={styles.container}>
       <form onSubmit={submit} className={styles.form}>
         <div className={styles.heading}>Edit Details:</div>
-        
+        <div className="flex">
+        <div className="w-[100%] flex justify-center items-center">
+                <div className="relative w-[100px] h-[100px] rounded-full overflow-hidden">
+                  <div className="w-[100px] h-[100px]">
+                    <Image
+                      ref={imageRef}
+                      className=" m-0 p-0"
+                      src={profileimg}
+                      layout="fill"
+                      alt="profile picture"
+                    />
+                  </div>
+
+                  <div
+                    className="pb-[60px]"
+                    style={style}
+                    onClick={() => {
+                      input.current.click();
+                    }}
+                  >
+                    Choose
+                  </div>
+                </div>
+                <input
+                    ref={input}
+                    accept=".png, .jpg, .jpeg"
+                    type="file"
+                    className="hidden"
+                    onChange={(event) => {
+                      setfile(event.target.files[0]);
+                      setProfileimg(URL.createObjectURL(event.target.files[0]));
+                    }}
+                    required
+                />
+        </div>
         <div className={styles.fields}>
           <label htmlFor="description" className={styles.label}>Description:</label>
           <textarea
@@ -51,6 +106,7 @@ function Description() {
             className={styles.input}
             required
           />
+        </div>
         </div>
         {!loading && (
           <button className={styles.btn}>Save Changes</button>
