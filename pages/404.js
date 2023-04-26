@@ -1,8 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import none from "/public/images/404.gif";
+import styles from '/styles/error.module.css';
 
 export default function Custom404() {
+
+ 
+
+
+
   return (
     // <div className="min-h-[50vh] flex justify-center flex-col items-center m-5 gap-[2rem]">
     //   <h1 className="font-bold text-xl">
@@ -21,8 +27,18 @@ export default function Custom404() {
     //     </div>
     //   </Link>
     // </div>
-    <div>
-      <div className="text-[40px]"> if userRequest == undefined : </div>
+    <div className={styles.container}>
+
+      <div>
+        <div >
+        {/* style={{position: 'absolute', left: '50%', top: '50%'}}> */}
+          <h1 className={styles.notf}>OOPS!</h1>
+          <div className={styles.cs404}>
+            <p className={styles.text}>404 - This page cannot be found !!</p></div>
+
+        </div>
+        <div className={styles.buttondiv}><button className={styles.button}>GO TO HOMEPAGE</button></div>
+      </div>
     </div>
   );
 }
