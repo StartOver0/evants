@@ -29,7 +29,7 @@ export default function Login() {
   const [passCheck, setPassCheck] = useState(false);
   let [isSignUp, setSignUp] = useState(false);
   const [msz, setmsz] = useState("Password are not same");
-  const {text } = Router.query;
+  const { text } = Router.query;
   // console.log(text)
 
   //for toggle between SignnUp and SignIn.
@@ -287,10 +287,10 @@ export default function Login() {
             <hr className={styles.hr} />
           </div>
           <button
-            onClick={() => {
+            onClick={async () => {
               try {
                 const collectionref = collection(db, "users");
-                signInWithPopup(auth, provider).then(async (result) => {
+                await signInWithPopup(auth, provider).then(async (result) => {
                   const ref = doc(db, "users", result.user.uid);
 
                   const docSnap = await getDoc(ref);
@@ -304,7 +304,6 @@ export default function Login() {
                 });
               } catch (err) {
                 setPassCheck(true);
-                toast.error(err.message.toString(), { duration: 5000 });
                 setmsz("google error");
               }
             }}
