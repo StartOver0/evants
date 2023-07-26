@@ -7,14 +7,24 @@ import Link from "next/link";
 
 export default function AuthCheck(props) {
   const { username } = useContext(UserContext);
-  const router = useRouter();
   
+  const stylebtn = {
+    padding: '.3rem .85rem',
+    margin: '0 2px',
+    fontSize: '16px',
+    background: "cornflowerblue",
+    fontWeight: '600',
+    color: 'white',
+    borderRadius: '4px',
+    border: '2px solid cornflowerblue',
+    cursor: 'pointer'
+  }
   return username ? (
     props.children
   ) : (
-    <div className="hover:text-red-400 text-blue-400 h-[80vh] flex justify-center items-center">
+    <div className="hove:text-red-400 text-blue-400 h-[80vh] flex justify-center items-center">
       <Link classaName="" href="/login">
-        For this feature you have to Login
+        <p>For this feature you have to first <span className="hover:bg-white hover:text-blue-400" style={stylebtn}>Login</span></p>
       </Link>
     </div>
   );

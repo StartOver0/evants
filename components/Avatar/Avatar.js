@@ -11,7 +11,6 @@ const Avatar = ({ Description, username, photoURL }) => {
   const [editDesc, setEditDesc] = useState(false);
   const [profileimg, setProfileimg] = useState(photoURL);
   const [file, setfile] = useState(null);
-
   const input = useRef(null);
   const desc = useRef();
 

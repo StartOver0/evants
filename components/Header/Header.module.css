@@ -110,6 +110,7 @@
     .domain_name{
         margin: 1rem 2.25rem;
         font-size: 24px;
+        padding-left: 0;
     }
 }
 @media (max-width: 600px) {

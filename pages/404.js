@@ -2,13 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import none from "/public/images/404.gif";
 import styles from '/styles/error.module.css';
+import { useRouter } from "next/router";
 
 export default function Custom404() {
 
- 
-
-
-
+  const router = useRouter();
   return (
     // <div className="min-h-[50vh] flex justify-center flex-col items-center m-5 gap-[2rem]">
     //   <h1 className="font-bold text-xl">
@@ -37,7 +35,7 @@ export default function Custom404() {
             <p className={styles.text}>404 - This page cannot be found !!</p></div>
 
         </div>
-        <div className={styles.buttondiv}><button className={styles.button}>GO TO HOMEPAGE</button></div>
+        <div className={styles.buttondiv}><button className={styles.button} onClick={() => {router.push('/')}}>GO TO HOMEPAGE</button></div>
       </div>
     </div>
   );
