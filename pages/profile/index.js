@@ -2,7 +2,7 @@ import Avatar from "/components/Avatar/Avatar";
 import BlogPreview from "/components/blogPreview/blogPreview";
 import { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import styles from '/styles/Profile.module.css';
+import styles from "/styles/Profile.module.css";
 import {
   collection,
   doc,
@@ -40,9 +40,7 @@ function Home() {
   const [postEnd, setPostEnd] = useState(false);
   const [wholeL, setWholeL] = useState(true);
 
-  const changeDesc = ()=>{
-    
-  } 
+  const changeDesc = () => {};
   useEffect(() => {
     (async () => {
       const ref = collection(db, `users/${auth.currentUser.uid}/events`);
@@ -100,7 +98,7 @@ function Home() {
   return (
     articles && (
       <div className={styles.container}>
-        <Avatar {...pdata} />
+        <Avatar {...pdata} authenticated />
         {pdata.isAdmin && (
           <div className={styles.foradmin}>
             <Link href="/askAdmin">
