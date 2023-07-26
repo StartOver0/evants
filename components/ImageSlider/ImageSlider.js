@@ -40,6 +40,7 @@ export default function ImageSlider(){
                 )
               })}
               </div>
+              
               <div className={styles.image_text}>
                   <h2 className={styles.head}>{data[sliderIndex].heading}</h2>
                   <div className={styles.desc_div}>
