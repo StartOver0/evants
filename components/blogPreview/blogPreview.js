@@ -26,7 +26,7 @@ export default function BlogPreview(props) {
               </div>
               <div className="font-bold text-2xl">{article.title}</div>
               <div className="flex flex-col  sm:text-base text-sm">
-                <div className="hyphen-auto">
+                <div className="hyphen-auto mt-3">
                   {(() => {
                     let string = "";
                     if (article.description.length <= 260) {

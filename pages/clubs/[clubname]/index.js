@@ -10,7 +10,7 @@ import ExternalLinks from "/components/ExternalLinks/ExternalLinks";
 import { useRouter } from "next/router";
 import { Timestamp } from "firebase/firestore";
 import { db, postToJSON } from "../../../lib/firebase";
-import UnAuthBlogPreview from "../../../components/unAuthBlogPreviewForClub/index";
+import UnAuthBlogPreview from "/components/unAuthBlogPreview/unAuthBlogPreview";
 import {
   collection,
   collectionGroup,

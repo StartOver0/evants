@@ -4,7 +4,7 @@ export default function Clubs({ links }) {
   return (
     <div className={styles.external_links}>
       {instragram == "" && twitter == "" && linkdin == "" && facebook == "" && (
-        <div>No Link Available</div>
+        <div style={{marginBottom: "10px", marginLeft: '-10px'}}>No Links Available</div>
       )}
       {instragram != "" && (
         <a href={instragram} target="_blank">
