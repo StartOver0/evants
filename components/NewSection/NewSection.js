@@ -32,8 +32,8 @@ export default function NewSection(){
                 <h3>In Testing</h3>
                 <hr className={styles.hr}/>
                 <ul>
-                    <li>Inbuilt event manager</li>
-                    <li>Allow users to access past event details</li>
+                    <li>Filter options</li>
+                    <li>Past events details section</li>
                 </ul>
             </div>
         </div>

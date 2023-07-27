@@ -21,7 +21,7 @@ export default function Profile(props) {
 const li = 3;
 function Home({ user, post }) {
   return (
-    <div>
+    <div style={{boxShadow: "0px 0px 10px -6px black", paddingBottom: "20px"}} >
       <Avatar {...user} />
       <UnAuthBlogPreview {...post} />
     </div>
@@ -48,7 +48,6 @@ export async function getServerSideProps(context) {
       doc.username = username;
       arr.push(postToJSON(doc));
     });
-    // const post = arr;
     user = pdoc.data();
   } else {
     return {
