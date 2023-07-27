@@ -11,12 +11,14 @@ export default function ImageSlider(){
    const setIndex = (val) => {setSliderIndex(val)}
   // console.log(data[slideCounter]);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setSlideCounter((slideCounter+1)%2)
-  //     console.log(slideCounter)
-  //   }, 7000)
-  // })
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setSliderIndex((sliderIndex+1)%data.length)
+    }, 10000);
+    return () => {
+      clearInterval(id);
+    }
+  })
 
   const shift = {
     marginLeft: `-${100 * sliderIndex}%`

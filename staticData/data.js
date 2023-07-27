@@ -4,8 +4,8 @@ import imgM1 from "/public/images/gogo.jpg";
 import imgD1 from "/public/images/vega.jpg";
 import imgM2 from "/public/images/xilo.jpg";
 import imgD2 from "/public/images/gohanD2.jpg";
-import imgM3 from "/public/images/pico.jpg";
-import imgD3 from "/public/images/peakpx.jpg";
+import imgM3 from "/public/images/feed.jpg";
+import imgD3 from "/public/images/feed.jpg";
 
 module.exports = [
     {
@@ -27,8 +27,8 @@ module.exports = [
         imgD: imgD1
     },
     {
-        heading: "PICCOLO",
-        content: "Piccolo is a Namekian and also the final child and reincarnation of King Piccolo, later becoming the reunification of the Nameless Namekian after fusing with Kami.",
+        heading: "Feedback",
+        content: "If you have taken a tour of our website and have some suggestion please share your thought to us so that we can enhance our user's experience.",
         imgM: imgM3,
         imgD: imgD3
     }
