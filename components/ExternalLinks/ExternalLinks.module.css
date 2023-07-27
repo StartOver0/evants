@@ -3,6 +3,7 @@
     display: flex;
     gap: 1.5rem;
     margin-left: 4px;
+    margin-bottom: 15px;;
 }
 .external_links a{
     width: 40px;
