@@ -1,5 +1,5 @@
-import teamMember1 from '/public/images/mdl.jpg';
-import teamMember2 from '/public/images/ichi.jpg';
+import teamMember1 from '/public/images/mypic.jpg';
+import teamMember2 from '/public/images/prodep.jpg';
 import teamMember3 from '/public/images/nar.jpg';
 
 module.exports= [

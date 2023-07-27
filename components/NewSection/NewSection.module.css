@@ -33,7 +33,7 @@
     transition: 800ms;
 }
 .heading:hover::after{
-    width: 11.75rem;
+    width: 17.125rem;
 }
 
 .flexitems{
@@ -96,7 +96,7 @@
     }
     .heading{font-size: 24px;}
     .heading:hover::after{
-        width: 10.2rem;
+        width: 15rem;
     }
 
 }
