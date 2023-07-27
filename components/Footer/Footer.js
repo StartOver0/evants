@@ -61,7 +61,7 @@ export default function Footer() {
                   {"Please Sign in with your Google account"}
                 </div>
               )}
-              <button disabled={!login} className={footer.button}>
+              <button disabled={!login} className={login ? footer.button: footer.buttonn}>
                 Submit
               </button>
             </form>
@@ -71,34 +71,25 @@ export default function Footer() {
           <div className={footer.navigation}>
             <div className={footer.navlist}>
               <h3>UUEvents</h3>
-              <Link href="#">
+              <Link href="/">
                 <a>Home</a>
               </Link>
-              <Link href="#">
+              <Link href="/clubs">
                 <a>Clubs</a>
               </Link>
-              <Link href="#">
+              <Link href="/organize">
                 <a>Organize</a>
               </Link>
-              <Link href="#">
-                <a>Compete</a>
-              </Link>
-              <Link href="#">
-                <a>Feedback</a>
+              <Link href="/about">
+                <a>About us</a>
               </Link>
             </div>
             <hr />
             <div className={footer.navlist}>
-              <h3>About Us</h3>
-              <Link href="#">
-                <a>Team Section</a>
-              </Link>
-              <Link href="#">
-                <a>Technology </a>
-              </Link>
-              <Link href="#">
-                <a>Our Other Projects</a>
-              </Link>
+              <h3>References</h3>
+              <a target="_blank" href="https://nextjs.org/docs">NextJs</a>
+              <a target="_blank" href="https://firebase.google.com/docs">Firebase</a>
+              <a target="_blank" href="https://tailwindcss.com/">Tailwind</a>
             </div>
           </div>
           <hr className={footer.d}/>
