@@ -1,28 +1,28 @@
-import imgM0 from "/public/images/goku2.jpg";
+import imgM0 from "/public/images/xora.jpg";
 import imgD0 from "/public/images/gokuD2.jpg";
-import imgM1 from "/public/images/vega.jpg";
+import imgM1 from "/public/images/gogo.jpg";
 import imgD1 from "/public/images/vega.jpg";
-import imgM2 from "/public/images/goha.jpg";
+import imgM2 from "/public/images/xilo.jpg";
 import imgD2 from "/public/images/gohanD2.jpg";
 import imgM3 from "/public/images/pico.jpg";
 import imgD3 from "/public/images/peakpx.jpg";
 
 module.exports = [
     {
-        heading: "Develop my way",
-        content: "Son Goku, born kakarot, is a male Saiyan and the main protagonist of the Dragon Ball series created by Akira Toriyama.",
+        heading: "Event Hack 20",
+        content: "If you have some good ideas which you think can have some great effect and you have to put it into test then this event is for you. In Event Hack 20 teams will provide their ideas and top 20 teams will compete to win the contest and win exciting prizes",
         imgM: imgM0,
         imgD: imgD0
     },
     {
-        heading: "SON GOHAN",
-        content: "Gohan is the eldest son of Son Goku and Chi-Chi, making him the first Human/Saiyan hybrid. His battle potential far surpassed that of his father's, but Gohan had no love for fighting.",
+        heading: "Coding Fun",
+        content: "Coding Fun is a programming event which is organized for second year students to increase their curiosity towards coding and web development. The students will be able to meet some great minds and learn from their experience.",
         imgM: imgM2,
         imgD: imgD2
     },
     {
-        heading: "PRINCE VEGETA",
-        content: "Vegeta is the deuteragonist of the Dragon Ball franchise. He starts as the main antagonist of the Saiyan Saga, but as the story progresses, he becomes one of the heroes of the Z Warriors.",
+        heading: "Advent of Code",
+        content: "Advent of Code is python programmers to show their skills in any field from using django for web development to using pyglet to making simple games.",
         imgM: imgM1,
         imgD: imgD1
     },
