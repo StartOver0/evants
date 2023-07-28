@@ -1,3 +1,14 @@
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
 .navbar_c{
     display: flex;
     justify-content: center;
@@ -18,12 +29,24 @@
     box-shadow: none;
     display: inline-block;
     font-size: 28px;
-    font-weight: bold;
+    font-weight: 900;
     padding: .5rem 1.5rem;
     margin: .4rem .75rem;
-    transition: 250ms;
-    
+    transition: 250ms;   
 }
+.domain_name p {
+    background: linear-gradient(-45deg, #1A2980 , rgb(181, 188, 255) .1%,  #23a6d5, #23d5ab);
+    background-clip: text;
+    color: transparent;
+
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+}
+/* .domain_name span{
+    color: cornflowerblue;
+    letter-spacing: -2px;
+    color: black
+} */
 .domain_name:hover{
     background-color: hsl(221, 20%, 97%);
     border-radius: 4px;
@@ -110,6 +133,7 @@
     .domain_name{
         margin: 1rem 2.25rem;
         font-size: 24px;
+        padding-left: 0;
     }
 }
 @media (max-width: 600px) {

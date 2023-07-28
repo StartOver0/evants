@@ -1,6 +1,7 @@
 .about_container{
     width: 100vw;
     box-shadow: 0 -2px 4px 1px #eaeaea;
+    user-select: none;
 }
 .about, .aboutx{
     max-width: 1200px;

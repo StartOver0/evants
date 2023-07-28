@@ -5,6 +5,7 @@ import { collectionGroup, query, where, getDocs } from "firebase/firestore";
 import { postToJSON, db } from "../../lib/firebase";
 import { useContext } from "react";
 import { MainLoading } from "../../lib/Context";
+
 export default function Content({ upcoming, current }) {
   const { loading } = useContext(MainLoading);
   return (
