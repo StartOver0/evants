@@ -1,3 +1,4 @@
+
 import teamMember1 from "/public/images/mdl.jpg";
 import teamMember2 from "/public/images/ichi.jpg";
 import teamMember3 from "/public/images/nar.jpg";
@@ -22,3 +23,4 @@ module.exports = [
     facebook: "https://facebook.com",
   },
 ];
+

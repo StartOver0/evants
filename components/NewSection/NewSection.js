@@ -6,7 +6,7 @@ export default function NewSection(){
    return(
      <div className={styles.full_width}>
         <div className={styles.container}>
-        <h2 className={styles.heading}>Whats's New</h2>
+        <h2 className={styles.heading}>Whats's Upcoming</h2>
         <div className={styles.flexitems}>
             <div className={styles.svg}>
                 <svg style={{verticalAlign: 'middle', overflow: 'hidden' }} viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" width={300} height={300}>
@@ -26,14 +26,14 @@ export default function NewSection(){
                 <h3>In Development</h3>
                 <hr className={styles.hr}/>
                 <ul>
-                    <li>something in development</li>
-                    <li>something in development</li>
+                    <li>Payment Gateway</li>
+                    <li>Analytics integration</li>
                 </ul>
                 <h3>In Testing</h3>
                 <hr className={styles.hr}/>
                 <ul>
-                    <li>something in testing</li>
-                    <li>something in testing</li>
+                    <li>Filter options</li>
+                    <li>Past events details section</li>
                 </ul>
             </div>
         </div>

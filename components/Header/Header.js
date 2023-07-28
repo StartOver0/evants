@@ -50,7 +50,7 @@ export default function Header() {
         <Link href="/">
           <a className={nav.domain_link}>
             <div className={nav.domain_name}>
-              <p>C . I . K . Y </p>
+              <p><span>U</span><span>U</span>-Events</p>
             </div>
             <div className={nav.domain_icon}>
               <div className={nav.icon_container}>
